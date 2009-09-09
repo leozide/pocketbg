@@ -64,3 +64,4 @@ int bgDlgClick(CALayer* DlgLayer, int x, int y);
 
 extern int bgActiveDlg;
 extern int bgDlgFade;
+extern CGRect bgDlgRect;

@@ -12,7 +12,7 @@ struct bgDlgButton
 	bool Disabled;
 };
 
-static CGRect bgDlgRect;
+CGRect bgDlgRect;
 static const char* bgDlgText;
 static bgDlgButton bgDlgButtons[8];
 static int bgDlgNumButtons;
@@ -75,7 +75,7 @@ CGImage* bgDlgDraw(int Tracking)
 		CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, Alpha);
 		CGContextAddRoundedRect(cgContext, Rect, 10);
 
-		if (bgDlgButtons[i].ID == Tracking)
+		if (bgDlgButtons[i].ID == Tracking && !bgDlgButtons[i].Disabled)
 			CGContextDrawPath(cgContext, kCGPathFillStroke);
 		else
 			CGContextDrawPath(cgContext, kCGPathStroke);
@@ -241,7 +241,7 @@ int bgDlgClick(CALayer* DlgLayer, int x, int y)
 	}
 
 	for (int i = 0; i < bgDlgNumButtons; i++)
-		if (CGRectContainsPoint(bgDlgButtons[i].Rect, pt))
+		if (CGRectContainsPoint(bgDlgButtons[i].Rect, pt) && !bgDlgButtons[i].Disabled)
 			return bgDlgButtons[i].ID;
 
 	return -1;

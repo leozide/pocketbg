@@ -534,6 +534,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -541,6 +542,7 @@
 				GCC_PREFIX_HEADER = bg_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = bg;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "08E39649-6B82-4236-A06E-61807734DDE7";
 			};
 			name = Debug;
 		};
@@ -579,11 +581,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Leonardo Zide";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = bg_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = bg;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "728D8A98-63A8-47AB-BD63-DD61FF34D6FC";
 			};
 			name = Distribution;
 		};

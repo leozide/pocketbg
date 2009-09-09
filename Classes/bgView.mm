@@ -1708,6 +1708,9 @@ bool move_to_make_point(BoardData* bd, int point, bool apply)
 	pwBoard = new BoardData;
 	BoardData* bd = pwBoard;
 
+	for (int i = 0; i < 4; i++)
+		bd->iTargetHelpPoints[i] = -1;
+	
 	bd->clockwise = fClockwise;
     bd->drag_point = -1;
 	

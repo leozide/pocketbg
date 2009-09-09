@@ -131,6 +131,10 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 
 - (IBAction)save
 {
+	// Reload view if it was deleted.
+	UIView *mainView = mainViewController.view;
+	mainView;
+	
 	bgSettings* settings = &self.settingsViewController->settings;
 	char buf[1024];
 

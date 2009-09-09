@@ -1693,6 +1693,8 @@ bool move_to_make_point(BoardData* bd, int point, bool apply)
 	return false;
 }
 
+int viewInit;
+
 @implementation bgView
 
 @synthesize dlgLayer, animLayer, msgLayer, glowLayer;
@@ -1700,41 +1702,43 @@ bool move_to_make_point(BoardData* bd, int point, bool apply)
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-	CFBundleRef mainBundle = CFBundleGetMainBundle();
-	CFURLRef url = CFBundleCopyBundleURL(mainBundle);
-	CFURLGetFileSystemRepresentation(url, YES, (UInt8*)PKGDATADIR, 1024);
-	CFRelease(url);
+	if (!viewInit)
+	{
+		CFBundleRef mainBundle = CFBundleGetMainBundle();
+		CFURLRef url = CFBundleCopyBundleURL(mainBundle);
+		CFURLGetFileSystemRepresentation(url, YES, (UInt8*)PKGDATADIR, 1024);
+		CFRelease(url);
 
-	pwBoard = new BoardData;
-	BoardData* bd = pwBoard;
+		pwBoard = new BoardData;
+		BoardData* bd = pwBoard;
 
-	for (int i = 0; i < 4; i++)
-		bd->iTargetHelpPoints[i] = -1;
-	
-	bd->clockwise = fClockwise;
-    bd->drag_point = -1;
-	
-    bd->crawford_game = FALSE;
-    bd->playing = FALSE;
-    bd->cube_use = TRUE;    
-    bd->all_moves = NULL;
-	
-    bd->x_dice[0] = bd->x_dice[1] = -10;    
-    bd->diceRoll[0] = bd->diceRoll[1] = 0;
-	
-	bd->crawford_game = 0;
-	bd->cube_use = 0;
-	bd->doubled = 0;
-	bd->cube_owner = 0;
-	bd->resigned = 0;
-	bd->diceShown = DICE_NOT_SHOWN;
-	
-	bd->x_dice[ 0 ] = bd->y_dice[ 0 ] = 0;
-	bd->x_dice[ 1 ] = bd->y_dice[ 1 ] = 0;
+		for (int i = 0; i < 4; i++)
+			bd->iTargetHelpPoints[i] = -1;
+		
+		bd->clockwise = fClockwise;
+		bd->drag_point = -1;
+		
+		bd->crawford_game = FALSE;
+		bd->playing = FALSE;
+		bd->cube_use = TRUE;    
+		bd->all_moves = NULL;
+		
+		bd->x_dice[0] = bd->x_dice[1] = -10;    
+		bd->diceRoll[0] = bd->diceRoll[1] = 0;
+		
+		bd->crawford_game = 0;
+		bd->cube_use = 0;
+		bd->doubled = 0;
+		bd->cube_owner = 0;
+		bd->resigned = 0;
+		bd->diceShown = DICE_NOT_SHOWN;
+		
+		bd->x_dice[ 0 ] = bd->y_dice[ 0 ] = 0;
+		bd->x_dice[ 1 ] = bd->y_dice[ 1 ] = 0;
 
-	int ip[] = {0,-2,0,0,0,0,5,0,3,0,0,0,-5,5,0,0,0,-3,0,-5,0,0,0,0,2,0,0,0};
-	memcpy(bd->points, ip, sizeof(bd->points));
-
+		int ip[] = {0,-2,0,0,0,0,5,0,3,0,0,0,-5,5,0,0,0,-3,0,-5,0,0,0,0,2,0,0,0};
+		memcpy(bd->points, ip, sizeof(bd->points));
+	}
 
 	if (self = [super initWithCoder:coder])
 	{
@@ -1801,30 +1805,38 @@ bool move_to_make_point(BoardData* bd, int point, bool apply)
 		[self addSubview:spinner];
 	}
 
-	gnubg_main();
 	gView = self;
 	fX = 1;
 
-	char buf[1024];
-	NSArray* Paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString* DocDir = [Paths objectAtIndex:0];
+	if (!viewInit)
+	{
+		gnubg_main();
 
-	outputoff();
-	sprintf(buf, "load commands \"%s/bgautorc\"", [DocDir cStringUsingEncoding:NSUTF8StringEncoding]);
-	UserCommand(buf);
-	outputon();
+		char buf[1024];
+		NSArray* Paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+		NSString* DocDir = [Paths objectAtIndex:0];
 
-	sprintf(buf, "load match \"%s/autosave.sgf\"", [DocDir cStringUsingEncoding:NSUTF8StringEncoding]);
-	UserCommand(buf);
-	ShowBoard();
+		outputoff();
+		sprintf(buf, "load commands \"%s/bgautorc\"", [DocDir cStringUsingEncoding:NSUTF8StringEncoding]);
+		UserCommand(buf);
+		outputon();
 
-	NSString* FilePath = [DocDir stringByAppendingPathComponent:@"autosave.sgf"];
-	NSFileManager* FileManager = [NSFileManager defaultManager];
-	[FileManager removeItemAtPath:FilePath error:NULL];
+		sprintf(buf, "load match \"%s/autosave.sgf\"", [DocDir cStringUsingEncoding:NSUTF8StringEncoding]);
+		UserCommand(buf);
+		ShowBoard();
 
-	extern int fLastMove;
-	fLastMove = 0;
+		NSString* FilePath = [DocDir stringByAppendingPathComponent:@"autosave.sgf"];
+		NSFileManager* FileManager = [NSFileManager defaultManager];
+		[FileManager removeItemAtPath:FilePath error:NULL];
+
+		extern int fLastMove;
+		fLastMove = 0;
+
+		viewInit = true;
+	}
+
 	bgDlgShow(BG_DLG_MAIN_MENU, ms.gs != GAME_PLAYING);
+
     return self;
 }
 

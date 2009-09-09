@@ -2607,8 +2607,11 @@ int viewInit;
 				break;
 				
 			default:
-				bgDlgFade = !bgDlgFade;
-				[gView FadeDlg];
+				if (!CGRectContainsPoint(bgDlgRect, CGPointMake(x, y)))
+				{
+					bgDlgFade = !bgDlgFade;
+					[gView FadeDlg];
+				}
 				break;
 		}
 

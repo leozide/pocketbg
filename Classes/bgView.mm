@@ -2184,11 +2184,17 @@ int viewInit;
 		char Text[8];
 		sprintf(Text, "%d", Cube);
 
+		int FontSize = 26;
+		if (Cube > 999)
+			FontSize = 14;
+		else if (Cube > 99)
+			FontSize = 18;
+		
 		CGContextSetRGBFillColor(cgContext, 0.0, 0.0, 0.0, 1.0);
-		CGContextSelectFont(cgContext, "Helvetica", 26, kCGEncodingMacRoman);
+		CGContextSelectFont(cgContext, "Helvetica", FontSize, kCGEncodingMacRoman);
 		CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 
-		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 10, Text, strlen(Text));
+		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + FontSize/2 - 2, Text, strlen(Text));
 	}
 
 	// Pips and score.

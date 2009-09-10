@@ -2185,7 +2185,7 @@ int viewInit;
 		sprintf(Text, "%d", Cube);
 
 		CGContextSetRGBFillColor(cgContext, 0.0, 0.0, 0.0, 1.0);
-		CGContextSelectFont(cgContext, "Helvetica", 28, kCGEncodingMacRoman);
+		CGContextSelectFont(cgContext, "Helvetica", 26, kCGEncodingMacRoman);
 		CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 10, Text, strlen(Text));
@@ -2211,7 +2211,7 @@ int viewInit;
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 10, Text, strlen(Text));
 		int nMatchLen = bd->match_to;
 		if (nMatchLen)
-			sprintf(Text, "%d (%d-away)", bd->score_opponent, nMatchLen - bd->score_opponent);
+			sprintf(Text, "%d (%d away)", bd->score_opponent, MAX(nMatchLen - bd->score_opponent, 0));
 		else
 			sprintf(Text, "Score: %d", bd->score_opponent);
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 20, Text, strlen(Text));
@@ -2222,7 +2222,7 @@ int viewInit;
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y, Text, strlen(Text));
 
 		if (nMatchLen)
-			sprintf(Text, "%d (%d-away)", bd->score, nMatchLen - bd->score);
+			sprintf(Text, "%d (%d away)", bd->score, MAX(nMatchLen - bd->score, 0));
 		else
 			sprintf(Text, "Score: %d", bd->score);
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y - 10, Text, strlen(Text));
@@ -2834,7 +2834,7 @@ int viewInit;
 
 -(void) PlayAnim: (id) Data
 {
-	if ([msgLayer animationForKey:@"animateOpacity"])
+	if (outputStackSize != 0 || [msgLayer animationForKey:@"animateOpacity"])
 	{
 		[self performSelector:@selector(PlayAnim:) withObject:Data afterDelay:0.0];
 		return;

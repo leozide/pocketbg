@@ -2256,6 +2256,9 @@ int viewInit;
 	if (BoardAnimating)
 		return;
 
+	if ([msgLayer animationForKey:@"animateOpacity"])
+		return;
+	
 	BoardData* bd = pwBoard;
 	int x = touchPoint.x;
 	int y = touchPoint.y;
@@ -2448,16 +2451,28 @@ int viewInit;
     CGPoint touchPoint = [touch locationInView:self];
 //	NSUInteger tapCount = [touch tapCount];
 	
+	BoardData* bd = pwBoard;
+	int x = touchPoint.x;
+	int y = touchPoint.y;
+	
+	if ([msgLayer animationForKey:@"animateOpacity"])
+	{
+		[msgLayer removeAnimationForKey:@"animateOpacity"];
+		
+		for (int i = 0; i < outputStackSize; i++)
+			free(outputStack[i]);
+		outputStackSize = 0;
+		bd->drag_point = -1;
+		tracking = -1;
+		return;
+	}
+	
 	if (BoardAnimating)
 	{
 		skip_anim = 1;
 		[animLayer removeAnimationForKey:@"animatePosition"];
 		return;
 	}
-
-	BoardData* bd = pwBoard;
-	int x = touchPoint.x;
-	int y = touchPoint.y;
 
 	if (bgActiveDlg != BG_DLG_NONE)
 	{
@@ -2619,18 +2634,6 @@ int viewInit;
 		return;
 	}
 
-	if ([msgLayer animationForKey:@"animateOpacity"])
-	{
-		[msgLayer removeAnimationForKey:@"animateOpacity"];
-		
-		for (int i = 0; i < outputStackSize; i++)
-			free(outputStack[i]);
-		outputStackSize = 0;
-		bd->drag_point = -1;
-		tracking = -1;
-		return;
-	}
-	
 	if (tracking != -1)
 	{
 		int up = bgBoardClick(x, y, bd);
@@ -2831,6 +2834,12 @@ int viewInit;
 
 -(void) PlayAnim: (id) Data
 {
+	if ([msgLayer animationForKey:@"animateOpacity"])
+	{
+		[self performSelector:@selector(PlayAnim:) withObject:Data afterDelay:0.0];
+		return;
+	}
+	
 	BoardData* bd = pwBoard;
 
 	int from = convert_point(animate_move_list[anim_move], animate_player);

@@ -4,6 +4,8 @@
 #import "bgDlg.h"
 
 extern int fClockwise;
+float Player1Color[4] = { 0.15, 0.15, 0.15, 1.0 };
+float Player2Color[4] = { 0.9, 0.9, 0.9, 1.0 };
 
 static CGRect bgPointArea[2][28] =
 {
@@ -243,9 +245,9 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImage* whiteImage, 
 			sprintf(Text, "%d", Count);
 
 			if (bd->points[i] > 0)
-				CGContextSetRGBFillColor(cgContext, 0.9, 0.9, 0.9, 1.0);
+				CGContextSetRGBFillColor(cgContext, Player2Color[0], Player2Color[1], Player2Color[2], Player2Color[3]);
 			else
-				CGContextSetRGBFillColor(cgContext, 0.15, 0.15, 0.15, 1.0);
+				CGContextSetRGBFillColor(cgContext, Player1Color[0], Player1Color[1], Player1Color[2], Player1Color[3]);
 			
 			CGContextSelectFont(cgContext, "Helvetica", 28, kCGEncodingMacRoman);
 			CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
@@ -258,7 +260,7 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImage* whiteImage, 
 	{
 		int Count = ABS(bd->points[26]);
 		
-		CGContextSetRGBFillColor(cgContext, 0.15, 0.15, 0.15, 1.0);
+		CGContextSetRGBFillColor(cgContext, Player1Color[0], Player1Color[1], Player1Color[2], Player1Color[3]);
 		CGPoint pt = bgPointArea[fClockwise][26].origin;
 
 		int dy = POINT_HEIGHT / 15;
@@ -274,7 +276,7 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImage* whiteImage, 
 	{
 		int Count = ABS(bd->points[27]);
 		
-		CGContextSetRGBFillColor(cgContext, 0.9, 0.9, 0.9, 1.0);
+		CGContextSetRGBFillColor(cgContext, Player2Color[0], Player2Color[1], Player2Color[2], Player2Color[3]);
 		CGPoint pt = bgPointArea[fClockwise][27].origin;
 		pt.y -= POINT_HEIGHT;
 		

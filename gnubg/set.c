@@ -712,6 +712,30 @@ extern void CommandSetClockwise( char *sz ) {
 //#endif /* USE_GTK */
 }
 
+extern void CommandSetColorChecker1( char *sz ) {
+	extern float Player1Color[4];
+	float r, g, b;
+    if( sscanf( sz, "%f %f %f", &r, &g, &b ) < 3 || r < 0 || g < 0 || b < 0 || r > 1 || g > 1 || b > 1) {
+		outputf( _("%s is not a color.\n"), sz );
+		return;
+    }
+	Player1Color[0] = r;
+	Player1Color[1] = g;
+	Player1Color[2] = b;
+}
+
+extern void CommandSetColorChecker2( char *sz ) {
+	extern float Player2Color[4];
+	float r, g, b;
+    if( sscanf( sz, "%f %f %f", &r, &g, &b ) < 3 || r < 0 || g < 0 || b < 0 || r > 1 || g > 1 || b > 1) {
+		outputf( _("%s is not a color.\n"), sz );
+		return;
+    }
+	Player2Color[0] = r;
+	Player2Color[1] = g;
+	Player2Color[2] = b;
+}
+
 extern void CommandSetConfirmNew( char *sz ) {
     
     SetToggle( "confirm new", &fConfirm, sz, 

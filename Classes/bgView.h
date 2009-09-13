@@ -4,9 +4,9 @@
 {
 	CGContextRef cgContext;
 
-	CGImage* boardImage;
-	CGImage* whiteImage;
-	CGImage* blackImage;
+	CGImageRef boardImage;
+	CGImageRef whiteImage;
+	CGImageRef blackImage;
 
 	CALayer* dlgLayer;
 	CALayer* animLayer;
@@ -25,6 +25,7 @@
 -(void) PlayAnim: (id) Data;
 -(void) ShowOutput: (id) StringValue;
 -(void) UpdateBoardImage;
+-(void) UpdateCheckerImages;
 -(void) ShowDlg:(int)DlgType withParam:(int)Param withText:(const char*)Text;
 -(void) DisplayDlg: (NSValue*) Param;
 -(void) FadeDlg;

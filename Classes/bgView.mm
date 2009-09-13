@@ -1763,22 +1763,6 @@ int viewInit;
 		bgDrawBoard(cgContext);
 		boardImage = CGBitmapContextCreateImage(cgContext);
 
-		// Draw chequers.
-		CGContextRef context = CGBitmapContextCreate(NULL, 2 * (CHEQUER_RADIUS + 2), 2 * (CHEQUER_RADIUS + 2), 8, 4 * 2 * (CHEQUER_RADIUS + 2), colorSpace, kCGImageAlphaPremultipliedFirst);
-
-		CGContextSetRGBFillColor(context, 0.9, 0.9, 0.9, 1.0);
-		CGContextBeginPath(context);
-		CGContextAddArc(context, CHEQUER_RADIUS + 2, CHEQUER_RADIUS + 2, CHEQUER_RADIUS, 0.0, 2*M_PI, 1);
-		CGContextDrawPath(context, kCGPathFillStroke);
-		whiteImage = CGBitmapContextCreateImage(context);
-
-		CGContextSetRGBFillColor(context, 0.15, 0.15, 0.15, 1.0);
-		CGContextBeginPath(context);
-		CGContextAddArc(context, CHEQUER_RADIUS + 2, CHEQUER_RADIUS + 2, CHEQUER_RADIUS, 0.0, 2*M_PI, 1);
-		CGContextDrawPath(context, kCGPathFillStroke);
-		blackImage = CGBitmapContextCreateImage(context);
-
-		CGContextRelease(context);
 		CGColorSpaceRelease(colorSpace);
 
 		CALayer* root = self.layer;
@@ -1832,6 +1816,8 @@ int viewInit;
 		extern int fLastMove;
 		fLastMove = 0;
 
+		[self UpdateCheckerImages];
+		
 		viewInit = true;
 	}
 
@@ -1842,6 +1828,18 @@ int viewInit;
 
 - (void)dealloc
 {
+	CGContextRelease(cgContext);
+
+//	[boardImage release];
+//	[whiteImage release];
+//	[blackImage release];
+	
+	[dlgLayer release];
+	[animLayer release];
+	[msgLayer release];
+	[glowLayer release];
+	[spinner release];
+	
     [super dealloc];
 }
 
@@ -1849,6 +1847,28 @@ int viewInit;
 {
 	bgDrawBoard(cgContext);
 	boardImage = CGBitmapContextCreateImage(cgContext);
+}
+
+- (void) UpdateCheckerImages
+{
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
+	CGContextRef context = CGBitmapContextCreate(NULL, 2 * (CHEQUER_RADIUS + 2), 2 * (CHEQUER_RADIUS + 2), 8, 4 * 2 * (CHEQUER_RADIUS + 2), colorSpace, kCGImageAlphaPremultipliedFirst);
+	
+	CGContextSetRGBFillColor(context, Player1Color[0], Player1Color[1], Player1Color[2], Player1Color[3]);
+	CGContextBeginPath(context);
+	CGContextAddArc(context, CHEQUER_RADIUS + 2, CHEQUER_RADIUS + 2, CHEQUER_RADIUS, 0.0, 2*M_PI, 1);
+	CGContextDrawPath(context, kCGPathFillStroke);
+	whiteImage = CGBitmapContextCreateImage(context);
+	
+	CGContextSetRGBFillColor(context, Player2Color[0], Player2Color[1], Player2Color[2], Player2Color[3]);
+	CGContextBeginPath(context);
+	CGContextAddArc(context, CHEQUER_RADIUS + 2, CHEQUER_RADIUS + 2, CHEQUER_RADIUS, 0.0, 2*M_PI, 1);
+	CGContextDrawPath(context, kCGPathFillStroke);
+	blackImage = CGBitmapContextCreateImage(context);
+	
+	CGContextRelease(context);
+	CGColorSpaceRelease(colorSpace);
 }
 
 - (void)drawRect:(CGRect)rect
@@ -1980,6 +2000,13 @@ int viewInit;
 			CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12, Text, strlen(Text));
 		}
 
+		float* DiceColor;
+		if (bd->colour == bd->turn)
+			DiceColor = Player2Color;
+		else
+			DiceColor = Player1Color;
+		float UsedColor[4] = { DiceColor[0] * 0.25 + 0.25, DiceColor[1] * 0.25 + 0.25, DiceColor[2] * 0.25 + 0.25, DiceColor[3] };
+
 		for (int i = 0; i < 2; i++)
 		{
 			CGRect rect = CGRectMake(pt.x - 16, pt.y - 16, 32, 32);
@@ -1998,14 +2025,9 @@ int viewInit;
 			if (bd->diceRoll[0] == bd->diceRoll[1])
 			{
 				if (num_used > i * 2)
-					CGContextSetRGBFillColor(cgContext, 0.5, 0.5, 0.5, 1.0);
+					CGContextSetRGBFillColor(cgContext, UsedColor[0], UsedColor[1], UsedColor[2], UsedColor[3]);
 				else
-				{
-					if (bd->colour == bd->turn)
-						CGContextSetRGBFillColor(cgContext, 0.1, 0.1, 0.1, 1.0);
-					else
-						CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
-				}
+					CGContextSetRGBFillColor(cgContext, DiceColor[0], DiceColor[1], DiceColor[2], DiceColor[3]);
 
 				CGContextBeginPath(cgContext);
 				CGContextMoveToPoint(cgContext, x_left, y_top_center);
@@ -2020,14 +2042,9 @@ int viewInit;
 				CGContextDrawPath(cgContext, kCGPathFill);
 
 				if (num_used > i * 2 + 1)
-					CGContextSetRGBFillColor(cgContext, 0.5, 0.5, 0.5, 1.0);
+					CGContextSetRGBFillColor(cgContext, UsedColor[0], UsedColor[1], UsedColor[2], UsedColor[3]);
 				else
-				{
-					if (bd->colour == bd->turn)
-						CGContextSetRGBFillColor(cgContext, 0.1, 0.1, 0.1, 1.0);
-					else
-						CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
-				}
+					CGContextSetRGBFillColor(cgContext, DiceColor[0], DiceColor[1], DiceColor[2], DiceColor[3]);
 				
 				CGContextBeginPath(cgContext);
 				CGContextMoveToPoint(cgContext, x_right, y_center);
@@ -2044,14 +2061,9 @@ int viewInit;
 			else
 			{
 				if (used[i])
-					CGContextSetRGBFillColor(cgContext, 0.5, 0.5, 0.5, 1.0);
+					CGContextSetRGBFillColor(cgContext, UsedColor[0], UsedColor[1], UsedColor[2], UsedColor[3]);
 				else
-				{
-					if (bd->colour == bd->turn)
-						CGContextSetRGBFillColor(cgContext, 0.1, 0.1, 0.1, 1.0);
-					else
-						CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
-				}
+					CGContextSetRGBFillColor(cgContext, DiceColor[0], DiceColor[1], DiceColor[2], DiceColor[3]);
 
 				CGContextBeginPath(cgContext);
 				CGContextMoveToPoint(cgContext, x_left, y_top_center);
@@ -2068,8 +2080,8 @@ int viewInit;
 				CGContextClosePath(cgContext);
 				CGContextDrawPath(cgContext, kCGPathFill);
 			}
-
-			if (bd->colour == bd->turn)
+			
+			if ((DiceColor[0] + DiceColor[1] + DiceColor[2]) / 3 < 0.5f)
 				CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
 			else
 				CGContextSetRGBFillColor(cgContext, 0.0, 0.0, 0.0, 1.0);
@@ -2354,9 +2366,9 @@ int viewInit;
 	// Don't let them move chequers unless the dice have been rolled.
 	if (bd->diceShown != DICE_ON_BOARD)
 	{
-		outputl("You must roll the dice before moving pieces");
-		outputx();
-		board_beep(bd);
+//		outputl("You must roll the dice before moving pieces");
+//		outputx();
+//		board_beep(bd);
 		bd->drag_point = -1;
 		
 		return;

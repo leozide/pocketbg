@@ -12,8 +12,10 @@
 typedef struct
 {
 	char Player1[32];
+	int Player1Color;
 	int Player1Type;
 	char Player2[32];
+	int Player2Color;
 	int Player2Type;
 	int MatchLength;
 	int Cube;
@@ -24,12 +26,14 @@ typedef struct
 	int TargetHelp;
 } bgSettings;
 
+@class ColorListController;
 @class TypePickerController;
 
 @interface SettingsViewController : UIViewController <UIScrollViewDelegate,
                                                       UITableViewDelegate, UITableViewDataSource,
                                                       UITextFieldDelegate, EditableTableViewCellDelegate>
 {
+	ColorListController *colorListController;
 	TypePickerController *typePickerController;
 	IBOutlet UITableView *tableView;
 	UIView *headerView;
@@ -39,6 +43,7 @@ typedef struct
 	bgSettings settings;
 }
 
+@property (nonatomic, retain) ColorListController *colorListController;
 @property (nonatomic, retain) TypePickerController *typePickerController;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) UIView *headerView;

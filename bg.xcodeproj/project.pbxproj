@@ -29,6 +29,7 @@
 		B381BD9410263D05002F40BD /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B381BD9310263D05002F40BD /* HelpViewController.m */; };
 		B381BE0910266645002F40BD /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = B381BE0810266645002F40BD /* index.html */; };
 		B381D8CD0FFD839800BA3942 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B381D8CC0FFD839800BA3942 /* Icon.png */; };
+		B38225B81059EB6A00F01D64 /* CheckerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38225B71059EB6A00F01D64 /* CheckerCell.m */; };
 		B382937F0FC3776100DBBE93 /* external.c in Sources */ = {isa = PBXBuildFile; fileRef = B382937E0FC3776100DBBE93 /* external.c */; };
 		B38293900FC3DC6C00DBBE93 /* mt19937ar.c in Sources */ = {isa = PBXBuildFile; fileRef = B382938F0FC3DC6C00DBBE93 /* mt19937ar.c */; };
 		B38293960FC3DD7F00DBBE93 /* timer.c in Sources */ = {isa = PBXBuildFile; fileRef = B38293950FC3DD7F00DBBE93 /* timer.c */; };
@@ -58,6 +59,8 @@
 		B382B4310FC2942B00345E38 /* bearoffgammon.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B4300FC2942B00345E38 /* bearoffgammon.c */; };
 		B382B4340FC2945900345E38 /* osr.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B4330FC2945900345E38 /* osr.c */; };
 		B385AB920FFF182B00E47CE5 /* bgBoard.mm in Sources */ = {isa = PBXBuildFile; fileRef = B385AB910FFF182B00E47CE5 /* bgBoard.mm */; };
+		B38B8C3A105B642700F8BB92 /* ColorListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38B8C39105B642700F8BB92 /* ColorListController.m */; };
+		B38B8C3D105B64E800F8BB92 /* ColorListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B38B8C3C105B64E800F8BB92 /* ColorListView.xib */; };
 		B38FF7D00FF6B899002D7BC2 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FF7CE0FF6B899002D7BC2 /* SwitchCell.m */; };
 		B3927C7B0FEB491B0078A539 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3927C7A0FEB491B0078A539 /* RootViewController.m */; };
 		B392AE5E0FFFEE680070E37A /* sgfl.c in Sources */ = {isa = PBXBuildFile; fileRef = B392AE5D0FFFEE680070E37A /* sgfl.c */; };
@@ -114,6 +117,8 @@
 		B381BD9310263D05002F40BD /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		B381BE0810266645002F40BD /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		B381D8CC0FFD839800BA3942 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		B38225B61059EB6A00F01D64 /* CheckerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckerCell.h; sourceTree = "<group>"; };
+		B38225B71059EB6A00F01D64 /* CheckerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckerCell.m; sourceTree = "<group>"; };
 		B382937E0FC3776100DBBE93 /* external.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = external.c; path = gnubg/external.c; sourceTree = "<group>"; };
 		B382938F0FC3DC6C00DBBE93 /* mt19937ar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mt19937ar.c; path = gnubg/lib/mt19937ar.c; sourceTree = "<group>"; };
 		B38293950FC3DD7F00DBBE93 /* timer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = timer.c; path = gnubg/timer.c; sourceTree = "<group>"; };
@@ -148,6 +153,9 @@
 		B382B4330FC2945900345E38 /* osr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = osr.c; path = gnubg/osr.c; sourceTree = "<group>"; };
 		B385AB900FFF182B00E47CE5 /* bgBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bgBoard.h; sourceTree = "<group>"; };
 		B385AB910FFF182B00E47CE5 /* bgBoard.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = bgBoard.mm; sourceTree = "<group>"; };
+		B38B8C38105B642700F8BB92 /* ColorListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorListController.h; sourceTree = "<group>"; };
+		B38B8C39105B642700F8BB92 /* ColorListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorListController.m; sourceTree = "<group>"; };
+		B38B8C3C105B64E800F8BB92 /* ColorListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorListView.xib; sourceTree = "<group>"; };
 		B38FF7CE0FF6B899002D7BC2 /* SwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchCell.m; sourceTree = "<group>"; };
 		B38FF7CF0FF6B899002D7BC2 /* SwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchCell.h; sourceTree = "<group>"; };
 		B3927C790FEB491B0078A539 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
@@ -231,6 +239,10 @@
 				28D7ACF70DDB3853001CB0EB /* bgViewController.m */,
 				B3804DC30FB5487800D5D0A9 /* bgView.h */,
 				B3804DC40FB5487800D5D0A9 /* bgView.mm */,
+				B38225B61059EB6A00F01D64 /* CheckerCell.h */,
+				B38225B71059EB6A00F01D64 /* CheckerCell.m */,
+				B38B8C38105B642700F8BB92 /* ColorListController.h */,
+				B38B8C39105B642700F8BB92 /* ColorListController.m */,
 				B37F0B640FF33665003A3E56 /* EditableCell.h */,
 				B37F0B650FF33665003A3E56 /* EditableCell.m */,
 				B381BD9210263D05002F40BD /* HelpViewController.h */,
@@ -293,10 +305,11 @@
 				B3A412FB0FFEAC96001E5DCA /* gnubg_os0.bd */,
 				B38294650FC3E81A00DBBE93 /* gnubg_ts0.bd */,
 				2899E5210DE3E06400AC0155 /* bgViewController.xib */,
+				B38B8C3C105B64E800F8BB92 /* ColorListView.xib */,
+				B381BD8C10263C78002F40BD /* HelpView.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				B38029D40FEDAC8900A905F7 /* SettingsView.xib */,
 				B392AEB210001EA10070E37A /* TypePicker.xib */,
-				B381BD8C10263C78002F40BD /* HelpView.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 			);
 			name = Resources;
@@ -467,6 +480,7 @@
 				B37F5DC1102E6F9900275F49 /* pbg.css in Resources */,
 				B37F5DFD102E72FB00275F49 /* intro.html in Resources */,
 				B37F5DFE102E72FB00275F49 /* about.html in Resources */,
+				B38B8C3D105B64E800F8BB92 /* ColorListView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +538,8 @@
 				B381BD9410263D05002F40BD /* HelpViewController.m in Sources */,
 				B394C4921033E4930057137B /* hash.c in Sources */,
 				B394C49E1033E69F0057137B /* pub_eval.c in Sources */,
+				B38225B81059EB6A00F01D64 /* CheckerCell.m in Sources */,
+				B38B8C3A105B642700F8BB92 /* ColorListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,14 +9,16 @@
 #import "SettingsViewController.h"
 #import "RootViewController.h"
 #import "TypePickerController.h"
+#import "ColorListController.h"
 #import "bgAppDelegate.h"
 #import "EditableCell.h"
 #import "SegmentCell.h"
 #import "SwitchCell.h"
+#import "CheckerCell.h"
 
 @implementation SettingsViewController
 
-@synthesize tableView, headerView, typePickerController, difficultyLevels;
+@synthesize tableView, headerView, colorListController, typePickerController, difficultyLevels;
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
@@ -47,6 +49,7 @@
 {
 	[difficultyLevels release];
 	[typePickerController release];
+	[colorListController release];
 	[tableView release];
 	[headerView release];
 	[super dealloc];
@@ -72,7 +75,39 @@
 	}
 
 	if ((indexPath.section == 0 || indexPath.section == 1) && indexPath.row == 1)
-	 {
+	{
+		if (!colorListController)
+		{
+			ColorListController *controller = [[ColorListController alloc] initWithNibName:@"ColorListView" bundle:nil];
+			self.colorListController = controller;
+			[controller release];
+		}
+
+		colorListController.cell = (CheckerCell*)[tableView cellForRowAtIndexPath:indexPath];
+		if (indexPath.section == 0)
+			[colorListController setEditingItem:&settings.Player1Color];
+		else
+			[colorListController setEditingItem:&settings.Player2Color];
+
+		bgAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+		RootViewController* rootViewController = [delegate rootViewController];
+		
+		UIView *colorView = colorListController.view;
+		colorView.frame = CGRectMake(0, 321, 320, 480);
+		
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:1];
+		[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+		colorListController.view.frame = CGRectMake(0, 0, 320, 480);
+		
+		[colorListController viewWillAppear:YES];
+		[rootViewController.view addSubview:colorView];
+		[colorListController viewDidAppear:YES];
+		[UIView commitAnimations];
+	}
+
+	if ((indexPath.section == 0 || indexPath.section == 1) && indexPath.row == 2)
+	{
 		 if (!typePickerController)
 		 {
 			 TypePickerController *controller = [[TypePickerController alloc] initWithNibName:@"TypePicker" bundle:nil];
@@ -126,6 +161,17 @@
 			return cell;
 		}
 		else if (indexPath.row == 1)
+		{
+			CheckerCell* cell = [[CheckerCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"checkerCell"];
+
+			if (indexPath.section == 0)
+				[cell setColor:settings.Player1Color];
+			else
+				[cell setColor:settings.Player2Color];
+
+			return cell;
+		}
+		else if (indexPath.row == 2)
 		{
 			UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TypeCell"];
 			if (cell == nil)
@@ -212,8 +258,8 @@
 {
 	switch (section)
 	{
-		case 0: return 2;
-		case 1: return 2;
+		case 0: return 3;
+		case 1: return 3;
 		case 2: return 1;
 		case 3: return 3;
 		case 4: return 3;

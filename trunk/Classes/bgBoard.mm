@@ -4,8 +4,19 @@
 #import "bgDlg.h"
 
 extern int fClockwise;
-float Player1Color[4] = { 0.15, 0.15, 0.15, 1.0 };
-float Player2Color[4] = { 0.9, 0.9, 0.9, 1.0 };
+float Player1Color[4] = { 0.9, 0.9, 0.9, 1.0 };
+float Player2Color[4] = { 0.15, 0.15, 0.15, 1.0 };
+
+bgColorEntry gCheckerColors[] =
+{
+	{ "Black", { 0.15, 0.15, 0.15, 1.0 } },
+	{ "White", { 0.9, 0.9, 0.9, 1.0 } },
+	{ "Red", { 0.8, 0.0, 0.0, 1.0 } },
+	{ "Brown", { 0.5, 0.0, 0.0, 1.0 } },
+	{ "Yellow", { 1.0, 1.0, 0.5, 1.0 } },
+};
+
+int gNumCheckerColors = sizeof(gCheckerColors) / sizeof(gCheckerColors[0]);
 
 static CGRect bgPointArea[2][28] =
 {
@@ -196,7 +207,7 @@ void bgDrawBoard(CGContextRef cgContext)
 	CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 4, Text, strlen(Text));
 }
 
-void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImage* whiteImage, CGImage* blackImage)
+void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage, CGImageRef blackImage)
 {
 	// Draw chequers.
 	for (int i = 0; i < 26; i++)

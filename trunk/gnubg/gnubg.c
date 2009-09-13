@@ -728,6 +728,10 @@ command cER = {
     { "roll", CommandSetAutoRoll, N_("Control whether dice will be rolled "
       "automatically"), szONOFF, &cOnOff },
     { NULL, NULL, NULL, NULL, NULL }
+}, acSetColor[] = {
+	{ "checker1", CommandSetColorChecker1, N_("Set player 1 checker color"), szVALUE, NULL },
+	{ "checker2", CommandSetColorChecker2, N_("Set player 2 checker color"), szVALUE, NULL },
+	{ NULL, NULL, NULL, NULL, NULL }
 }, acSetConfirm[] = {
     { "new", CommandSetConfirmNew, N_("Ask for confirmation before aborting "
       "a game in progress"), szONOFF, &cOnOff },
@@ -1206,6 +1210,7 @@ command cER = {
       NULL, acSetCheat },
     { "clockwise", CommandSetClockwise, N_("Control the board orientation"),
       szONOFF, &cOnOff },
+	{ "color", NULL, N_("Change board colors"), NULL, acSetColor },
 #if USE_GTK
     { "commandwindow", CommandSetCommandWindow, N_("Display command window"),
       szONOFF, &cOnOff },
@@ -3887,6 +3892,7 @@ extern void CommandSaveSettings( char *szParam )
 //#if USE_GTK
 {
 	extern int fGUIDragTargetHelp;
+	extern float Player1Color[4], Player2Color[4];
     fprintf( pf,
 //		 "set gui animation %s\n"
 //	     "set gui animation speed %d\n"
@@ -3899,6 +3905,8 @@ extern void CommandSaveSettings( char *szParam )
 	     "set gui dragtargethelp %s\n"
 //		 "set gui usestatspanel %s\n"
 //		 "set gui movelistdetail %s\n"
+		"set color checker1 %f %f %f\n"
+		"set color checker2 %f %f %f\n"
 			,
 //	     aszAnimation[ animGUI ], nGUIAnimSpeed,
 //	     fGUIBeep ? "on" : "off",
@@ -3907,9 +3915,11 @@ extern void CommandSaveSettings( char *szParam )
 //	     fGUIIllegal ? "on" : "off",
 //	     GetMainAppearance()->fShowIDs ? "on" : "off",
 //	     fGUIShowPips ? "on" : "off",
-	     fGUIDragTargetHelp ? "on" : "off"//,
+	     fGUIDragTargetHelp ? "on" : "off",
 //		 fGUIUseStatsPanel ? "on" : "off",
 //		 showMoveListDetail ? "on" : "off"
+		Player1Color[0], Player1Color[1], Player1Color[2],
+		Player2Color[0], Player2Color[1], Player2Color[2]
 	);
 }
 //#endif

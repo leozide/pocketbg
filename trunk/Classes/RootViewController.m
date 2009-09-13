@@ -10,6 +10,7 @@
 #import "SettingsViewController.h"
 #import "HelpViewController.h"
 #import "bgViewController.h"
+#import "bgView.h"
 
 #include "config.h"
 //#include "gnubg-types.h"
@@ -17,6 +18,9 @@
 #include "backgammon.h"
 #include "sound.h"
 #include "drawboard.h"
+#include "bgBoardData.h"
+#include "bgBoard.h"
+
 extern void UserCommand(char* szCommand);
 extern int fGUIDragTargetHelp;
 
@@ -131,13 +135,30 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 
 - (IBAction)save
 {
+	bgSettings* settings = &self.settingsViewController->settings;
+	char buf[1024];
+	
+	// Check if all settings are valid.
+	if (settings->Player1Color == settings->Player2Color)
+	{
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Duplicate Colors" message:@"Both players are using the same checker colors. Please select different colors for the players." delegate:nil cancelButtonTitle:@"asd" otherButtonTitles:nil];
+		[alertView show];
+		[alertView release];
+		return;
+	}
+	
+	if (settings->Player1Type == 0 && settings->Player2Type == 0)
+	{
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"No Human Players" message:@"Both players are AI players. Please select at least one human player." delegate:nil cancelButtonTitle:@"asd" otherButtonTitles:nil];
+		[alertView show];
+		[alertView release];
+		return;
+	}
+
 	// Reload view if it was deleted.
 	UIView *mainView = mainViewController.view;
 	mainView;
 	
-	bgSettings* settings = &self.settingsViewController->settings;
-	char buf[1024];
-
 	outputoff();
 
 	// Trying to swap names - change current name to avoid error.
@@ -156,6 +177,14 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		UserCommand(buf);
 	}
 
+	for (int i = 0; i < 4; i++)
+		Player1Color[i] = gCheckerColors[settings->Player1Color].Value[i];
+
+	for (int i = 0; i < 4; i++)
+		Player2Color[i] = gCheckerColors[settings->Player2Color].Value[i];
+
+	[(bgView*)mainView UpdateCheckerImages];
+	
 	for (int i = 0; i < 2; i++)
 	{
 		int Difficulty = (i == 0) ? settings->Player1Type : settings->Player2Type;
@@ -289,6 +318,20 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	strcpy(settings->Player2, ap[1].szName);
 	settings->MatchLength = nDefaultLength;
 
+	for (int i = 0; i < gNumCheckerColors; i++)
+		if (Player1Color[0] == gCheckerColors[i].Value[0] && Player1Color[1] == gCheckerColors[i].Value[1] && Player1Color[2] == gCheckerColors[i].Value[2])
+		{
+			settings->Player1Color = i;
+			break;
+		}
+	
+	for (int i = 0; i < gNumCheckerColors; i++)
+		if (Player2Color[0] == gCheckerColors[i].Value[0] && Player2Color[1] == gCheckerColors[i].Value[1] && Player2Color[2] == gCheckerColors[i].Value[2])
+		{
+			settings->Player2Color = i;
+			break;
+		}
+	
 	for (int i = 0; i < 2; i++)
 	{
 		int Type = 0;
@@ -404,6 +447,8 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	[settingsNavigationBar release];
 	[mainViewController release];
 	[settingsViewController release];
+	[helpNavigationBar release];
+	[helpViewController release];
 	[super dealloc];
 }
 

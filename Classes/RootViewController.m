@@ -159,6 +159,12 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		return;
 	}
 
+	for (int i = 0; i < 4; i++)
+		Player1Color[i] = gCheckerColors[settings->Player1Color].Value[i];
+	
+	for (int i = 0; i < 4; i++)
+		Player2Color[i] = gCheckerColors[settings->Player2Color].Value[i];
+	
 	// Reload view if it was deleted.
 	UIView *mainView = mainViewController.view;
 	mainView;
@@ -181,14 +187,6 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		UserCommand(buf);
 	}
 
-	for (int i = 0; i < 4; i++)
-		Player1Color[i] = gCheckerColors[settings->Player1Color].Value[i];
-
-	for (int i = 0; i < 4; i++)
-		Player2Color[i] = gCheckerColors[settings->Player2Color].Value[i];
-
-	[(bgView*)mainView UpdateCheckerImages];
-	
 	for (int i = 0; i < 2; i++)
 	{
 		int Difficulty = (i == 0) ? settings->Player1Type : settings->Player2Type;
@@ -298,6 +296,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	if (settingsViewController == nil)
 	{
 		SettingsViewController *viewController = [[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil];
+		viewController.difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Intermediate", @"AI - Expert", @"AI - World Class", @"AI - Grandmaster", nil];
 		self.settingsViewController = viewController;
 		[viewController release];
 

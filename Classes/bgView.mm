@@ -1816,11 +1816,11 @@ int viewInit;
 		extern int fLastMove;
 		fLastMove = 0;
 
-		[self UpdateCheckerImages];
-		
 		viewInit = true;
 	}
 
+	[self UpdateCheckerImages];
+	
 	bgDlgShow(BG_DLG_MAIN_MENU, ms.gs != GAME_PLAYING);
 
     return self;
@@ -1830,16 +1830,10 @@ int viewInit;
 {
 	CGContextRelease(cgContext);
 
-//	[boardImage release];
-//	[whiteImage release];
-//	[blackImage release];
-	
-//	[dlgLayer release];
-//	[animLayer release];
-//	[msgLayer release];
-//	[glowLayer release];
-//	[spinner release];
-	
+	CGImageRelease(boardImage);
+	CGImageRelease(whiteImage);
+	CGImageRelease(blackImage);
+
     [super dealloc];
 }
 

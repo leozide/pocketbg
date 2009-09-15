@@ -24,7 +24,6 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Intermediate", @"AI - Expert", @"AI - World Class", @"AI - Grandmaster", nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated

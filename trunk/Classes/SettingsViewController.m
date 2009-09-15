@@ -148,7 +148,7 @@
 	{
 		if (indexPath.row == 0)
 		{
-			EditableCell* cell = [[EditableCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"editableCell"];
+			EditableCell* cell = [[[EditableCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"editableCell"] autorelease];
 			
 			cell.label.text = @"Name:";
 			cell.textField.placeholder = @"<Player Name>";
@@ -162,7 +162,7 @@
 		}
 		else if (indexPath.row == 1)
 		{
-			CheckerCell* cell = [[CheckerCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"checkerCell"];
+			CheckerCell* cell = [[[CheckerCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"checkerCell"] autorelease];
 
 			if (indexPath.section == 0)
 				[cell setColor:settings.Player1Color];
@@ -190,7 +190,7 @@
 			NSArray *segments = [NSArray arrayWithObjects: @"1", @"3", @"5", @"7", @"9", @"11", @"13", @"15", @"$", nil];
 			static int lengthMap[] = { 1, 3, 5, 7, 9, 11, 13, 15, 0 };
 
-			SegmentCell* cell = [[SegmentCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"segmentCell" withItems:segments];
+			SegmentCell* cell = [[[SegmentCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"segmentCell" withItems:segments] autorelease];
 			[cell setValue:&settings.MatchLength withMap:lengthMap];
 
 			return cell;

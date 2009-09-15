@@ -36,7 +36,7 @@
 		textField.autocorrectionType = UITextAutocorrectionTypeNo;
 		textField.returnKeyType = UIReturnKeyDone;
 		textField.delegate = self;
-		[textField retain];
+//		[textField retain];
 
 		[self addSubview:label];
 		[self addSubview:textField];

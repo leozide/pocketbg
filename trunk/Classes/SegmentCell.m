@@ -13,11 +13,12 @@
 		segmentedControl.frame = CGRectZero;
 		[segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
 		segmentedControl.segmentedControlStyle = UISegmentedControlStyleBordered;
-		[segmentedControl retain];
+//		[segmentedControl retain];
 
-		UIView* view = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+		UIView* view = [[UIView alloc] initWithFrame:CGRectZero];
 		view.backgroundColor = [UIColor clearColor];
 		self.backgroundView = view;
+		[view release];
 
 		[self addSubview:segmentedControl];
 	}

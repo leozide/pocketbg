@@ -15,8 +15,8 @@
 	{
 		// Set the frame to CGRectZero as it will be reset in layoutSubviews
 		imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-		[imageView retain];
-		
+//		[imageView retain];
+
 		// Initialize the labels, their fonts, colors, alignment, and background color.
 		label = [[UILabel alloc] initWithFrame:CGRectZero];
 		label.font = [UIFont systemFontOfSize:16];
@@ -88,6 +88,7 @@
 	CGColorSpaceRelease(colorSpace);
 
 	imageView.image = [UIImage imageWithCGImage:image];
+	CGImageRelease(image);
 }
 
 @end

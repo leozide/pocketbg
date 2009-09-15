@@ -1834,11 +1834,11 @@ int viewInit;
 //	[whiteImage release];
 //	[blackImage release];
 	
-	[dlgLayer release];
-	[animLayer release];
-	[msgLayer release];
-	[glowLayer release];
-	[spinner release];
+//	[dlgLayer release];
+//	[animLayer release];
+//	[msgLayer release];
+//	[glowLayer release];
+//	[spinner release];
 	
     [super dealloc];
 }

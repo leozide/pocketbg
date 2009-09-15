@@ -255,11 +255,17 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage
 			char Text[8];
 			sprintf(Text, "%d", Count);
 
+			float* DiceColor;
 			if (bd->points[i] > 0)
-				CGContextSetRGBFillColor(cgContext, Player2Color[0], Player2Color[1], Player2Color[2], Player2Color[3]);
+				DiceColor = Player2Color;
 			else
-				CGContextSetRGBFillColor(cgContext, Player1Color[0], Player1Color[1], Player1Color[2], Player1Color[3]);
+				DiceColor = Player1Color;
 			
+			if ((DiceColor[0] + DiceColor[1] + DiceColor[2]) / 3 < 0.5f)
+				CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
+			else
+				CGContextSetRGBFillColor(cgContext, 0.0, 0.0, 0.0, 1.0);
+
 			CGContextSelectFont(cgContext, "Helvetica", 28, kCGEncodingMacRoman);
 			CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 			
@@ -271,7 +277,7 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage
 	{
 		int Count = ABS(bd->points[26]);
 		
-		CGContextSetRGBFillColor(cgContext, Player1Color[0], Player1Color[1], Player1Color[2], Player1Color[3]);
+		CGContextSetRGBFillColor(cgContext, Player2Color[0], Player2Color[1], Player2Color[2], Player2Color[3]);
 		CGPoint pt = bgPointArea[fClockwise][26].origin;
 
 		int dy = POINT_HEIGHT / 15;
@@ -287,7 +293,7 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage
 	{
 		int Count = ABS(bd->points[27]);
 		
-		CGContextSetRGBFillColor(cgContext, Player2Color[0], Player2Color[1], Player2Color[2], Player2Color[3]);
+		CGContextSetRGBFillColor(cgContext, Player1Color[0], Player1Color[1], Player1Color[2], Player1Color[3]);
 		CGPoint pt = bgPointArea[fClockwise][27].origin;
 		pt.y -= POINT_HEIGHT;
 		
@@ -299,7 +305,6 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage
 			CGContextDrawPath(cgContext, kCGPathFillStroke);
 		}
 	}
-
 }
 
 void bgDrawMark(CGContextRef cgContext, int Index)

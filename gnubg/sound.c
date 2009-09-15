@@ -92,7 +92,8 @@ extern void playSound ( const gnubgsound gs )
 
 		SystemSoundID SoundID;
 		OSStatus error = AudioServicesCreateSystemSoundID((CFURLRef)FileURL, &SoundID);
-			
+		CFRelease(FileURL);
+
 		if (error == kAudioServicesNoError)
 			bgSoundID[gs] = SoundID;
 	}

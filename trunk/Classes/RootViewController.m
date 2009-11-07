@@ -151,7 +151,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		return;
 	}
 	
-	if (settings->Player1Type == 0 && settings->Player2Type == 0)
+	if (settings->Player1Type != 0 && settings->Player2Type != 0)
 	{
 		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"No Human Players" message:@"Both players are AI players. Please select at least one human player." delegate:nil cancelButtonTitle:@"asd" otherButtonTitles:nil];
 		[alertView show];

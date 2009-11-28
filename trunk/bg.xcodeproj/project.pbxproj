@@ -582,7 +582,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Leonardo Zide";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -591,7 +591,7 @@
 					gnubg/lib,
 				);
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9347F241-1DF8-4B93-9050-DF07473416C1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "728D8A98-63A8-47AB-BD63-DD61FF34D6FC";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Distribution;

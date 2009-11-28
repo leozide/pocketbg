@@ -145,7 +145,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	// Check if all settings are valid.
 	if (settings->Player1Color == settings->Player2Color)
 	{
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Duplicate Colors" message:@"Both players are using the same checker colors. Please select different colors for the players." delegate:nil cancelButtonTitle:@"asd" otherButtonTitles:nil];
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Duplicate Colors" message:@"Both players are using the same checker colors. Please select different colors for the players." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
 		[alertView show];
 		[alertView release];
 		return;
@@ -153,7 +153,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	
 	if (settings->Player1Type != 0 && settings->Player2Type != 0)
 	{
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"No Human Players" message:@"Both players are AI players. Please select at least one human player." delegate:nil cancelButtonTitle:@"asd" otherButtonTitles:nil];
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"No Human Players" message:@"Both players are AI players. Please select at least one human player." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
 		[alertView show];
 		[alertView release];
 		return;
@@ -296,7 +296,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	if (settingsViewController == nil)
 	{
 		SettingsViewController *viewController = [[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil];
-		viewController.difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Intermediate", @"AI - Expert", @"AI - World Class", @"AI - Grandmaster", nil];
+		viewController.difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Intermediate", @"AI - Expert", /*@"AI - World Class", @"AI - Grandmaster",*/ nil];
 		self.settingsViewController = viewController;
 		[viewController release];
 
@@ -346,11 +346,13 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		else // if (ap[i].pt == PLAYER_GNU)
 		{
 			float noise = ap[i].esChequer.ec.rNoise;
-			if (noise == 0.06)
+			if (noise == 0.06f)
 				Type = 1;
-			else if (noise == 0.04)
+			else if (noise == 0.04f)
 				Type = 2;
 			else // if (noise == 0.00)
+				Type = 3;
+/*				
 			{
 				int plies = ap[i].esChequer.ec.nPlies;
 				if (plies == 0)
@@ -360,6 +362,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 				else // if (plies == 3)
 					Type = 5;
 			}
+ */
 		}
 
 		if (i == 0)

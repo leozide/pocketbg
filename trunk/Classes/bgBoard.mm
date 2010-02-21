@@ -422,10 +422,10 @@ int bgBoardClick(int x, int y, BoardData* bd)
 		return BG_CMD_DICE;
 
 	if (bd->turn == 1 && CGRectContainsPoint(SideRect[fClockwise][0], ClickPos))
-		return BG_CMD_UNDO;
+		return BG_CMD_UNDO_OR_HINT;
 	
 	if (bd->turn == -1 && CGRectContainsPoint(SideRect[fClockwise][1], ClickPos))
-		return BG_CMD_UNDO;
+		return BG_CMD_UNDO_OR_HINT;
 	
 	return -1;
 }

@@ -8,6 +8,7 @@ enum
 	BG_DLG_ACCEPT_RESIGN,
 	BG_DLG_DOUBLE_ACCEPT,
 	BG_DLG_CONFIRM_DOUBLE,
+	BG_DLG_HINT,
 	BG_DLG_PROGRESS
 };
 
@@ -23,7 +24,7 @@ enum
 	BG_CMD_MENU,
 	BG_CMD_DOUBLE,
 	BG_CMD_DICE,
-	BG_CMD_UNDO,
+	BG_CMD_UNDO_OR_HINT,
 
 	// Dialog buttons.
 	BG_CMD_MAIN_NEW,
@@ -33,6 +34,7 @@ enum
 //	BG_CMD_GAME_MAIN,
 //	BG_CMD_GAME_RESUME,
 	BG_CMD_GAME_RESIGN,
+	BG_CMD_GAME_HINT,
 //	BG_CMD_GAME_UNDO,
 	BG_CMD_RESIGN_SINGLE,
 	BG_CMD_RESIGN_GAMMON,
@@ -48,12 +50,15 @@ enum
 	BG_CMD_CONFIRM_DOUBLE_YES,
 	BG_CMD_CONFIRM_DOUBLE_NO,
 	BG_CMD_PROGRESS_CANCEL,
+	BG_CMD_HINT_MOVE,
+	BG_CMD_HINT_CLOSE,
 };
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 #include "bgBoardData.h"
+void bgHint(movelist* pmlOrig, const unsigned int iMove);
 #ifdef __cplusplus
 }
 #endif

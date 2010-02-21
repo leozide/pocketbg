@@ -259,6 +259,13 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		UserCommand(buf);
 	}
 
+	extern int fAdvancedHint;
+	if (settings->AdvancedHint != fAdvancedHint)
+	{
+		sprintf(buf, "set advancedhint %s", settings->AdvancedHint ? "on" : "off");
+		UserCommand(buf);
+	}
+	
 	NSArray* Paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString* DocDir = [Paths objectAtIndex:0];
 	
@@ -377,6 +384,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	settings->Sounds = fSound;
 	settings->TargetHelp = fGUIDragTargetHelp;
 	settings->Clockwise = fClockwise;
+	settings->AdvancedHint = fAdvancedHint;
 
 	UIView *mainView = mainViewController.view;
 	UIView *settingsView = settingsViewController.view;

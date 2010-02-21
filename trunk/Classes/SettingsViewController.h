@@ -24,6 +24,7 @@ typedef struct
 	int Sounds;
 	int Clockwise;
 	int TargetHelp;
+	int AdvancedHint;
 } bgSettings;
 
 @class ColorListController;

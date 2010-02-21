@@ -2,6 +2,11 @@
 #import "bgDlg.h"
 #import "bgBoard.h"
 
+extern "C" {
+#include "format.h"
+#include "drawboard.h"
+}
+
 int bgActiveDlg;
 
 struct bgDlgButton
@@ -26,6 +31,9 @@ static void bgDlgAddButton(const CGRect& Rect, const char* Text, int ID)
 	Button.ID = ID;
 	Button.Disabled = false;
 }
+
+movelist* HintMoveList;
+int HintIndex;
 
 CGImage* bgDlgDraw(int Tracking)
 {
@@ -92,6 +100,56 @@ CGImage* bgDlgDraw(int Tracking)
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y, Text, strlen(Text));
 	}
 	
+	if (bgActiveDlg == BG_DLG_HINT)
+	{
+		char sz[32];
+		cubeinfo ci;
+		GetMatchStateCubeInfo(&ci, &ms);
+		fOutputMWC = 0;
+
+		CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, Alpha);
+
+		int nmoves = HintMoveList->cMoves < 7 ? HintMoveList->cMoves : 7;
+
+		// Type, Equity, Move.
+		char* colnames[] = { "Type", "Equity", "Move" };
+		int colwidths[] = { 120, 80, 80 };
+
+		int x = 30;
+		for (int i = 0; i < 3; i++)
+		{
+			CGContextShowTextAtPoint(cgContext, x, h - 24, colnames[i], strlen(colnames[i]));
+			x += colwidths[i];
+		}
+
+		for (int i = 0; i < nmoves; i++)
+		{
+			int y = h - 54 - 30 * i;
+			int x = 30;
+
+			if (i == HintIndex)
+			{
+				CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, Alpha);
+				CGContextFillRect(cgContext, CGRectMake(x-10, y - 5, w-40, 20));
+				CGContextSetRGBFillColor(cgContext, 0.0, 0.0, 0.0, Alpha);
+			}
+			else
+				CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, Alpha);
+			
+			FormatEval(sz, &HintMoveList->amMoves[i].esMove);
+			CGContextShowTextAtPoint(cgContext, x, y, sz, strlen(sz));
+			x += colwidths[0];
+
+			char* eq = OutputEquity(HintMoveList->amMoves[i].rScore, &ci, TRUE);
+			CGContextShowTextAtPoint(cgContext, x, y, eq, strlen(eq));
+			x += colwidths[1];
+
+			char* mv = FormatMove(sz, ms.anBoard, HintMoveList->amMoves[i].anMove);
+			CGContextShowTextAtPoint(cgContext, x, y, mv, strlen(mv));
+			x += colwidths[2];
+		}
+	}
+		
 	CGImage* image = CGBitmapContextCreateImage(cgContext);
 	CGContextRelease(cgContext);
 	
@@ -100,6 +158,13 @@ CGImage* bgDlgDraw(int Tracking)
 
 void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 {
+	if (bgActiveDlg == BG_DLG_HINT)
+	{
+//		free(HintMoveList->amMoves);
+//		free(HintMoveList);
+//		HintMoveList = NULL;
+	}
+	
 	bgActiveDlg = DlgType;
 	bgDlgNumButtons = 0;
 
@@ -164,6 +229,17 @@ void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 	}
 	else if (bgActiveDlg == BG_DLG_MAIN_MENU)
 	{
+/*
+		bgDlgRect = CGRectMake(20, 60, 440, 200);
+		bgDlgText = "";
+
+		bgDlgAddButton(CGRectMake(40, 78, 180, 44), "New Match", BG_CMD_MAIN_NEW);
+		bgDlgAddButton(CGRectMake(40, 138, 180, 44), "Resume", BG_CMD_MAIN_RESUME);
+		bgDlgAddButton(CGRectMake(40, 198, 180, 44), "Resign", BG_CMD_GAME_RESIGN);
+		bgDlgAddButton(CGRectMake(260, 78, 180, 44), "Best Moves", BG_CMD_GAME_HINT);
+		bgDlgAddButton(CGRectMake(260, 138, 180, 44), "Settings", BG_CMD_MAIN_SETTINGS);
+		bgDlgAddButton(CGRectMake(260, 198, 180, 44), "How to Play", BG_CMD_MAIN_ABOUT);
+*/
 		bgDlgRect = CGRectMake(120, 0, 240, 320);
 		bgDlgText = "";
 
@@ -175,6 +251,7 @@ void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 
 		bgDlgButtons[1].Disabled = (ms.gs != GAME_PLAYING);
 		bgDlgButtons[2].Disabled = (ms.gs != GAME_PLAYING || ap[ms.fTurn].pt != PLAYER_HUMAN);
+//		bgDlgButtons[3].Disabled = (ms.gs != GAME_PLAYING || ap[ms.fTurn].pt != PLAYER_HUMAN);
 	}
 	else if (bgActiveDlg == BG_DLG_CONFIRM_EXIT)
 	{
@@ -199,7 +276,15 @@ void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 
 //		bgDlgAddButton(CGRectMake(180, 155, 120, 40), "Cancel", BG_DLG_PROGRESS_CANCEL);
 	}
+	else if (bgActiveDlg == BG_DLG_HINT)
+	{
+		bgDlgText = "";
+		bgDlgRect = CGRectMake(40, 0, 400, 320);
 
+		bgDlgAddButton(CGRectMake(110, 258, 120, 44), "Move", BG_CMD_HINT_MOVE);
+		bgDlgAddButton(CGRectMake(250, 258, 120, 44), "Close", BG_CMD_HINT_CLOSE);
+	}
+	
 	if (bgActiveDlg != BG_DLG_NONE)
 	{
 		CGImage* Image = bgDlgDraw(-1);
@@ -227,6 +312,19 @@ void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 	}
 }
 
+extern "C" {
+
+void bgDlgShow(int DlgType, int Param);
+
+void bgHint(movelist* pmlOrig, const unsigned int iMove)
+{
+	HintMoveList = pmlOrig;
+	HintIndex = 0;
+	bgDlgShow(BG_DLG_HINT, 0);
+}
+
+}
+
 int bgDlgClick(CALayer* DlgLayer, int x, int y)
 {
 	CGPoint pt = CGPointMake(x, y);
@@ -244,6 +342,36 @@ int bgDlgClick(CALayer* DlgLayer, int x, int y)
 		if (CGRectContainsPoint(bgDlgButtons[i].Rect, pt) && !bgDlgButtons[i].Disabled)
 			return bgDlgButtons[i].ID;
 
+	if (bgActiveDlg == BG_DLG_HINT)
+	{
+		int w = CGRectGetWidth(bgDlgRect) + 2;
+//		int h = CGRectGetHeight(bgDlgRect) + 2;
+
+		int nmoves = HintMoveList->cMoves < 7 ? HintMoveList->cMoves : 7;
+		bool redraw = false;
+
+		for (int i = 0; i < nmoves; i++)
+		{
+			int y = 54 + 30 * i - 30;
+			int x = 30;
+			
+			CGRect line = CGRectMake(x-10, y + 5, w-40, 30);
+
+			if (CGRectContainsPoint(line, pt))
+			{
+				HintIndex = i;
+				redraw = true;
+				break;
+			}
+		}
+
+		if (redraw)
+		{
+			CGImage* Image = bgDlgDraw(-1);
+			DlgLayer.contents = (id)Image;
+		}
+	}
+	
 	return -1;
 }
 

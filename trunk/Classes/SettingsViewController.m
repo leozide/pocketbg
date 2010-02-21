@@ -224,7 +224,7 @@
 	}
 	else if (indexPath.section == 4)
 	{
-		if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2)
+		if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3)
 		{
 			SwitchCell *cell = (SwitchCell*)[aTableView dequeueReusableCellWithIdentifier:@"switchCell"];
 			if (cell == nil)
@@ -245,7 +245,12 @@
 				cell.label.text = @"Clockwise Movement";
 				[cell setValue:&settings.Clockwise];
 			}
-
+			else if (indexPath.row == 3)
+			{
+				cell.label.text = @"Advanced Hints";
+				[cell setValue:&settings.AdvancedHint];
+			}
+			
 			return cell;
 		}
 	}
@@ -261,7 +266,7 @@
 		case 1: return 3;
 		case 2: return 1;
 		case 3: return 3;
-		case 4: return 3;
+		case 4: return 4;
 	}
 
 	return 0;

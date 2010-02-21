@@ -26,6 +26,8 @@ extern "C" {
 	int tracking;
 	int tracking_type;
 	int skip_anim;
+	int fAdvancedHint;
+
 #define BG_TRACK_NONE 0
 #define BG_TRACK_TAKE 1
 
@@ -250,6 +252,7 @@ bool can_double()
 animation animGUI = ANIMATE_SLIDE;
 unsigned int nGUIAnimSpeed = 4;
 int animate_player, animate_move_list[8], animation_finished, anim_move;
+int animate_hint;
 
 extern void board_animate( BoardData *board, int move[ 8 ], int player )
 {
@@ -265,6 +268,7 @@ extern void board_animate( BoardData *board, int move[ 8 ], int player )
 	animation_finished = FALSE;
 	anim_move = 0;
 	skip_anim = 0;
+	animate_hint = 0;
 
 	[gView PlayAnim: nil];
 }
@@ -1981,6 +1985,20 @@ int viewInit;
 				CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12, Text, strlen(Text));
 			}
 		}
+		else
+		{
+			CGContextSelectFont(cgContext, "Helvetica", 12, kCGEncodingMacRoman);
+			CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
+			CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
+			
+			CGPoint pt2;
+			pt2.x = (bd->colour != bd->turn) ? BORDER_WIDTH + 8 * POINT_WIDTH + BAR_WIDTH : BORDER_WIDTH + 2 * POINT_WIDTH;
+			pt2.x = pt2.x + POINT_WIDTH + Offset;
+			pt2.y = pt.y - 8;
+			const char* Text = "Tap here for hint";
+			
+			CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12, Text, strlen(Text));
+		}
 
 		if (bd->valid_move && bd->valid_move->cPips == bd->move_list.cMaxPips)
 		{
@@ -2547,6 +2565,11 @@ int viewInit;
 			case BG_CMD_GAME_RESIGN:
 				bgDlgShow(BG_DLG_RESIGN_TYPE, 0);
 				break;
+
+			case BG_CMD_GAME_HINT:
+				bgDlgShow(BG_DLG_NONE, 0);
+				UserCommand("hint");
+				break;
 				
 //			case BG_CMD_GAME_UNDO:
 //				if (bd->valid_move)
@@ -2633,6 +2656,21 @@ int viewInit;
 				fInterrupt = TRUE;
 				break;
 				
+			case BG_CMD_HINT_MOVE:
+				extern movelist* HintMoveList;
+				extern int HintIndex;
+				TanBoard anBoard;
+				move* pm = &HintMoveList->amMoves[HintIndex];
+				memcpy(anBoard, ms.anBoard, sizeof(TanBoard));
+				ApplyMove(anBoard, pm->anMove, FALSE);
+				UpdateMove(pwBoard, anBoard);
+				bgDlgShow(BG_DLG_NONE, 0);
+				break;
+
+			case BG_CMD_HINT_CLOSE:
+				bgDlgShow(BG_DLG_NONE, 0);
+				break;
+
 			default:
 				if (!CGRectContainsPoint(bgDlgRect, CGPointMake(x, y)))
 				{
@@ -2684,14 +2722,74 @@ int viewInit;
 					}
 				}
 			}
-			else if (up == BG_CMD_UNDO)
+			else if (up == BG_CMD_UNDO_OR_HINT)
 			{
 				if (bd->valid_move)
 				{
+					// Undo.
 					write_points( bd->points, bd->turn,  bd->nchequers, bd->old_board );
 					bd->valid_move = NULL;
 					bd->drag_point = -1;
 					[self setNeedsDisplay];
+				}
+				else
+				{
+					// Show hint.
+					if (fAdvancedHint)
+					{
+						bgDlgShow(BG_DLG_NONE, 0);
+						UserCommand("hint");
+					}
+					else
+					{
+						movelist ml;
+						cubeinfo ci;
+						
+						GetMatchStateCubeInfo( &ci, &ms );
+						
+						if ( memcmp ( &sm.ms, &ms, sizeof ( matchstate ) ) )
+						{
+							ProgressStart( _("Considering move...") );
+							if( FindnSaveBestMoves( &ml, ms.anDice[ 0 ], ms.anDice[ 1 ],
+												   ms.anBoard, 
+												   NULL, 
+												   arSkillLevel[ SKILL_DOUBTFUL ],
+												   &ci, &esEvalChequer.ec,
+												   aamfEval ) < 0 || fInterrupt )
+							{
+								ProgressEnd();
+
+								glowLayer.contents = nil;
+								glowLayer.hidden = YES;
+								tracking = -1;
+								bd->drag_point = -1;
+								return;
+							}
+							ProgressEnd();
+							
+							UpdateStoredMoves ( &ml, &ms );
+							
+							if ( ml.amMoves )
+								free ( ml.amMoves );
+							
+						}
+						
+						if( !sm.ml.cMoves ) {
+							outputl( _("There are no legal moves.") );
+	//						return;
+						}
+						else
+						{
+	//						TanBoard anBoard;
+							move* pm = &sm.ml.amMoves[0];
+
+							board_animate(bd, pm->anMove, sm.ms.fTurn);
+							animate_hint = 1;
+	//						memcpy(anBoard, ms.anBoard, sizeof(TanBoard));
+	//						ApplyMove(anBoard, pm->anMove, FALSE);
+	//						UpdateMove(pwBoard, anBoard);
+						}
+					}
 				}
 			}
 		}
@@ -2945,6 +3043,11 @@ int viewInit;
 		[animLayer setHidden:YES];
 		[CATransaction commit];
 		
+		if (animate_hint)
+		{
+			update_move(bd);
+		}
+
 		BoardAnimating = FALSE;
 		NextTurnNotify();
 	}

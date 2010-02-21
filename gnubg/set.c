@@ -712,6 +712,12 @@ extern void CommandSetClockwise( char *sz ) {
 //#endif /* USE_GTK */
 }
 
+extern void CommandSetAdvancedHint( char *sz ) {
+	extern int fAdvancedHint;
+    SetToggle( "advancedhint", &fAdvancedHint, sz, 
+			  _("Advanced hints."), _("Simple hints.") );
+}
+
 extern void CommandSetColorChecker1( char *sz ) {
 	extern float Player1Color[4];
 	float r, g, b;

@@ -34,3 +34,5 @@ extern int gNumCheckerColors;
 
 extern float Player1Color[4];
 extern float Player2Color[4];
+
+extern int fAdvancedHint;

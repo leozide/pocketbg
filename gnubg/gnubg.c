@@ -65,6 +65,7 @@
 #include "gtkwindows.h"
 #endif
 #include "bgBoardData.h"
+void bgHint(movelist* pmlOrig, const unsigned int iMove);
 
 #include "multithread.h"
 
@@ -1183,6 +1184,7 @@ command cER = {
     NULL, NULL },
   { NULL, NULL, NULL, NULL, NULL }  
 }, acSet[] = {
+	{ "advancedhint", CommandSetAdvancedHint, N_("Enable advanced hints"), szONOFF, &cOnOff },
     { "analysis", NULL, N_("Control parameters used when analysing moves"),
       NULL, acSetAnalysis },
 #if USE_GTK
@@ -3039,12 +3041,13 @@ HintChequer( char *sz ) {
     return;
   }
 
-#if USE_GTK
-  if( fX ) {
-    GTKHint( &sm.ml, locateMove ( ms.anBoard, anMove, &sm.ml ) );
+//#if USE_GTK
+//  if( fX ) {
+//    GTKHint( &sm.ml, locateMove ( ms.anBoard, anMove, &sm.ml ) );
+    bgHint( &sm.ml, locateMove ( ms.anBoard, anMove, &sm.ml ) );
     return;
-  }
-#endif
+//  }
+//#endif
 	
   for( i = 0; i < n; i++ )
     output( FormatMoveHint( szBuf, &ms, &sm.ml, i, 
@@ -3893,6 +3896,7 @@ extern void CommandSaveSettings( char *szParam )
 {
 	extern int fGUIDragTargetHelp;
 	extern float Player1Color[4], Player2Color[4];
+	extern int fAdvancedHint;
     fprintf( pf,
 //		 "set gui animation %s\n"
 //	     "set gui animation speed %d\n"
@@ -3907,6 +3911,7 @@ extern void CommandSaveSettings( char *szParam )
 //		 "set gui movelistdetail %s\n"
 		"set color checker1 %f %f %f\n"
 		"set color checker2 %f %f %f\n"
+		"set advancedhint %s\n"
 			,
 //	     aszAnimation[ animGUI ], nGUIAnimSpeed,
 //	     fGUIBeep ? "on" : "off",
@@ -3919,7 +3924,8 @@ extern void CommandSaveSettings( char *szParam )
 //		 fGUIUseStatsPanel ? "on" : "off",
 //		 showMoveListDetail ? "on" : "off"
 		Player1Color[0], Player1Color[1], Player1Color[2],
-		Player2Color[0], Player2Color[1], Player2Color[2]
+		Player2Color[0], Player2Color[1], Player2Color[2],
+		fAdvancedHint ? "on" : "off"
 	);
 }
 //#endif

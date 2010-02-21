@@ -15,6 +15,7 @@
 		2899E5220DE3E06400AC0155 /* bgViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* bgViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* bgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* bgViewController.m */; };
+		B3063C99112D22EB00602408 /* pub_eval.c in Sources */ = {isa = PBXBuildFile; fileRef = B3063C98112D22EB00602408 /* pub_eval.c */; };
 		B37F0B660FF33665003A3E56 /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B37F0B650FF33665003A3E56 /* EditableCell.m */; };
 		B37F5D7F102E6B7D00275F49 /* settings.html in Resources */ = {isa = PBXBuildFile; fileRef = B37F5D7D102E6B7D00275F49 /* settings.html */; };
 		B37F5D80102E6B7D00275F49 /* playing.html in Resources */ = {isa = PBXBuildFile; fileRef = B37F5D7E102E6B7D00275F49 /* playing.html */; };
@@ -67,7 +68,6 @@
 		B392AEB110001E7F0070E37A /* TypePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B392AEB010001E7F0070E37A /* TypePickerController.m */; };
 		B392AEB310001EA10070E37A /* TypePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = B392AEB210001EA10070E37A /* TypePicker.xib */; };
 		B394C4921033E4930057137B /* hash.c in Sources */ = {isa = PBXBuildFile; fileRef = B394C4901033E4930057137B /* hash.c */; };
-		B394C49E1033E69F0057137B /* pub_eval.c in Sources */ = {isa = PBXBuildFile; fileRef = B394C49D1033E69F0057137B /* pub_eval.c */; };
 		B39A5E910FF59B3B00115812 /* SegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B39A5E8F0FF59B3B00115812 /* SegmentCell.m */; };
 		B3A412FC0FFEAC96001E5DCA /* gnubg_os0.bd in Resources */ = {isa = PBXBuildFile; fileRef = B3A412FB0FFEAC96001E5DCA /* gnubg_os0.bd */; };
 		B3A413630FFEBD57001E5DCA /* bgDlg.mm in Sources */ = {isa = PBXBuildFile; fileRef = B3A413620FFEBD57001E5DCA /* bgDlg.mm */; };
@@ -98,6 +98,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* bg_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bg_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3063C98112D22EB00602408 /* pub_eval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pub_eval.c; path = gnubg/pub_eval.c; sourceTree = "<group>"; };
 		B37F0B640FF33665003A3E56 /* EditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditableCell.h; sourceTree = "<group>"; };
 		B37F0B650FF33665003A3E56 /* EditableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditableCell.m; sourceTree = "<group>"; };
 		B37F5D7D102E6B7D00275F49 /* settings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = settings.html; sourceTree = "<group>"; };
@@ -166,7 +167,6 @@
 		B392AEB210001EA10070E37A /* TypePicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TypePicker.xib; sourceTree = "<group>"; };
 		B394C4901033E4930057137B /* hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hash.c; path = gnubg/lib/hash.c; sourceTree = "<group>"; };
 		B394C4911033E4930057137B /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hash.h; path = gnubg/lib/hash.h; sourceTree = "<group>"; };
-		B394C49D1033E69F0057137B /* pub_eval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pub_eval.c; path = "../bg copy/gnubg/pub_eval.c"; sourceTree = "<group>"; };
 		B39A5E8F0FF59B3B00115812 /* SegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentCell.m; sourceTree = "<group>"; };
 		B39A5E900FF59B3B00115812 /* SegmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentCell.h; sourceTree = "<group>"; };
 		B3A412FB0FFEAC96001E5DCA /* gnubg_os0.bd */ = {isa = PBXFileReference; lastKnownFileType = file; path = gnubg_os0.bd; sourceTree = "<group>"; };
@@ -362,6 +362,7 @@
 				B3B500BB0FC8BA0400D34ADF /* positionid.h */,
 				B38293A80FC3DFB700DBBE93 /* progress.c */,
 				B3B500BC0FC8BA0400D34ADF /* progress.h */,
+				B3063C98112D22EB00602408 /* pub_eval.c */,
 				B382B3B10FC28F0700345E38 /* record.c */,
 				B3B500BD0FC8BA0400D34ADF /* record.h */,
 				B382B3BE0FC2901600345E38 /* rollout.c */,
@@ -378,7 +379,6 @@
 				B382B33E0FC2882C00345E38 /* mec.h */,
 				B382B33A0FC2880B00345E38 /* matchequity.c */,
 				B382937E0FC3776100DBBE93 /* external.c */,
-				B394C49D1033E69F0057137B /* pub_eval.c */,
 				B38293A20FC3DF3F00DBBE93 /* util.c */,
 				B3B500C10FC8BA0400D34ADF /* util.h */,
 				B382B3260FC2865600345E38 /* play.c */,
@@ -537,9 +537,9 @@
 				B392AEB110001E7F0070E37A /* TypePickerController.m in Sources */,
 				B381BD9410263D05002F40BD /* HelpViewController.m in Sources */,
 				B394C4921033E4930057137B /* hash.c in Sources */,
-				B394C49E1033E69F0057137B /* pub_eval.c in Sources */,
 				B38225B81059EB6A00F01D64 /* CheckerCell.m in Sources */,
 				B38B8C3A105B642700F8BB92 /* ColorListController.m in Sources */,
+				B3063C99112D22EB00602408 /* pub_eval.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +550,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Leonardo Zide";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -558,7 +559,8 @@
 				GCC_PREFIX_HEADER = bg_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = bg;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9347F241-1DF8-4B93-9050-DF07473416C1";
+				PROVISIONING_PROFILE = "381217D9-0107-47C7-8CFB-6F696345C604";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "381217D9-0107-47C7-8CFB-6F696345C604";
 			};
 			name = Debug;
 		};
@@ -566,13 +568,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Leonardo Zide";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = bg_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = bg;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9347F241-1DF8-4B93-9050-DF07473416C1";
+				PROVISIONING_PROFILE = "381217D9-0107-47C7-8CFB-6F696345C604";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "381217D9-0107-47C7-8CFB-6F696345C604";
 			};
 			name = Release;
 		};
@@ -600,12 +604,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Leonardo Zide";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Leonardo Zide";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = bg_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = bg;
+				PROVISIONING_PROFILE = "728D8A98-63A8-47AB-BD63-DD61FF34D6FC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "728D8A98-63A8-47AB-BD63-DD61FF34D6FC";
 			};
 			name = Distribution;
 		};
@@ -634,6 +641,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Leonardo Zide";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -643,6 +651,7 @@
 					gnubg/lib,
 				);
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "381217D9-0107-47C7-8CFB-6F696345C604";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9347F241-1DF8-4B93-9050-DF07473416C1";
 				SDKROOT = iphoneos2.2.1;
 			};

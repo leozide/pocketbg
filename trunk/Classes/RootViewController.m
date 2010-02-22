@@ -303,7 +303,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	if (settingsViewController == nil)
 	{
 		SettingsViewController *viewController = [[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil];
-		viewController.difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Intermediate", @"AI - Expert", /*@"AI - World Class", @"AI - Grandmaster",*/ nil];
+		viewController.difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Intermediate", @"AI - Expert", @"AI - World Class", /*@"AI - Grandmaster",*/ nil];
 		self.settingsViewController = viewController;
 		[viewController release];
 
@@ -358,18 +358,15 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 			else if (noise == 0.04f)
 				Type = 2;
 			else // if (noise == 0.00)
-				Type = 3;
-/*				
 			{
 				int plies = ap[i].esChequer.ec.nPlies;
 				if (plies == 0)
 					Type = 3;
-				else if (plies == 2)
+				else //if (plies == 2)
 					Type = 4;
-				else // if (plies == 3)
-					Type = 5;
+//				else // if (plies == 3)
+//					Type = 5;
 			}
- */
 		}
 
 		if (i == 0)

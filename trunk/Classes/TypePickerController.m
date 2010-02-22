@@ -46,10 +46,33 @@
 - (IBAction)save
 {
 	int row = [pickerView selectedRowInComponent:0];
+
+	if (row > 3)
+	{
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"You have selected a difficulty level that may take up to a minute for the AI to make a move, please try Expert or lower levels first before trying the harder levels. Are you sure you want to continue?" delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
+		[alertView show];
+		[alertView release];
+		return;
+	}
+
 	*editingItem = row;
 
 	if (cell)
 		cell.text = [types objectAtIndex:row];
+
+	[self cancel];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (buttonIndex == 0)
+	{
+		int row = [pickerView selectedRowInComponent:0];
+		*editingItem = row;
+	
+		if (cell)
+			cell.text = [types objectAtIndex:row];
+	}
 
 	[self cancel];
 }

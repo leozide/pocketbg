@@ -55,6 +55,10 @@ extern "C" {
 	void GTKProgressStart(const char *sz)
 	{
 		[gView ShowDlg:BG_DLG_PROGRESS withParam:0 withText:sz];
+
+		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
+		[pool release];
 	}
 	void GTKProgressStartValue(char *sz, int iMax)
 	{
@@ -64,9 +68,9 @@ extern "C" {
 	}
 	void GTKProgress(void)
 	{
-		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
-		[pool release];
+//		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+//		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
+//		[pool release];
 	}
 	
 	char* outputStr;

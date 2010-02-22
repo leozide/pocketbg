@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface TypePickerController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
+@interface TypePickerController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate>
 {
 	NSArray *types;
 	int *editingItem;

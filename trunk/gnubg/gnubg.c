@@ -4829,10 +4829,14 @@ int gnubg_main()
 #endif
 	} else
 #endif
+#ifdef NOT_IPHONE
 	{
 		fInteractive = isatty(STDIN_FILENO);
 		fShowProgress = isatty(STDOUT_FILENO);
 	}
+#else
+	fInteractive = fShowProgress = TRUE;
+#endif
 
 	if (fInteractive)
 	   PortableSignal(SIGINT, HandleInterrupt, &shInterruptOld, FALSE);

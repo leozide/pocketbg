@@ -56,9 +56,9 @@ extern "C" {
 	{
 		[gView ShowDlg:BG_DLG_PROGRESS withParam:0 withText:sz];
 
-//		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-//		while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource) ;
-//		[pool release];
+		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+		while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource) ;
+		[pool release];
 	}
 	void GTKProgressStartValue(char *sz, int iMax)
 	{
@@ -68,9 +68,17 @@ extern "C" {
 	}
 	void GTKProgress(void)
 	{
-//		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-//		while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource) ;
-//		[pool release];
+		BOOL wasEnabled = gView.userInteractionEnabled;
+		
+		if (wasEnabled)
+			gView.userInteractionEnabled = NO;
+
+		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+		while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource) ;
+		[pool release];
+
+		if (wasEnabled)
+			gView.userInteractionEnabled = YES;
 	}
 	
 	char* outputStr;

@@ -56,9 +56,9 @@ extern "C" {
 	{
 		[gView ShowDlg:BG_DLG_PROGRESS withParam:0 withText:sz];
 
-		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
-		[pool release];
+//		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+//		while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource) ;
+//		[pool release];
 	}
 	void GTKProgressStartValue(char *sz, int iMax)
 	{
@@ -69,7 +69,7 @@ extern "C" {
 	void GTKProgress(void)
 	{
 //		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-//		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
+//		while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource) ;
 //		[pool release];
 	}
 	
@@ -268,7 +268,8 @@ extern void board_animate( BoardData *board, int move[ 8 ], int player )
 	
 	memcpy(animate_move_list, move, sizeof(animate_move_list));
 	animate_player = player;
-	
+
+	BoardAnimating = TRUE;
 	animation_finished = FALSE;
 	anim_move = 0;
 	skip_anim = 0;
@@ -2434,6 +2435,9 @@ int viewInit;
 	BoardData* bd = pwBoard;
 	int x = touchPoint.x;
 	int y = touchPoint.y;
+
+	if (BoardAnimating)
+		return;
 
 	if (bgActiveDlg != BG_DLG_NONE)
 	{

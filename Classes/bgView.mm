@@ -27,6 +27,7 @@ extern "C" {
 	int tracking_type;
 	int skip_anim;
 	int fAdvancedHint;
+	int fEnableProgress;
 
 #define BG_TRACK_NONE 0
 #define BG_TRACK_TAKE 1
@@ -54,11 +55,10 @@ extern "C" {
 	}
 	void GTKProgressStart(const char *sz)
 	{
-		[gView ShowDlg:BG_DLG_PROGRESS withParam:0 withText:sz];
+		if (fEnableProgress)
+			[gView ShowDlg:BG_DLG_PROGRESS withParam:0 withText:sz];
 
-		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-		while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource) ;
-		[pool release];
+		GTKProgress();
 	}
 	void GTKProgressStartValue(char *sz, int iMax)
 	{

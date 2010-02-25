@@ -1272,7 +1272,12 @@ extern int ComputerTurn( void ) {
         memcpy( &pmr->CubeDecPtr->esDouble, &sc.es, sizeof sc.es );
       }
 
+      extern int fEnableProgress;
+      if (ap[ ms.fTurn ].esChequer.ec.nPlies > 0)
+        fEnableProgress = 1;
+
       ProgressStart( _("Considering move...") );
+      fEnableProgress = 0;
       if( FindnSaveBestMoves( &pmr->ml, ms.anDice[ 0 ], ms.anDice[ 1 ],
                               anBoardMove, NULL, 0.0f, &ci, 
                               &ap[ ms.fTurn ].esChequer.ec, 

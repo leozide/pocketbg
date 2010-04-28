@@ -14,6 +14,7 @@ extern "C" {
 #include "drawboard.h"
 #include "positionid.h"
 	int gnubg_main();
+	extern void SetDefaultDifficulty();
 	extern void UserCommand( char *szCommand );
 	char PKGDATADIR[1024];
 	BoardData* pwBoard;
@@ -1812,6 +1813,7 @@ int viewInit;
 	if (!viewInit)
 	{
 		gnubg_main();
+		SetDefaultDifficulty();
 
 		char buf[1024];
 		NSArray* Paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

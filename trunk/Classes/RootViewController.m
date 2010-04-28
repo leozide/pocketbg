@@ -27,7 +27,9 @@ extern int fGUIDragTargetHelp;
 evalcontext ecSettings[] =
 {
 	{ TRUE, 0, FALSE, TRUE, 0.060f }, // beginner
+	{ TRUE, 0, FALSE, TRUE, 0.050f }, // casual
 	{ TRUE, 0, FALSE, TRUE, 0.040f }, // intermediate
+	{ TRUE, 0, FALSE, TRUE, 0.015f }, // advanced
 	{ TRUE, 0, FALSE, TRUE, 0.0f }, // expert
 	{ TRUE, 2, TRUE, TRUE, 0.0f }, // world class
 	{ TRUE, 3, TRUE, TRUE, 0.0f }, // grand master
@@ -36,8 +38,10 @@ evalcontext ecSettings[] =
 int iSettingsMoveFilter[] =
 {
 	-1, // beginner: n/a
+	-1, // casual: n/a
 	-1, // intermediate: n/a
-	-1, // expoert: n/a
+	-1, // advanced: n/a
+	-1, // expert: n/a
 	2,  // wc: normal
 	2,  // grandmaster: normal
 };
@@ -303,7 +307,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	if (settingsViewController == nil)
 	{
 		SettingsViewController *viewController = [[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil];
-		viewController.difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Intermediate", @"AI - Expert", @"AI - World Class", /*@"AI - Grandmaster",*/ nil];
+		viewController.difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Casual", @"AI - Intermediate", @"AI - Advanced", @"AI - Expert", @"AI - World Class", @"AI - Grandmaster", nil];
 		self.settingsViewController = viewController;
 		[viewController release];
 
@@ -353,19 +357,23 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		else // if (ap[i].pt == PLAYER_GNU)
 		{
 			float noise = ap[i].esChequer.ec.rNoise;
-			if (noise == 0.06f)
+			if (noise == 0.060f)
 				Type = 1;
-			else if (noise == 0.04f)
+			else if (noise == 0.050f)
 				Type = 2;
+			else if (noise == 0.040f)
+				Type = 3;
+			else if (noise == 0.015f)
+				Type = 4;
 			else // if (noise == 0.00)
 			{
 				int plies = ap[i].esChequer.ec.nPlies;
 				if (plies == 0)
-					Type = 3;
-				else //if (plies == 2)
-					Type = 4;
-//				else // if (plies == 3)
-//					Type = 5;
+					Type = 5;
+				else if (plies == 2)
+					Type = 6;
+				else // if (plies == 3)
+					Type = 7;
 			}
 		}
 
@@ -464,3 +472,14 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 }
 
 @end
+
+void SetDefaultDifficulty()
+{
+	evalcontext* ec = &ecSettings[2];
+	char buf[256];
+	sprintf(buf, "set player %d chequer evaluation", 0);
+	SetEvalCommands(buf, ec, &ap[0].esChequer.ec);
+	sprintf(buf, "set player %d cube evaluation", 0);
+	SetEvalCommands(buf, ec, &ap[0].esChequer.ec);
+}
+

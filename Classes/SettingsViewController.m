@@ -149,7 +149,7 @@
 		{
 			EditableCell* cell = [[[EditableCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"editableCell"] autorelease];
 			
-			cell.label.text = @"Name:";
+			cell.textLabel.text = @"Name:";
 			cell.textField.placeholder = @"<Player Name>";
 			cell.textField.keyboardType = UIKeyboardTypeDefault;
 			if (indexPath.section == 0)
@@ -174,11 +174,12 @@
 		{
 			UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TypeCell"];
 			if (cell == nil)
-				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"TypeCell"] autorelease];
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"TypeCell"] autorelease];
+			cell.textLabel.text = @"Type:";
 			if (indexPath.section == 0)
-				cell.text = [difficultyLevels objectAtIndex:settings.Player1Type];
+				cell.detailTextLabel.text = [difficultyLevels objectAtIndex:settings.Player1Type];
 			else
-				cell.text = [difficultyLevels objectAtIndex:settings.Player2Type];
+				cell.detailTextLabel.text = [difficultyLevels objectAtIndex:settings.Player2Type];
 			return cell;
 		}
 	}
@@ -205,17 +206,17 @@
 			
 			if (indexPath.row == 0)
 			{
-				cell.label.text = @"Use doubling cube";
+				cell.textLabel.text = @"Use doubling cube";
 				[cell setValue:&settings.Cube];
 			}
 			else if (indexPath.row == 1)
 			{
-				cell.label.text = @"Use Crawford Rule";
+				cell.textLabel.text = @"Use Crawford Rule";
 				[cell setValue:&settings.Crawford];
 			}
 			else
 			{
-				cell.label.text = @"Use Jacoby Rule";
+				cell.textLabel.text = @"Use Jacoby Rule";
 				[cell setValue:&settings.Jacoby];
 			}
 
@@ -232,22 +233,22 @@
 			
 			if (indexPath.row == 0)
 			{
-				cell.label.text = @"Enable Sounds";
+				cell.textLabel.text = @"Enable Sounds";
 				[cell setValue:&settings.Sounds];
 			}
 			else if (indexPath.row == 1)
 			{
-				cell.label.text = @"Show Target Help";
+				cell.textLabel.text = @"Show Target Help";
 				[cell setValue:&settings.TargetHelp];
 			}
 			else if (indexPath.row == 2)
 			{
-				cell.label.text = @"Clockwise Movement";
+				cell.textLabel.text = @"Clockwise Movement";
 				[cell setValue:&settings.Clockwise];
 			}
 			else if (indexPath.row == 3)
 			{
-				cell.label.text = @"Advanced Hints";
+				cell.textLabel.text = @"Advanced Hints";
 				[cell setValue:&settings.AdvancedHint];
 			}
 			

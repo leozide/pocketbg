@@ -7,6 +7,7 @@
 #import "bgBoard.h"
 
 bgView* gView;
+int fAdvancedHint;
 
 extern "C" {
 #include "bgBoardData.h"
@@ -15,7 +16,7 @@ extern "C" {
 #include "positionid.h"
 	int gnubg_main();
 	extern void SetDefaultDifficulty();
-	extern void UserCommand( char *szCommand );
+	extern void UserCommand( const char *szCommand );
 	char PKGDATADIR[1024];
 	BoardData* pwBoard;
 	int nNextTurn;
@@ -27,7 +28,6 @@ extern "C" {
 	int tracking;
 	int tracking_type;
 	int skip_anim;
-	int fAdvancedHint;
 	int fEnableProgress;
 
 #define BG_TRACK_NONE 0
@@ -1760,29 +1760,15 @@ int viewInit;
 
 	if (self = [super initWithCoder:coder])
 	{
+		[self SetBoardSize];
+		
+#ifndef PBG_HD
 		CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI/2);
 		self.transform = transform;
-		
-		CGRect bounds = CGRectMake(0, 0, 480, 320);
+
+		CGRect bounds = CGRectMake(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 		self.bounds = bounds;
-
-		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-		// Create the offscreen context.
-		cgContext = CGBitmapContextCreate(NULL, BOARD_WIDTH, BOARD_HEIGHT, 8, 4 * BOARD_WIDTH, colorSpace, kCGImageAlphaPremultipliedFirst);
-		
-		if (cgContext == NULL)
-		{
-			[self release];
-			return nil;
-		}
-
-		// Draw board.
-		bgDrawBoard(cgContext);
-		boardImage = CGBitmapContextCreateImage(cgContext);
-
-		CGColorSpaceRelease(colorSpace);
-
+#endif
 		CALayer* root = self.layer;
 
 		glowLayer = [CALayer layer];
@@ -1813,7 +1799,9 @@ int viewInit;
 	if (!viewInit)
 	{
 		gnubg_main();
+		outputoff();
 		SetDefaultDifficulty();
+		outputon();
 
 		char buf[1024];
 		NSArray* Paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -1856,6 +1844,52 @@ int viewInit;
     [super dealloc];
 }
 
+- (void) SetBoardSize
+{
+#if PBG_HD
+	BOARD_WIDTH = self.bounds.size.width;
+	BOARD_HEIGHT = self.bounds.size.height;
+	POINT_WIDTH = BOARD_WIDTH / 15;
+	POINT_HEIGHT = 240;
+	BORDER_WIDTH = POINT_WIDTH / 3;
+	BORDER_TOP_HEIGHT = 70;
+	BORDER_BOTTOM_HEIGHT = 20;
+	BAR_WIDTH = POINT_WIDTH;
+	BAR_OFFSET = 30;
+	BEAROFF_X = (2*BORDER_WIDTH+BAR_WIDTH+12*POINT_WIDTH);
+	CHEQUER_HEIGHT = 48;
+	CHEQUER_RADIUS = 24;
+	DICE_SIZE = 48;
+#else
+	BOARD_WIDTH = 480;
+	BOARD_HEIGHT = 320;
+	BORDER_WIDTH = 6;
+	BORDER_TOP_HEIGHT = 5;
+	BORDER_BOTTOM_HEIGHT = 5;
+	POINT_WIDTH = 33;
+	POINT_HEIGHT = 120;
+	BAR_WIDTH = 33;
+	BAR_OFFSET = 50;
+	BEAROFF_X = (2*BORDER_WIDTH+BAR_WIDTH+12*POINT_WIDTH);
+	CHEQUER_HEIGHT = 28;
+	CHEQUER_RADIUS = 14;
+	DICE_SIZE = 31;
+#endif
+
+	bgBoardUpdateSize();
+	
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	
+	// Create the offscreen context.
+	cgContext = CGBitmapContextCreate(NULL, BOARD_WIDTH, BOARD_HEIGHT, 8, 4 * BOARD_WIDTH, colorSpace, kCGImageAlphaPremultipliedFirst);
+	
+	// Draw board.
+	bgDrawBoard(cgContext);
+	boardImage = CGBitmapContextCreateImage(cgContext);
+
+	CGColorSpaceRelease(colorSpace);
+}
+
 - (void) UpdateBoardImage
 {
 	bgDrawBoard(cgContext);
@@ -1886,7 +1920,7 @@ int viewInit;
 
 - (void)drawRect:(CGRect)rect
 {
-	CGRect				bounds = CGRectMake(0, 0, 480, 320);
+	CGRect				bounds = CGRectMake(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 	CGContextRef		context = UIGraphicsGetCurrentContext();
 	CGImageRef			image;
 
@@ -2178,9 +2212,9 @@ int viewInit;
 		{
 			pt.x = BORDER_WIDTH + 6 * POINT_WIDTH + (BAR_WIDTH - DICE_SIZE) / 2 + Offset;
 			if (bd->cube_owner > 0)
-				pt.y = BORDER_HEIGHT;
+				pt.y = BORDER_BOTTOM_HEIGHT;
 			else if (bd->cube_owner < 0)
-				pt.y = BOARD_HEIGHT - BORDER_HEIGHT - DICE_SIZE;
+				pt.y = BOARD_HEIGHT - BORDER_TOP_HEIGHT - DICE_SIZE;
 			else
 				pt.y = (BOARD_HEIGHT - DICE_SIZE) / 2;
 		}
@@ -2239,6 +2273,69 @@ int viewInit;
 	// Pips and score.
 	if (ms.gs != GAME_NONE)
 	{
+#if PBG_HD
+		unsigned int Pips[2];
+		PipCount(bd->old_board, Pips);
+		int f = (bd->turn > 0);
+		
+		CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
+		CGContextSelectFont(cgContext, "Helvetica", 16, kCGEncodingMacRoman);
+		CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
+		
+		char Text[32];
+		
+		pt.x = fClockwise ? 2 * BORDER_WIDTH + POINT_WIDTH : BORDER_WIDTH;
+		pt.y = BOARD_HEIGHT - BORDER_TOP_HEIGHT + 28;
+
+		CGContextDrawImage(cgContext, CGRectMake(pt.x, pt.y - 14, 15, 15), blackImage);
+		CGContextShowTextAtPoint(cgContext, pt.x + 20, pt.y, bd->name, strlen(bd->name));
+		pt.y += 16;
+
+		sprintf(Text, "Pips: %d (%+d)", Pips[!f], Pips[!f] - Pips[f]);
+		CGContextShowTextAtPoint(cgContext, pt.x, pt.y, Text, strlen(Text));
+		pt.y += 16;
+
+		int nMatchLen = bd->match_to;
+		if (nMatchLen)
+			sprintf(Text, "Score: %d (%d away)", bd->score_opponent, MAX(nMatchLen - bd->score_opponent, 0));
+		else
+			sprintf(Text, "Score: %d", bd->score_opponent);
+		CGContextShowTextAtPoint(cgContext, pt.x, pt.y, Text, strlen(Text));
+
+		pt.x += 6 * POINT_WIDTH + BAR_WIDTH;
+		pt.y = BOARD_HEIGHT - BORDER_TOP_HEIGHT + 28;
+		
+		CGContextDrawImage(cgContext, CGRectMake(pt.x, pt.y - 14, 15, 15), whiteImage);
+		CGContextShowTextAtPoint(cgContext, pt.x + 20, pt.y, bd->name_opponent, strlen(bd->name_opponent));
+		pt.y += 16;
+
+		sprintf(Text, "Pips: %d (%+d)", Pips[f], Pips[f] - Pips[!f]);
+		CGContextShowTextAtPoint(cgContext, pt.x, pt.y, Text, strlen(Text));
+		pt.y += 16;
+		
+		if (nMatchLen)
+			sprintf(Text, "Score: %d (%d away)", bd->score, MAX(nMatchLen - bd->score, 0));
+		else
+			sprintf(Text, "Score: %d", bd->score);
+		CGContextShowTextAtPoint(cgContext, pt.x, pt.y, Text, strlen(Text));
+
+		// Match info.
+		pt.x = fClockwise ? BORDER_WIDTH : 2 * BORDER_WIDTH + 12 * POINT_WIDTH + BAR_WIDTH;
+		pt.y = BOARD_HEIGHT - BORDER_TOP_HEIGHT + 28;
+
+		if (nMatchLen)
+		{
+			sprintf(Text, "Match: %d", nMatchLen);
+			CGContextShowTextAtPoint(cgContext, pt.x, pt.y, Text, strlen(Text));
+			pt.y += 16;
+		}
+
+		if (bd->crawford_game)
+		{
+			strcpy(Text, "Crawford");
+			CGContextShowTextAtPoint(cgContext, pt.x, pt.y, Text, strlen(Text));
+		}
+#else
 		unsigned int Pips[2];
 		PipCount(bd->old_board, Pips);
 		int f = (bd->turn > 0);
@@ -2250,7 +2347,7 @@ int viewInit;
 		char Text[32];
 
 		pt.x = fClockwise ? BORDER_WIDTH + POINT_WIDTH / 2 : 2 * BORDER_WIDTH + BAR_WIDTH + 12 * POINT_WIDTH + POINT_WIDTH / 2;
-		pt.y = BORDER_HEIGHT + POINT_HEIGHT;
+		pt.y = BORDER_BOTTOM_HEIGHT + POINT_HEIGHT;
 
 		sprintf(Text, "Pips: %d", Pips[!f]);
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 10, Text, strlen(Text));
@@ -2261,7 +2358,7 @@ int viewInit;
 			sprintf(Text, "Score: %d", bd->score_opponent);
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 20, Text, strlen(Text));
 		
-		pt.y = BOARD_HEIGHT - BORDER_HEIGHT - POINT_HEIGHT - 4;
+		pt.y = BOARD_HEIGHT - BORDER_TOP_HEIGHT - POINT_HEIGHT - 4;
 
 		sprintf(Text, "Pips: %d", Pips[f]);
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y, Text, strlen(Text));
@@ -2271,6 +2368,7 @@ int viewInit;
 		else
 			sprintf(Text, "Score: %d", bd->score);
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y - 10, Text, strlen(Text));
+#endif
 	}
 
 	if (bgActiveDlg == BG_DLG_NONE)
@@ -2282,7 +2380,11 @@ int viewInit;
 	}
 
 //	bgDlgDraw(cgContext);
-
+#if PBG_HD
+	bounds.origin.x = (self.bounds.size.width - BOARD_WIDTH) / 2;
+	bounds.origin.y = (self.bounds.size.height - BOARD_HEIGHT) / 2;
+#endif
+	
 	// Copy the contents of the painting context to the view's context
 	image = CGBitmapContextCreateImage(cgContext);
 	CGContextDrawImage(context, bounds, image);
@@ -2562,16 +2664,18 @@ int viewInit;
 				break;
 				
 			case BG_CMD_MAIN_SETTINGS:
+			{
 				bgAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
-				[[delegate rootViewController] ShowSettingsView];
+				[[delegate rootViewController] ShowSettingsView:nil];
 				bgDlgUpdateTrack(dlgLayer, -1);
-				break;
+			} break;
 				
 			case BG_CMD_MAIN_ABOUT:
-				[[(bgAppDelegate*)[[UIApplication sharedApplication] delegate] rootViewController] ShowHelpView];
+			{
+				[[(bgAppDelegate*)[[UIApplication sharedApplication] delegate] rootViewController] ShowHelpView:nil];
 				bgDlgUpdateTrack(dlgLayer, -1);
-				break;
-				
+			} break;
+
 //			case BG_CMD_GAME_MAIN:
 //				bgDlgShow(BG_DLG_MAIN_MENU, 0);
 //				break;
@@ -2675,6 +2779,7 @@ int viewInit;
 				break;
 				
 			case BG_CMD_HINT_MOVE:
+			{
 				extern movelist* HintMoveList;
 				extern int HintIndex;
 				TanBoard anBoard;
@@ -2683,7 +2788,7 @@ int viewInit;
 				ApplyMove(anBoard, pm->anMove, FALSE);
 				UpdateMove(pwBoard, anBoard);
 				bgDlgShow(BG_DLG_NONE, 0);
-				break;
+			} break;
 
 			case BG_CMD_HINT_CLOSE:
 				bgDlgShow(BG_DLG_NONE, 0);
@@ -3140,7 +3245,7 @@ int viewInit;
 	int w = 20 + mx;
 	int h = 10 + numLines * 22;
 	float x = 240;//BORDER_WIDTH + POINT_WIDTH * 6 + BAR_WIDTH / 2;
-	float y = BORDER_HEIGHT + h / 2;
+	float y = BORDER_TOP_HEIGHT + h / 2;
 
 	rect = CGRectMake(1, 1, w-2, h-2);
 

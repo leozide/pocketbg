@@ -12,13 +12,9 @@
 @interface CheckerCell : UITableViewCell
 {
 	UIImageView* imageView;
-	UITextField* label;
-	UITextField* name;
 }
 
 @property (nonatomic, retain) UIImageView* imageView;
-@property (nonatomic, retain) UITextField* label;
-@property (nonatomic, retain) UITextField* name;
 
 - (void)setColor:(int)colorIndex;
 

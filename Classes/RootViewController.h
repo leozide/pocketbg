@@ -19,6 +19,10 @@
 	HelpViewController* helpViewController;
 	UINavigationBar* settingsNavigationBar;
 	UINavigationBar* helpNavigationBar;
+#if PBG_HD
+	UIPopoverController* popoverController;
+    UIToolbar *toolbar;
+#endif
 }
 
 @property (nonatomic, retain) bgViewController* mainViewController;
@@ -27,10 +31,16 @@
 @property (nonatomic, retain) UINavigationBar* settingsNavigationBar;
 @property (nonatomic, retain) UINavigationBar* helpNavigationBar;
 
+#if PBG_HD
+@property (nonatomic, retain) UIPopoverController* popoverController;
+@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
+#endif
+
 -(void) SaveMatch;
--(void) ShowSettingsView;
+-(void) ShowSettingsView:(id)sender;
 -(void) ShowMainView;
--(void) ShowHelpView;
+-(void) ShowHelpView:(id)sender;
+-(void) ShowAnalysisView:(id)sender;
 
 - (IBAction)cancel;
 - (IBAction)save;

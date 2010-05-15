@@ -112,7 +112,7 @@ CGImage* bgDlgDraw(int Tracking)
 		int nmoves = HintMoveList->cMoves < 7 ? HintMoveList->cMoves : 7;
 
 		// Type, Equity, Move.
-		char* colnames[] = { "Type", "Equity", "Move" };
+		const char* colnames[] = { "Type", "Equity", "Move" };
 		int colwidths[] = { 120, 80, 80 };
 
 		int x = 30;

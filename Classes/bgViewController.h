@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface bgViewController : UIViewController {
-
+@interface bgViewController : UIViewController
+{
 }
 
 @end

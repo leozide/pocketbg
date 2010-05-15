@@ -7,16 +7,12 @@
 	id <EditableTableViewCellDelegate> delegate;
 	BOOL isInlineEditing;
 	UITextField *textField;
-    UITextField *label;
-	int labelWidth;
 	char* text;
 	int maxText;
 	int* number;
 }
 
 @property (nonatomic, retain) UITextField *textField;
-@property (nonatomic, retain) UITextField *label;
-@property (nonatomic, assign) int labelWidth;
 
 // Exposes the delegate property to other objects.
 @property (nonatomic, assign) id <EditableTableViewCellDelegate> delegate;

@@ -21,7 +21,7 @@
 #include "bgBoardData.h"
 #include "bgBoard.h"
 
-extern void UserCommand(char* szCommand);
+extern void UserCommand(const char* szCommand);
 extern int fGUIDragTargetHelp;
 
 evalcontext ecSettings[] =
@@ -53,10 +53,42 @@ int iSettingsMoveFilter[] =
 @synthesize helpViewController;
 @synthesize settingsNavigationBar;
 @synthesize helpNavigationBar;
+#if PBG_HD
+@synthesize popoverController;
+@synthesize toolbar;
+#endif
 
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+
+#if PBG_HD
+	toolbar = [UIToolbar new];
+	toolbar.barStyle = UIBarStyleBlackOpaque;
+	
+	[toolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+	[toolbar sizeToFit];
+	[self.view addSubview:toolbar];
+
+	UIBarButtonItemStyle style = UIBarButtonItemStylePlain;
+
+//	UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+
+	UIBarButtonItem* newItem = [[UIBarButtonItem alloc] initWithTitle:@"New" style:style target:nil action:nil];
+	UIBarButtonItem* resignItem = [[UIBarButtonItem alloc] initWithTitle:@"Resign" style:style target:nil action:nil];
+	UIBarButtonItem* settingsItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:style target:self action:@selector(ShowSettingsView:)];
+	UIBarButtonItem* helpItem = [[UIBarButtonItem alloc] initWithTitle:@"Help" style:style target:self action:@selector(ShowHelpView:)];
+	UIBarButtonItem* analysisItem = [[UIBarButtonItem alloc] initWithTitle:@"Analysis" style:style target:self action:@selector(ShowAnalysisView:)];
+
+	NSArray *items = [NSArray arrayWithObjects: newItem, resignItem, settingsItem, helpItem, analysisItem, nil];
+	[self.toolbar setItems:items animated:NO];
+	
+	[newItem release];
+	[resignItem release];
+	[settingsItem release];
+	[helpItem release];
+	[analysisItem release];
+#endif
 
 	bgViewController* viewController = [[bgViewController alloc] initWithNibName:@"bgViewController" bundle:nil];
 	self.mainViewController = viewController;
@@ -81,7 +113,16 @@ int iSettingsMoveFilter[] =
 
 - (IBAction)cancel
 {
+#ifdef PBG_HD
+	if (popoverController != nil)
+	{
+		[popoverController dismissPopoverAnimated:YES];
+		[popoverController release];
+		popoverController = nil;
+	}
+#else
 	[self ShowMainView];
+#endif
 }
 
 static void SetEvalCommands( char *szPrefix, evalcontext *pec, evalcontext *pecOrig )
@@ -279,7 +320,16 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	outputon();
 	ShowBoard();
 
+#ifdef PBG_HD
+	if (popoverController != nil)
+	{
+		[popoverController dismissPopoverAnimated:YES];
+		[popoverController release];
+		popoverController = nil;
+	}
+#else
 	[self ShowMainView];
+#endif
 }
 
 -(void) ShowMainView
@@ -302,7 +352,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
     [UIView commitAnimations];
 }
 
--(void) ShowSettingsView
+-(void) ShowSettingsView:(id)sender
 {
 	if (settingsViewController == nil)
 	{
@@ -310,19 +360,45 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		viewController.difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Casual", @"AI - Intermediate", @"AI - Advanced", @"AI - Expert", @"AI - World Class", @"AI - Grandmaster", nil];
 		self.settingsViewController = viewController;
 		[viewController release];
+	}
 
+	UINavigationItem* navigationItem = nil;
+
+#ifdef PBG_HD
+	if (popoverController != nil)
+	{
+		[popoverController dismissPopoverAnimated:NO];
+		[popoverController release];
+	}
+
+	UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+	navigationItem = settingsViewController.navigationItem;;
+	
+	popoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
+	[popoverController setPopoverContentSize:CGSizeMake(600, 700) animated:YES];
+	[popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	popoverController.passthroughViews = [NSArray array];
+#else
+	if (settingsNavigationBar == nil)
+	{
 		// Set up the navigation bar
 		UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
 		self.settingsNavigationBar = navigationBar;
 		[navigationBar release];
 
-		UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
-		UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
-		UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:@"Settings"];
-		navigationItem.leftBarButtonItem = leftItem;
-		navigationItem.rightBarButtonItem = rightItem;
+		navigationItem = [[UINavigationItem alloc] init];
 		[settingsNavigationBar pushNavigationItem:navigationItem animated:NO];
 		[navigationItem release];
+	}
+#endif
+
+	if (navigationItem != nil)
+	{
+		UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+		UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
+		navigationItem.leftBarButtonItem = leftItem;
+		navigationItem.rightBarButtonItem = rightItem;
+		[navigationItem setTitle:@"Settings"];
 		[leftItem release];
 		[rightItem release];
 	}
@@ -391,6 +467,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	settings->Clockwise = fClockwise;
 	settings->AdvancedHint = fAdvancedHint;
 
+#ifndef PBG_HD
 	UIView *mainView = mainViewController.view;
 	UIView *settingsView = settingsViewController.view;
 
@@ -407,29 +484,56 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	[settingsViewController viewDidAppear:YES];
 
     [UIView commitAnimations];
+#endif
 }
 
--(void) ShowHelpView
+-(void) ShowHelpView:(id)sender
 {
 	if (helpViewController == nil)
 	{
 		HelpViewController *viewController = [[HelpViewController alloc] initWithNibName:@"HelpView" bundle:nil];
 		self.helpViewController = viewController;
 		[viewController release];
-		
-		// Set up the navigation bar
+	}
+
+	UINavigationItem* navigationItem = nil;
+
+#if PBG_HD
+	if (popoverController != nil)
+	{
+		[popoverController dismissPopoverAnimated:NO];
+		[popoverController release];
+	}
+
+	UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:helpViewController];
+	navigationItem = helpViewController.navigationItem;;
+
+	popoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
+	[popoverController setPopoverContentSize:CGSizeMake(600, 600) animated:YES];
+	[popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	popoverController.passthroughViews = [NSArray array];
+#else
+	if (helpNavigationBar == nil)
+	{
 		UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
 		self.helpNavigationBar = navigationBar;
 		[navigationBar release];
-		
-		UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(cancel)];
-		UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:@"How to Play"];
-		navigationItem.rightBarButtonItem = rightItem;
+
+		navigationItem = [[UINavigationItem alloc] init];
 		[helpNavigationBar pushNavigationItem:navigationItem animated:NO];
 		[navigationItem release];
+	}
+#endif
+
+	if (navigationItem != nil)
+	{
+		UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(cancel)];
+		navigationItem.rightBarButtonItem = rightItem;
+		[navigationItem setTitle:@"How to Play"];
 		[rightItem release];
 	}
 
+#ifndef PBG_HD
 	UIView *mainView = mainViewController.view;
 	UIView *helpView = helpViewController.view;
 	
@@ -446,13 +550,33 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	[helpViewController viewDidAppear:YES];
 	
     [UIView commitAnimations];
+#endif
+}
+
+-(void) ShowAnalysisView:(id)sender
+{
+#ifdef PBG_HD
+#endif
 }
 
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+#if PBG_HD
+	return YES;
+#else
 	// Return YES for supported orientations
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+#endif
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+#if PBG_HD
+	[mainViewController.view setNeedsDisplay];
+#endif
+	bgView* view = (bgView*)mainViewController.view;
+	[view SetBoardSize];
 }
 
 - (void)didReceiveMemoryWarning

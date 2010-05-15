@@ -29,5 +29,6 @@
 -(void) ShowDlg:(int)DlgType withParam:(int)Param withText:(const char*)Text;
 -(void) DisplayDlg: (NSValue*) Param;
 -(void) FadeDlg;
+-(void) SetBoardSize;
 
 @end

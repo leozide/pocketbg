@@ -452,7 +452,7 @@ extern void ProgressValue ( int iValue );
 extern void ProgressValueAdd ( int iValue );
 extern void ProgressEnd( void );
 
-extern void UserCommand( char* sz );
+extern void UserCommand( const char* sz );
 #if USE_GTK
 extern gint NextTurnNotify( gpointer p );
 extern void HandleXAction( void );

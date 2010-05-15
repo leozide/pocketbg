@@ -3,8 +3,6 @@
 @implementation EditableCell
 
 @synthesize textField;
-@synthesize label;
-@synthesize labelWidth;
 
 // Instruct the compiler to create accessor methods for the property.
 // It will use the internal variable with the same name for storage.
@@ -16,30 +14,25 @@
 	text = nil;
 	maxText = 0;
 	number = nil;
-	labelWidth = 60;
 
-	if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier])
+	if (self = [super initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:reuseIdentifier])
 	{
-		// Initialize the labels, their fonts, colors, alignment, and background color.
-		label = [[UILabel alloc] initWithFrame:CGRectZero];
-		label.font = [UIFont systemFontOfSize:16];
-		label.textColor = [UIColor darkGrayColor];
-		label.textAlignment = UITextAlignmentRight;
-		label.backgroundColor = [UIColor clearColor];
+		self.detailTextLabel.text = @" ";
 		
-		// Set the frame to CGRectZero as it will be reset in layoutSubviews
 		textField = [[UITextField alloc] initWithFrame:CGRectZero];
 		textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-		textField.font = [UIFont systemFontOfSize:20.0];
+		textField.font = [UIFont systemFontOfSize:18.0];
 		textField.textColor = [UIColor blackColor];
 		textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		textField.autocorrectionType = UITextAutocorrectionTypeNo;
 		textField.returnKeyType = UIReturnKeyDone;
 		textField.delegate = self;
-//		[textField retain];
 
-		[self addSubview:label];
-		[self addSubview:textField];
+#if PBG_HD
+		[self.contentView addSubview: textField];
+#else
+		[self addSubview: textField];
+#endif
 	}
 
 	return self;
@@ -48,7 +41,6 @@
 - (void)dealloc
 {
 	// Release allocated resources.
-	[label release];
 	[textField release];
 	[super dealloc];
 }
@@ -62,18 +54,10 @@
 - (void)layoutSubviews
 {
 	[super layoutSubviews];
-
-	// Start with a rect that is inset from the content view by 10 pixels on all sides.
-	CGRect baseRect = CGRectInset(self.contentView.bounds, 10, 10);
-	CGRect rect = baseRect;
-
-	// Position each label with a modified version of the base rect.
-	rect.origin.x += 5;
-	rect.size.width = labelWidth;
-	label.frame = rect;
-	rect.origin.x += labelWidth + 10;
-	rect.size.width = baseRect.size.width - (labelWidth + 10);
-	textField.frame = rect;
+	
+	CGRect baseRect = self.detailTextLabel.frame;//self.contentView.bounds;
+	baseRect.size.width = self.contentView.frame.size.width / 2;
+	textField.frame = baseRect;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -131,7 +115,7 @@
 	text = aText;
 	maxText = aMaxText;
 	number = nil;
-	textField.text = [NSString stringWithCString:text];
+	textField.text = [NSString stringWithCString:text encoding:NSASCIIStringEncoding];
 }
 
 - (void)setNumber:(int*)aNumber

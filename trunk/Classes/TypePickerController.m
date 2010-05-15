@@ -58,7 +58,7 @@
 	*editingItem = row;
 
 	if (cell)
-		cell.text = [types objectAtIndex:row];
+		cell.detailTextLabel.text = [types objectAtIndex:row];
 
 	[self cancel];
 }
@@ -71,7 +71,7 @@
 		*editingItem = row;
 	
 		if (cell)
-			cell.text = [types objectAtIndex:row];
+			cell.detailTextLabel.text = [types objectAtIndex:row];
 	}
 
 	[self cancel];

@@ -4073,7 +4073,7 @@ extern void Prompt( void )
 //#if USE_GTK
 
 /* Handle a command as if it had been typed by the user. */
-extern void UserCommand( char *szCommand )
+extern void UserCommand( const char *szCommand )
 {
     int cch = strlen( szCommand ) + 1;
     char *sz = (char*) g_alloca(cch * sizeof(char));

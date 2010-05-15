@@ -60,6 +60,81 @@
 		B382B4310FC2942B00345E38 /* bearoffgammon.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B4300FC2942B00345E38 /* bearoffgammon.c */; };
 		B382B4340FC2945900345E38 /* osr.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B4330FC2945900345E38 /* osr.c */; };
 		B385AB920FFF182B00E47CE5 /* bgBoard.mm in Sources */ = {isa = PBXBuildFile; fileRef = B385AB910FFF182B00E47CE5 /* bgBoard.mm */; };
+		B3896FE81196344300FF07F3 /* gnubg.wd in Resources */ = {isa = PBXBuildFile; fileRef = B38294640FC3E81A00DBBE93 /* gnubg.wd */; };
+		B3896FE91196344300FF07F3 /* gnubg_ts0.bd in Resources */ = {isa = PBXBuildFile; fileRef = B38294650FC3E81A00DBBE93 /* gnubg_ts0.bd */; };
+		B3896FEB1196344300FF07F3 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = B3B2FCD10FFDDB6A00A1FE01 /* Entitlements.plist */; };
+		B3896FEC1196344300FF07F3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B3B2FCE00FFDE02600A1FE01 /* Default.png */; };
+		B3896FED1196344300FF07F3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B381D8CC0FFD839800BA3942 /* Icon.png */; };
+		B3896FEE1196344300FF07F3 /* gnubg_os0.bd in Resources */ = {isa = PBXBuildFile; fileRef = B3A412FB0FFEAC96001E5DCA /* gnubg_os0.bd */; };
+		B3896FEF1196344300FF07F3 /* roll.wav in Resources */ = {isa = PBXBuildFile; fileRef = B3A4149B0FFF02FC001E5DCA /* roll.wav */; };
+		B3896FF01196344300FF07F3 /* double.wav in Resources */ = {isa = PBXBuildFile; fileRef = B3A4149C0FFF02FC001E5DCA /* double.wav */; };
+		B3896FF11196344300FF07F3 /* chequer.wav in Resources */ = {isa = PBXBuildFile; fileRef = B3A4149D0FFF02FC001E5DCA /* chequer.wav */; };
+		B3896FF41196344300FF07F3 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = B381BE0810266645002F40BD /* index.html */; };
+		B3896FF51196344300FF07F3 /* settings.html in Resources */ = {isa = PBXBuildFile; fileRef = B37F5D7D102E6B7D00275F49 /* settings.html */; };
+		B3896FF61196344300FF07F3 /* playing.html in Resources */ = {isa = PBXBuildFile; fileRef = B37F5D7E102E6B7D00275F49 /* playing.html */; };
+		B3896FF71196344300FF07F3 /* pbg.css in Resources */ = {isa = PBXBuildFile; fileRef = B37F5DC0102E6F9900275F49 /* pbg.css */; };
+		B3896FF81196344300FF07F3 /* intro.html in Resources */ = {isa = PBXBuildFile; fileRef = B37F5DFB102E72FB00275F49 /* intro.html */; };
+		B3896FF91196344300FF07F3 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = B37F5DFC102E72FB00275F49 /* about.html */; };
+		B3896FFC1196344300FF07F3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		B3896FFD1196344300FF07F3 /* bgAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* bgAppDelegate.m */; };
+		B3896FFE1196344300FF07F3 /* bgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* bgViewController.m */; };
+		B3896FFF1196344300FF07F3 /* bgView.mm in Sources */ = {isa = PBXBuildFile; fileRef = B3804DC40FB5487800D5D0A9 /* bgView.mm */; };
+		B38970001196344300FF07F3 /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = B3D0837C0FC0EA2B004DA429 /* list.c */; };
+		B38970011196344300FF07F3 /* eval.c in Sources */ = {isa = PBXBuildFile; fileRef = B3D083800FC0EA60004DA429 /* eval.c */; };
+		B38970021196344300FF07F3 /* neuralnet.c in Sources */ = {isa = PBXBuildFile; fileRef = B3D083870FC0EABE004DA429 /* neuralnet.c */; };
+		B38970031196344300FF07F3 /* cache.c in Sources */ = {isa = PBXBuildFile; fileRef = B3D0838D0FC0EB3C004DA429 /* cache.c */; };
+		B38970041196344300FF07F3 /* gnubg.c in Sources */ = {isa = PBXBuildFile; fileRef = B3D084020FC0FCBC004DA429 /* gnubg.c */; };
+		B38970051196344300FF07F3 /* set.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B31E0FC285B100345E38 /* set.c */; };
+		B38970061196344300FF07F3 /* sgf.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3220FC2860E00345E38 /* sgf.c */; };
+		B38970071196344300FF07F3 /* play.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3260FC2865600345E38 /* play.c */; };
+		B38970081196344300FF07F3 /* show.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3320FC286D500345E38 /* show.c */; };
+		B38970091196344300FF07F3 /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3360FC2878400345E38 /* sound.c */; };
+		B389700A1196344300FF07F3 /* matchequity.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B33A0FC2880B00345E38 /* matchequity.c */; };
+		B389700B1196344300FF07F3 /* mec.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B33F0FC2882C00345E38 /* mec.c */; };
+		B389700C1196344300FF07F3 /* analysis.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B34C0FC289D700345E38 /* analysis.c */; };
+		B389700D1196344300FF07F3 /* format.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3A10FC28D4900345E38 /* format.c */; };
+		B389700E1196344300FF07F3 /* record.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3B10FC28F0700345E38 /* record.c */; };
+		B389700F1196344300FF07F3 /* dice.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3B90FC28F9400345E38 /* dice.c */; };
+		B38970101196344300FF07F3 /* rollout.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3BE0FC2901600345E38 /* rollout.c */; };
+		B38970111196344300FF07F3 /* bearoff.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3C50FC2906F00345E38 /* bearoff.c */; };
+		B38970121196344300FF07F3 /* positionid.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3CE0FC290ED00345E38 /* positionid.c */; };
+		B38970131196344300FF07F3 /* isaac.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3D10FC2912100345E38 /* isaac.c */; };
+		B38970141196344300FF07F3 /* drawboard.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B3F50FC2914B00345E38 /* drawboard.c */; };
+		B38970151196344300FF07F3 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B4020FC2922B00345E38 /* md5.c */; };
+		B38970161196344300FF07F3 /* matchid.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B42D0FC2940800345E38 /* matchid.c */; };
+		B38970171196344300FF07F3 /* bearoffgammon.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B4300FC2942B00345E38 /* bearoffgammon.c */; };
+		B38970181196344300FF07F3 /* osr.c in Sources */ = {isa = PBXBuildFile; fileRef = B382B4330FC2945900345E38 /* osr.c */; };
+		B38970191196344300FF07F3 /* external.c in Sources */ = {isa = PBXBuildFile; fileRef = B382937E0FC3776100DBBE93 /* external.c */; };
+		B389701A1196344300FF07F3 /* mt19937ar.c in Sources */ = {isa = PBXBuildFile; fileRef = B382938F0FC3DC6C00DBBE93 /* mt19937ar.c */; };
+		B389701B1196344300FF07F3 /* timer.c in Sources */ = {isa = PBXBuildFile; fileRef = B38293950FC3DD7F00DBBE93 /* timer.c */; };
+		B389701C1196344300FF07F3 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = B38293A20FC3DF3F00DBBE93 /* util.c */; };
+		B389701D1196344300FF07F3 /* progress.c in Sources */ = {isa = PBXBuildFile; fileRef = B38293A80FC3DFB700DBBE93 /* progress.c */; };
+		B389701E1196344300FF07F3 /* sgfp.c in Sources */ = {isa = PBXBuildFile; fileRef = B38293B50FC3E12400DBBE93 /* sgfp.c */; };
+		B389701F1196344300FF07F3 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3927C7A0FEB491B0078A539 /* RootViewController.m */; };
+		B38970201196344300FF07F3 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38029D20FEDA5F500A905F7 /* SettingsViewController.m */; };
+		B38970211196344300FF07F3 /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B37F0B650FF33665003A3E56 /* EditableCell.m */; };
+		B38970221196344300FF07F3 /* SegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B39A5E8F0FF59B3B00115812 /* SegmentCell.m */; };
+		B38970231196344300FF07F3 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FF7CE0FF6B899002D7BC2 /* SwitchCell.m */; };
+		B38970241196344300FF07F3 /* bgDlg.mm in Sources */ = {isa = PBXBuildFile; fileRef = B3A413620FFEBD57001E5DCA /* bgDlg.mm */; };
+		B38970251196344300FF07F3 /* bgBoard.mm in Sources */ = {isa = PBXBuildFile; fileRef = B385AB910FFF182B00E47CE5 /* bgBoard.mm */; };
+		B38970261196344300FF07F3 /* sgfl.c in Sources */ = {isa = PBXBuildFile; fileRef = B392AE5D0FFFEE680070E37A /* sgfl.c */; };
+		B38970271196344300FF07F3 /* TypePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B392AEB010001E7F0070E37A /* TypePickerController.m */; };
+		B38970281196344300FF07F3 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B381BD9310263D05002F40BD /* HelpViewController.m */; };
+		B38970291196344300FF07F3 /* hash.c in Sources */ = {isa = PBXBuildFile; fileRef = B394C4901033E4930057137B /* hash.c */; };
+		B389702A1196344300FF07F3 /* CheckerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38225B71059EB6A00F01D64 /* CheckerCell.m */; };
+		B389702B1196344300FF07F3 /* ColorListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38B8C39105B642700F8BB92 /* ColorListController.m */; };
+		B389702C1196344300FF07F3 /* pub_eval.c in Sources */ = {isa = PBXBuildFile; fileRef = B3063C98112D22EB00602408 /* pub_eval.c */; };
+		B389702E1196344300FF07F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		B389702F1196344300FF07F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		B38970301196344300FF07F3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		B38970311196344300FF07F3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3804DD30FB54A9A00D5D0A9 /* QuartzCore.framework */; };
+		B38970321196344300FF07F3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3A414C70FFF050A001E5DCA /* AudioToolbox.framework */; };
+		B38970401196344500FF07F3 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B389703A1196344500FF07F3 /* MainWindow.xib */; };
+		B38970411196344500FF07F3 /* bgViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B389703B1196344500FF07F3 /* bgViewController.xib */; };
+		B38970421196344500FF07F3 /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B389703C1196344500FF07F3 /* SettingsView.xib */; };
+		B38970431196344500FF07F3 /* TypePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = B389703D1196344500FF07F3 /* TypePicker.xib */; };
+		B38970441196344500FF07F3 /* HelpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B389703E1196344500FF07F3 /* HelpView.xib */; };
+		B38970451196344500FF07F3 /* ColorListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B389703F1196344500FF07F3 /* ColorListView.xib */; };
 		B38B8C3A105B642700F8BB92 /* ColorListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38B8C39105B642700F8BB92 /* ColorListController.m */; };
 		B38B8C3D105B64E800F8BB92 /* ColorListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B38B8C3C105B64E800F8BB92 /* ColorListView.xib */; };
 		B38FF7D00FF6B899002D7BC2 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FF7CE0FF6B899002D7BC2 /* SwitchCell.m */; };
@@ -154,6 +229,14 @@
 		B382B4330FC2945900345E38 /* osr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = osr.c; path = gnubg/osr.c; sourceTree = "<group>"; };
 		B385AB900FFF182B00E47CE5 /* bgBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bgBoard.h; sourceTree = "<group>"; };
 		B385AB910FFF182B00E47CE5 /* bgBoard.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = bgBoard.mm; sourceTree = "<group>"; };
+		B388E8C011979FEF00850509 /* Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iPad.plist"; sourceTree = "<group>"; };
+		B38970371196344300FF07F3 /* bg-iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bg-iPad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B389703A1196344500FF07F3 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = "Resources-iPad/MainWindow.xib"; sourceTree = "<group>"; };
+		B389703B1196344500FF07F3 /* bgViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = bgViewController.xib; path = "Resources-iPad/bgViewController.xib"; sourceTree = "<group>"; };
+		B389703C1196344500FF07F3 /* SettingsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SettingsView.xib; path = "Resources-iPad/SettingsView.xib"; sourceTree = "<group>"; };
+		B389703D1196344500FF07F3 /* TypePicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TypePicker.xib; path = "Resources-iPad/TypePicker.xib"; sourceTree = "<group>"; };
+		B389703E1196344500FF07F3 /* HelpView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = HelpView.xib; path = "Resources-iPad/HelpView.xib"; sourceTree = "<group>"; };
+		B389703F1196344500FF07F3 /* ColorListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ColorListView.xib; path = "Resources-iPad/ColorListView.xib"; sourceTree = "<group>"; };
 		B38B8C38105B642700F8BB92 /* ColorListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorListController.h; sourceTree = "<group>"; };
 		B38B8C39105B642700F8BB92 /* ColorListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorListController.m; sourceTree = "<group>"; };
 		B38B8C3C105B64E800F8BB92 /* ColorListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorListView.xib; sourceTree = "<group>"; };
@@ -222,6 +305,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B389702D1196344300FF07F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B389702E1196344300FF07F3 /* Foundation.framework in Frameworks */,
+				B389702F1196344300FF07F3 /* UIKit.framework in Frameworks */,
+				B38970301196344300FF07F3 /* CoreGraphics.framework in Frameworks */,
+				B38970311196344300FF07F3 /* QuartzCore.framework in Frameworks */,
+				B38970321196344300FF07F3 /* AudioToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -265,6 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* bg.app */,
+				B38970371196344300FF07F3 /* bg-iPad.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -276,6 +372,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				B38970391196344300FF07F3 /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				B3B2FCD10FFDDB6A00A1FE01 /* Entitlements.plist */,
@@ -338,6 +435,20 @@
 				B37F5D7D102E6B7D00275F49 /* settings.html */,
 			);
 			path = Manual;
+			sourceTree = "<group>";
+		};
+		B38970391196344300FF07F3 /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				B389703A1196344500FF07F3 /* MainWindow.xib */,
+				B389703B1196344500FF07F3 /* bgViewController.xib */,
+				B389703C1196344500FF07F3 /* SettingsView.xib */,
+				B389703D1196344500FF07F3 /* TypePicker.xib */,
+				B389703E1196344500FF07F3 /* HelpView.xib */,
+				B389703F1196344500FF07F3 /* ColorListView.xib */,
+				B388E8C011979FEF00850509 /* Info-iPad.plist */,
+			);
+			name = "Resources-iPad";
 			sourceTree = "<group>";
 		};
 		B3D0836A0FC0E8CE004DA429 /* gnubg */ = {
@@ -421,9 +532,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* bg */ = {
+		1D6058900D05DD3D006BFB54 /* pocketbg */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "bg" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "pocketbg" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -433,9 +544,26 @@
 			);
 			dependencies = (
 			);
-			name = bg;
+			name = pocketbg;
 			productName = bg;
 			productReference = 1D6058910D05DD3D006BFB54 /* bg.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B3896FE41196344300FF07F3 /* pocketbg-hd */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B38970331196344300FF07F3 /* Build configuration list for PBXNativeTarget "pocketbg-hd" */;
+			buildPhases = (
+				B3896FE51196344300FF07F3 /* Resources */,
+				B3896FFB1196344300FF07F3 /* Sources */,
+				B389702D1196344300FF07F3 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "pocketbg-hd";
+			productName = bg;
+			productReference = B38970371196344300FF07F3 /* bg-iPad.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -450,7 +578,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* bg */,
+				1D6058900D05DD3D006BFB54 /* pocketbg */,
+				B3896FE41196344300FF07F3 /* pocketbg-hd */,
 			);
 		};
 /* End PBXProject section */
@@ -481,6 +610,34 @@
 				B37F5DFD102E72FB00275F49 /* intro.html in Resources */,
 				B37F5DFE102E72FB00275F49 /* about.html in Resources */,
 				B38B8C3D105B64E800F8BB92 /* ColorListView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3896FE51196344300FF07F3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3896FE81196344300FF07F3 /* gnubg.wd in Resources */,
+				B3896FE91196344300FF07F3 /* gnubg_ts0.bd in Resources */,
+				B3896FEB1196344300FF07F3 /* Entitlements.plist in Resources */,
+				B3896FEC1196344300FF07F3 /* Default.png in Resources */,
+				B3896FED1196344300FF07F3 /* Icon.png in Resources */,
+				B3896FEE1196344300FF07F3 /* gnubg_os0.bd in Resources */,
+				B3896FEF1196344300FF07F3 /* roll.wav in Resources */,
+				B3896FF01196344300FF07F3 /* double.wav in Resources */,
+				B3896FF11196344300FF07F3 /* chequer.wav in Resources */,
+				B3896FF41196344300FF07F3 /* index.html in Resources */,
+				B3896FF51196344300FF07F3 /* settings.html in Resources */,
+				B3896FF61196344300FF07F3 /* playing.html in Resources */,
+				B3896FF71196344300FF07F3 /* pbg.css in Resources */,
+				B3896FF81196344300FF07F3 /* intro.html in Resources */,
+				B3896FF91196344300FF07F3 /* about.html in Resources */,
+				B38970401196344500FF07F3 /* MainWindow.xib in Resources */,
+				B38970411196344500FF07F3 /* bgViewController.xib in Resources */,
+				B38970421196344500FF07F3 /* SettingsView.xib in Resources */,
+				B38970431196344500FF07F3 /* TypePicker.xib in Resources */,
+				B38970441196344500FF07F3 /* HelpView.xib in Resources */,
+				B38970451196344500FF07F3 /* ColorListView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,6 +700,62 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B3896FFB1196344300FF07F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3896FFC1196344300FF07F3 /* main.m in Sources */,
+				B3896FFD1196344300FF07F3 /* bgAppDelegate.m in Sources */,
+				B3896FFE1196344300FF07F3 /* bgViewController.m in Sources */,
+				B3896FFF1196344300FF07F3 /* bgView.mm in Sources */,
+				B38970001196344300FF07F3 /* list.c in Sources */,
+				B38970011196344300FF07F3 /* eval.c in Sources */,
+				B38970021196344300FF07F3 /* neuralnet.c in Sources */,
+				B38970031196344300FF07F3 /* cache.c in Sources */,
+				B38970041196344300FF07F3 /* gnubg.c in Sources */,
+				B38970051196344300FF07F3 /* set.c in Sources */,
+				B38970061196344300FF07F3 /* sgf.c in Sources */,
+				B38970071196344300FF07F3 /* play.c in Sources */,
+				B38970081196344300FF07F3 /* show.c in Sources */,
+				B38970091196344300FF07F3 /* sound.c in Sources */,
+				B389700A1196344300FF07F3 /* matchequity.c in Sources */,
+				B389700B1196344300FF07F3 /* mec.c in Sources */,
+				B389700C1196344300FF07F3 /* analysis.c in Sources */,
+				B389700D1196344300FF07F3 /* format.c in Sources */,
+				B389700E1196344300FF07F3 /* record.c in Sources */,
+				B389700F1196344300FF07F3 /* dice.c in Sources */,
+				B38970101196344300FF07F3 /* rollout.c in Sources */,
+				B38970111196344300FF07F3 /* bearoff.c in Sources */,
+				B38970121196344300FF07F3 /* positionid.c in Sources */,
+				B38970131196344300FF07F3 /* isaac.c in Sources */,
+				B38970141196344300FF07F3 /* drawboard.c in Sources */,
+				B38970151196344300FF07F3 /* md5.c in Sources */,
+				B38970161196344300FF07F3 /* matchid.c in Sources */,
+				B38970171196344300FF07F3 /* bearoffgammon.c in Sources */,
+				B38970181196344300FF07F3 /* osr.c in Sources */,
+				B38970191196344300FF07F3 /* external.c in Sources */,
+				B389701A1196344300FF07F3 /* mt19937ar.c in Sources */,
+				B389701B1196344300FF07F3 /* timer.c in Sources */,
+				B389701C1196344300FF07F3 /* util.c in Sources */,
+				B389701D1196344300FF07F3 /* progress.c in Sources */,
+				B389701E1196344300FF07F3 /* sgfp.c in Sources */,
+				B389701F1196344300FF07F3 /* RootViewController.m in Sources */,
+				B38970201196344300FF07F3 /* SettingsViewController.m in Sources */,
+				B38970211196344300FF07F3 /* EditableCell.m in Sources */,
+				B38970221196344300FF07F3 /* SegmentCell.m in Sources */,
+				B38970231196344300FF07F3 /* SwitchCell.m in Sources */,
+				B38970241196344300FF07F3 /* bgDlg.mm in Sources */,
+				B38970251196344300FF07F3 /* bgBoard.mm in Sources */,
+				B38970261196344300FF07F3 /* sgfl.c in Sources */,
+				B38970271196344300FF07F3 /* TypePickerController.m in Sources */,
+				B38970281196344300FF07F3 /* HelpViewController.m in Sources */,
+				B38970291196344300FF07F3 /* hash.c in Sources */,
+				B389702A1196344300FF07F3 /* CheckerCell.m in Sources */,
+				B389702B1196344300FF07F3 /* ColorListController.m in Sources */,
+				B389702C1196344300FF07F3 /* pub_eval.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -550,8 +763,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Leonardo Zide";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Leonardo Zide (9DLR33D8D8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide (9DLR33D8D8)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -559,8 +772,8 @@
 				GCC_PREFIX_HEADER = bg_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = bg;
-				PROVISIONING_PROFILE = "381217D9-0107-47C7-8CFB-6F696345C604";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "381217D9-0107-47C7-8CFB-6F696345C604";
+				SDKROOT = iphoneos3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -577,8 +790,73 @@
 				PRODUCT_NAME = bg;
 				PROVISIONING_PROFILE = "381217D9-0107-47C7-8CFB-6F696345C604";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "381217D9-0107-47C7-8CFB-6F696345C604";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
+		};
+		B38970341196344300FF07F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"ARCHS[sdk=iphoneos*]" = armv7;
+				"ARCHS[sdk=iphonesimulator*]" = i386;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Leonardo Zide (9DLR33D8D8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide (9DLR33D8D8)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = bg_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = PBG_HD;
+				INFOPLIST_FILE = "Info-iPad.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				PRODUCT_NAME = "bg-iPad";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		B38970351196344300FF07F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"ARCHS[sdk=iphoneos*]" = armv7;
+				"ARCHS[sdk=iphonesimulator*]" = i386;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Leonardo Zide";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = bg_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				PRODUCT_NAME = "bg-iPad";
+				PROVISIONING_PROFILE = "381217D9-0107-47C7-8CFB-6F696345C604";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "381217D9-0107-47C7-8CFB-6F696345C604";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+		B38970361196344300FF07F3 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"ARCHS[sdk=iphoneos*]" = armv7;
+				"ARCHS[sdk=iphonesimulator*]" = i386;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Leonardo Zide";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Leonardo Zide";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = bg_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				PRODUCT_NAME = "bg-iPad";
+				PROVISIONING_PROFILE = "728D8A98-63A8-47AB-BD63-DD61FF34D6FC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "728D8A98-63A8-47AB-BD63-DD61FF34D6FC";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Distribution;
 		};
 		B3B2FCBC0FFDDA1300A1FE01 /* Distribution */ = {
 			isa = XCBuildConfiguration;
@@ -613,6 +891,7 @@
 				PRODUCT_NAME = bg;
 				PROVISIONING_PROFILE = "728D8A98-63A8-47AB-BD63-DD61FF34D6FC";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "728D8A98-63A8-47AB-BD63-DD61FF34D6FC";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Distribution;
 		};
@@ -621,7 +900,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonardo Zide (9DLR33D8D8)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -631,8 +910,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9347F241-1DF8-4B93-9050-DF07473416C1";
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos3.0;
 			};
 			name = Debug;
 		};
@@ -659,12 +937,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "bg" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "pocketbg" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
 				B3B2FCBD0FFDDA1300A1FE01 /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B38970331196344300FF07F3 /* Build configuration list for PBXNativeTarget "pocketbg-hd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B38970341196344300FF07F3 /* Debug */,
+				B38970351196344300FF07F3 /* Release */,
+				B38970361196344300FF07F3 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

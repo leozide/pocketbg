@@ -1,4 +1,4 @@
-global_settings { assumed_gamma 2.2 }
+global_settings { assumed_gamma 2.2 ambient_light <.8,.8,.8> }
 
 #declare BOARD_WIDTH = 480;
 #declare BOARD_HEIGHT = 320;
@@ -22,8 +22,8 @@ camera {  // orthographic
 }                       
 
                     
-light_source { <120, 580, 160> color red .9 green .9 blue .9 shadowless }
-light_source { <120, 0, -160> color red 1 green 1 blue .9 shadowless  }
+light_source { <120, 580, 160> color red .8 green .8 blue .8 shadowless }
+light_source { <120, 0, -160> color red .9 green .9 blue .9 shadowless  } 
 
 box { <0, -10, 0>, <12*POINT_WIDTH+2*BORDER_WIDTH+BAR_WIDTH,10,BORDER_HEIGHT>
     finish {

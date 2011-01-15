@@ -28,11 +28,7 @@
 		textField.returnKeyType = UIReturnKeyDone;
 		textField.delegate = self;
 
-#if PBG_HD
-		[self.contentView addSubview: textField];
-#else
-		[self addSubview: textField];
-#endif
+		[self.contentView addSubview:textField];
 	}
 
 	return self;
@@ -55,8 +51,8 @@
 {
 	[super layoutSubviews];
 	
-	CGRect baseRect = self.detailTextLabel.frame;//self.contentView.bounds;
-	baseRect.size.width = self.contentView.frame.size.width / 2;
+	CGRect baseRect = self.detailTextLabel.frame;
+	baseRect.size.width = self.contentView.frame.size.width - baseRect.origin.x;
 	textField.frame = baseRect;
 }
 

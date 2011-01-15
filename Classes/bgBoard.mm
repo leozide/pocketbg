@@ -3,20 +3,6 @@
 #import "bgBoard.h"
 #import "bgDlg.h"
 
-int BOARD_WIDTH;
-int BOARD_HEIGHT;
-int BORDER_WIDTH;
-int BORDER_TOP_HEIGHT;
-int BORDER_BOTTOM_HEIGHT;
-int POINT_WIDTH;
-int POINT_HEIGHT;
-int BAR_WIDTH;
-int BAR_OFFSET;
-int BEAROFF_X;
-int CHEQUER_HEIGHT;
-int CHEQUER_RADIUS;
-int DICE_SIZE;
-
 extern int fClockwise;
 float Player1Color[4] = { 0.9, 0.9, 0.9, 1.0 };
 float Player2Color[4] = { 0.15, 0.15, 0.15, 1.0 };
@@ -32,75 +18,106 @@ bgColorEntry gCheckerColors[] =
 
 int gNumCheckerColors = sizeof(gCheckerColors) / sizeof(gCheckerColors[0]);
 
-static CGRect bgPointArea[2][28];
+bgBoardSize gBoardSize;
+bgBoardSize gBoardSizeScaled;
+float gBoardScale;
 
-void bgBoardUpdateSize()
+void bgBoardUpdateSize(bgBoardSize* BoardSize, float Width, float Height)
 {
+	float ScaleX = Width / 480;
+	float ScaleY = Height / 320;
+
+	float BorderWidth = 6 * ScaleX;
+	float BorderTopHeight = 5 * ScaleY;
+	float BorderBottomHeight = 5 * ScaleY;
+	float PointWidth = 33 * ScaleX;
+	float PointHeight = 120 * ScaleY;
+	float BarWidth = 33 * ScaleX;
+	float BarOffset = 50 * ScaleX;
+	float BearoffX = (2 * BorderWidth + BarWidth + 12 * PointWidth) * ScaleX;
+	float ChequerHeight = 28 * ScaleX;
+	float ChequerRadius = 14 * ScaleX;
+	float DiceSize = 31 * ScaleX;
+	
 	CGRect PointArea[2][28] = 
 	{
 		{
-			CGRectMake(BORDER_WIDTH + 6 * POINT_WIDTH + BAR_WIDTH / 2 - POINT_WIDTH / 2, BOARD_HEIGHT - BAR_OFFSET, POINT_WIDTH, 3 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 11 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 10 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  9 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  8 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  7 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  6 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  5 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  4 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  3 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  2 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  1 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  0 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  0 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  1 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  2 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  3 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  4 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  5 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  6 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  7 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  8 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH +  9 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 10 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 11 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 6 * POINT_WIDTH + BAR_WIDTH / 2 - POINT_WIDTH / 2, BAR_OFFSET + 3 * CHEQUER_HEIGHT, POINT_WIDTH, 3 * CHEQUER_HEIGHT),
-			CGRectMake(BOARD_WIDTH - BORDER_WIDTH - POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BOARD_WIDTH - BORDER_WIDTH - POINT_WIDTH, BORDER_BOTTOM_HEIGHT + POINT_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
+			CGRectMake(BorderWidth +  6 * PointWidth + BarWidth / 2 - PointWidth / 2, Height - BarOffset, PointWidth, 3 * ChequerHeight),
+			CGRectMake(BorderWidth + 11 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth + 10 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  9 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  8 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  7 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  6 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  5 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  4 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  3 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  2 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  1 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  0 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  0 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  1 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  2 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  3 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  4 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  5 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  6 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  7 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  8 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth +  9 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth + 10 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth + 11 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth + 6 * PointWidth + BarWidth / 2 - PointWidth / 2, BarOffset + 3 * ChequerHeight, PointWidth, 3 * ChequerHeight),
+			CGRectMake(Width - BorderWidth - PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(Width - BorderWidth - PointWidth, BorderBottomHeight + PointHeight, PointWidth, 5 * ChequerHeight),
 		},
 		{
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH + 6 * POINT_WIDTH + BAR_WIDTH / 2 - POINT_WIDTH / 2, BOARD_HEIGHT - BAR_OFFSET, POINT_WIDTH, 3 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  0 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  1 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  2 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  3 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  4 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  5 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  6 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  7 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  8 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  9 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH + 10 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH + 11 * POINT_WIDTH + BAR_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH + 11 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH + 10 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  9 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  8 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  7 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  6 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  5 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  4 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  3 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  2 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  1 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH +  0 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT + 5 * CHEQUER_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(POINT_WIDTH + 2 * BORDER_WIDTH + 6 * POINT_WIDTH + BAR_WIDTH / 2 - POINT_WIDTH / 2, BAR_OFFSET + 3 * CHEQUER_HEIGHT, POINT_WIDTH, 3 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH, BORDER_BOTTOM_HEIGHT + POINT_HEIGHT, POINT_WIDTH, 5 * CHEQUER_HEIGHT),
+			CGRectMake(PointWidth + 2 * BorderWidth +  6 * PointWidth + BarWidth / 2 - PointWidth / 2, Height - BarOffset, PointWidth, 3 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  0 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  1 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  2 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  3 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  4 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  5 * PointWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  6 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  7 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  8 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  9 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth + 10 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth + 11 * PointWidth + BarWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth + 11 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth + 10 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  9 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  8 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  7 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  6 * PointWidth + BarWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  5 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  4 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  3 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  2 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  1 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth +  0 * PointWidth, BorderBottomHeight + 5 * ChequerHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(PointWidth + 2 * BorderWidth + 6 * PointWidth + BarWidth / 2 - PointWidth / 2, BarOffset + 3 * ChequerHeight, PointWidth, 3 * ChequerHeight),
+			CGRectMake(BorderWidth, Height - BorderTopHeight, PointWidth, 5 * ChequerHeight),
+			CGRectMake(BorderWidth, BorderBottomHeight + PointHeight, PointWidth, 5 * ChequerHeight),
 		}
 	};
 
-	memcpy(bgPointArea, PointArea, sizeof(bgPointArea));
+	memcpy(BoardSize->PointArea, PointArea, sizeof(BoardSize->PointArea));
+
+	BoardSize->Width = Width;
+	BoardSize->Height = Height;
+	BoardSize->BorderWidth = BorderWidth;
+	BoardSize->BorderTopHeight = BorderTopHeight;
+	BoardSize->BorderBottomHeight = BorderBottomHeight;
+	BoardSize->PointWidth = PointWidth;
+	BoardSize->PointHeight = PointHeight;
+	BoardSize->BarWidth = BarWidth;
+	BoardSize->BarOffset = BarOffset;
+	BoardSize->BearoffX = BearoffX;
+	BoardSize->ChequerHeight = ChequerHeight;
+	BoardSize->ChequerRadius = ChequerRadius;
+	BoardSize->DiceSize = DiceSize;
 }
 
 void CGContextAddRoundedRect(CGContextRef c, CGRect rect, int corner_radius)
@@ -138,68 +155,78 @@ void CGContextShowTextAtPointCentered(CGContextRef cgContext, CGFloat x, CGFloat
 	CGContextShowTextAtPoint(cgContext, x - (sz.x - x) / 2, y, string, length);
 }
 
-void bgDrawBoard(CGContextRef cgContext)
+void bgDrawBoard(bgBoardSize* BoardSize, CGContextRef cgContext)
 {
+	float Width = BoardSize->Width;
+	float Height = BoardSize->Height;
+	float BorderWidth = BoardSize->BorderWidth;
+	float BorderTopHeight = BoardSize->BorderTopHeight;
+	float BorderBottomHeight = BoardSize->BorderBottomHeight;
+	float PointWidth = BoardSize->PointWidth;
+	float PointHeight = BoardSize->PointHeight;
+	float BarWidth = BoardSize->BarWidth;
+	float ChequerHeight = BoardSize->ChequerHeight;
+	
 	CGContextSetRGBStrokeColor(cgContext, 0, 0, 0, 1);
 	CGContextSetAllowsAntialiasing(cgContext, TRUE);
 	CGContextSetShouldAntialias(cgContext, TRUE);
 
 	CGContextSetRGBFillColor(cgContext, 0.5, 0.25, 0.0, 1.0);
-	CGContextFillRect(cgContext, CGRectMake(0, 0, BOARD_WIDTH, BOARD_HEIGHT));
+	CGContextFillRect(cgContext, CGRectMake(0, 0, Width, Height));
 
 	CGContextBeginPath(cgContext);
-	CGContextMoveToPoint(cgContext, bgPointArea[fClockwise][26].origin.x, bgPointArea[fClockwise][26].origin.y);
-	CGContextAddLineToPoint(cgContext, bgPointArea[fClockwise][26].origin.x + POINT_WIDTH, bgPointArea[fClockwise][26].origin.y);
-	CGContextAddLineToPoint(cgContext, bgPointArea[fClockwise][26].origin.x + POINT_WIDTH, bgPointArea[fClockwise][26].origin.y - POINT_HEIGHT);
-	CGContextAddLineToPoint(cgContext, bgPointArea[fClockwise][26].origin.x, bgPointArea[fClockwise][26].origin.y - POINT_HEIGHT);
+	CGContextMoveToPoint(cgContext, BoardSize->PointArea[fClockwise][26].origin.x, BoardSize->PointArea[fClockwise][26].origin.y);
+	CGContextAddLineToPoint(cgContext, BoardSize->PointArea[fClockwise][26].origin.x + PointWidth, BoardSize->PointArea[fClockwise][26].origin.y);
+	CGContextAddLineToPoint(cgContext, BoardSize->PointArea[fClockwise][26].origin.x + PointWidth, BoardSize->PointArea[fClockwise][26].origin.y - PointHeight);
+	CGContextAddLineToPoint(cgContext, BoardSize->PointArea[fClockwise][26].origin.x, BoardSize->PointArea[fClockwise][26].origin.y - PointHeight);
 	CGContextClosePath(cgContext);
 	CGContextDrawPath(cgContext, kCGPathStroke);
 
 	CGContextBeginPath(cgContext);
-	CGContextMoveToPoint(cgContext, bgPointArea[fClockwise][27].origin.x, bgPointArea[fClockwise][27].origin.y);
-	CGContextAddLineToPoint(cgContext, bgPointArea[fClockwise][27].origin.x + POINT_WIDTH, bgPointArea[fClockwise][27].origin.y);
-	CGContextAddLineToPoint(cgContext, bgPointArea[fClockwise][27].origin.x + POINT_WIDTH, bgPointArea[fClockwise][27].origin.y - POINT_HEIGHT);
-	CGContextAddLineToPoint(cgContext, bgPointArea[fClockwise][27].origin.x, bgPointArea[fClockwise][27].origin.y - POINT_HEIGHT);
+	CGContextMoveToPoint(cgContext, BoardSize->PointArea[fClockwise][27].origin.x, BoardSize->PointArea[fClockwise][27].origin.y);
+	CGContextAddLineToPoint(cgContext, BoardSize->PointArea[fClockwise][27].origin.x + PointWidth, BoardSize->PointArea[fClockwise][27].origin.y);
+	CGContextAddLineToPoint(cgContext, BoardSize->PointArea[fClockwise][27].origin.x + PointWidth, BoardSize->PointArea[fClockwise][27].origin.y - PointHeight);
+	CGContextAddLineToPoint(cgContext, BoardSize->PointArea[fClockwise][27].origin.x, BoardSize->PointArea[fClockwise][27].origin.y - PointHeight);
 	CGContextClosePath(cgContext);
 	CGContextDrawPath(cgContext, kCGPathStroke);
 	
 	CGContextSetRGBFillColor(cgContext, 0.0, 0.5, 0.0, 1.0);
 
-	int Offset = fClockwise ? POINT_WIDTH + BORDER_WIDTH : 0;
+	int Offset = fClockwise ? PointWidth + BorderWidth : 0;
 
 	CGContextBeginPath(cgContext);
-	CGContextMoveToPoint(cgContext, Offset + BORDER_WIDTH, BORDER_BOTTOM_HEIGHT);
-	CGContextAddLineToPoint(cgContext, Offset + BORDER_WIDTH + 6 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT);
-	CGContextAddLineToPoint(cgContext, Offset + BORDER_WIDTH + 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT);
-	CGContextAddLineToPoint(cgContext, Offset + BORDER_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT);
+	CGContextMoveToPoint(cgContext, Offset + BorderWidth, BorderBottomHeight);
+	CGContextAddLineToPoint(cgContext, Offset + BorderWidth + 6 * PointWidth, BorderBottomHeight);
+	CGContextAddLineToPoint(cgContext, Offset + BorderWidth + 6 * PointWidth, Height - BorderTopHeight);
+	CGContextAddLineToPoint(cgContext, Offset + BorderWidth, Height - BorderTopHeight);
 	CGContextClosePath(cgContext);
 	CGContextDrawPath(cgContext, kCGPathFillStroke);
 	
 	CGContextBeginPath(cgContext);
-	CGContextMoveToPoint(cgContext, Offset + BORDER_WIDTH + BAR_WIDTH + 6 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT);
-	CGContextAddLineToPoint(cgContext, Offset + BORDER_WIDTH + BAR_WIDTH + 6 * POINT_WIDTH + 6 * POINT_WIDTH, BORDER_BOTTOM_HEIGHT);
-	CGContextAddLineToPoint(cgContext, Offset + BORDER_WIDTH + BAR_WIDTH + 6 * POINT_WIDTH + 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT);
-	CGContextAddLineToPoint(cgContext, Offset + BORDER_WIDTH + BAR_WIDTH + 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT);
+	CGContextMoveToPoint(cgContext, Offset + BorderWidth + BarWidth + 6 * PointWidth, BorderBottomHeight);
+	CGContextAddLineToPoint(cgContext, Offset + BorderWidth + BarWidth + 6 * PointWidth + 6 * PointWidth, BorderBottomHeight);
+	CGContextAddLineToPoint(cgContext, Offset + BorderWidth + BarWidth + 6 * PointWidth + 6 * PointWidth, Height - BorderTopHeight);
+	CGContextAddLineToPoint(cgContext, Offset + BorderWidth + BarWidth + 6 * PointWidth, Height - BorderTopHeight);
 	CGContextClosePath(cgContext);
 	CGContextDrawPath(cgContext, kCGPathFillStroke);
 	
 	for (int i = 0; i < 24; i++)
 	{
-		CGPoint pt = bgPointArea[fClockwise][i+1].origin;
+		CGPoint pt = BoardSize->PointArea[fClockwise][i+1].origin;
 		float dy;
 
 		if (i > 11)
 		{
-			pt.y -= 5 * CHEQUER_HEIGHT;
-			dy = POINT_HEIGHT;
+			pt.y -= 5 * ChequerHeight;
+			dy = PointHeight;
 		}
 		else
-			dy = -POINT_HEIGHT;
+			dy = -PointHeight;
 
 		CGContextBeginPath(cgContext);
 		CGContextMoveToPoint(cgContext, pt.x, pt.y);
-		CGContextAddLineToPoint(cgContext, pt.x + POINT_WIDTH/2, pt.y + dy);
-		CGContextAddLineToPoint(cgContext, pt.x + POINT_WIDTH, pt.y);
+		CGContextAddLineToPoint(cgContext, pt.x + PointWidth/2, pt.y + dy);
+		CGContextAddLineToPoint(cgContext, pt.x + PointWidth, pt.y);
 		CGContextClosePath(cgContext);
 		if (i % 2)
 			CGContextSetRGBFillColor(cgContext, 1.0, 0.75, 0.25, 1.0);
@@ -209,29 +236,34 @@ void bgDrawBoard(CGContextRef cgContext)
 	}
 
 #ifndef PBG_HD
-	CGPoint pt = CGPointMake(BORDER_WIDTH + POINT_WIDTH / 2, BOARD_HEIGHT / 2);
+	CGPoint pt = CGPointMake(BorderWidth + PointWidth / 2, Height / 2);
 	CGRect rect;
 	if (!fClockwise)
-		pt.x += BORDER_WIDTH + BAR_WIDTH + 12 * POINT_WIDTH;
-	rect.origin = CGPointMake(pt.x - POINT_WIDTH/2, pt.y-10);
-	rect.size = CGSizeMake(POINT_WIDTH, 20);
+		pt.x += BorderWidth + BarWidth + 12 * PointWidth;
+	rect.origin = CGPointMake(pt.x - PointWidth / 2, pt.y - 10 * gBoardScale);
+	rect.size = CGSizeMake(PointWidth, 20 * gBoardScale);
 	
-	CGContextAddRoundedRect(cgContext, rect, 4);
+	CGContextAddRoundedRect(cgContext, rect, 4 * gBoardScale);
 	CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
 	CGContextSetRGBStrokeColor(cgContext, 0.0, 0.0, 0.0, 1);
 	CGContextDrawPath(cgContext, kCGPathStroke);
 	
-	CGContextSelectFont(cgContext, "Helvetica", 10, kCGEncodingMacRoman);
+	CGContextSelectFont(cgContext, "Helvetica", 10 * gBoardScale, kCGEncodingMacRoman);
 	CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 	CGContextSetRGBFillColor(cgContext, 0.0, 0.0, 0.0, 1.0);
 	
 	const char* Text = "Menu";
-	CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 4, Text, strlen(Text));
+	CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 4 * gBoardScale, Text, strlen(Text));
 #endif
 }
 
-void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage, CGImageRef blackImage)
+void bgDrawChequers(bgBoardSize* BoardSize, CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage, CGImageRef blackImage)
 {
+	float PointWidth = BoardSize->PointWidth;
+	float PointHeight = BoardSize->PointHeight;
+	float ChequerHeight = BoardSize->ChequerHeight;
+	float ChequerRadius = BoardSize->ChequerRadius;
+	
 	// Draw chequers.
 	for (int i = 0; i < 26; i++)
 	{
@@ -248,8 +280,8 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage
 		
 		Count = ABS(Count);
 
-		CGPoint pt = bgPointArea[fClockwise][i].origin;
-		pt.x += POINT_WIDTH / 2;
+		CGPoint pt = BoardSize->PointArea[fClockwise][i].origin;
+		pt.x += PointWidth / 2;
 
 		int MaxStack = (i == 0 || i == 25) ? 3 : 5;
 		float dy;
@@ -257,23 +289,23 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage
 		if (i < 13)
 		{
 			dy = -1;
-			pt.y -= CHEQUER_HEIGHT / 2;
+			pt.y -= ChequerHeight / 2;
 		}
 		else
 		{
 			dy = 1;
-			pt.y -= (MaxStack - 1) * CHEQUER_HEIGHT + CHEQUER_HEIGHT / 2;
+			pt.y -= (MaxStack - 1) * ChequerHeight + ChequerHeight / 2;
 		}
 
 		for (int j = 0; j < MIN(Count, MaxStack); j++)
 		{
-			CGContextDrawImage(cgContext, CGRectMake(pt.x - (CHEQUER_RADIUS + 2), pt.y - (CHEQUER_RADIUS + 2), 2 * (CHEQUER_RADIUS + 2), 2 * (CHEQUER_RADIUS + 2)), chequerImage);
-			pt.y += dy * CHEQUER_HEIGHT;
+			CGContextDrawImage(cgContext, CGRectMake(pt.x - (ChequerRadius + 2), pt.y - (ChequerRadius + 2), 2 * (ChequerRadius + 2), 2 * (ChequerRadius + 2)), chequerImage);
+			pt.y += dy * ChequerHeight;
 		}
 		
 		if (Count > MaxStack)
 		{
-			pt.y -= dy * CHEQUER_HEIGHT * MaxStack + 3;
+			pt.y -= dy * ChequerHeight * MaxStack + 3;
 			
 			char Text[8];
 			sprintf(Text, "%d", Count);
@@ -301,13 +333,13 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage
 		int Count = ABS(bd->points[26]);
 		
 		CGContextSetRGBFillColor(cgContext, Player2Color[0], Player2Color[1], Player2Color[2], Player2Color[3]);
-		CGPoint pt = bgPointArea[fClockwise][26].origin;
+		CGPoint pt = BoardSize->PointArea[fClockwise][26].origin;
 
-		int dy = POINT_HEIGHT / 15;
+		int dy = PointHeight / 15;
 		for (int i = 0; i < Count; i++)
 		{
 			CGContextBeginPath(cgContext);
-			CGContextAddRect(cgContext, CGRectMake(pt.x, pt.y - (i + 1) * dy, POINT_WIDTH, dy));
+			CGContextAddRect(cgContext, CGRectMake(pt.x, pt.y - (i + 1) * dy, PointWidth, dy));
 			CGContextDrawPath(cgContext, kCGPathFillStroke);
 		}
 	}
@@ -317,31 +349,36 @@ void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage
 		int Count = ABS(bd->points[27]);
 		
 		CGContextSetRGBFillColor(cgContext, Player1Color[0], Player1Color[1], Player1Color[2], Player1Color[3]);
-		CGPoint pt = bgPointArea[fClockwise][27].origin;
-		pt.y -= POINT_HEIGHT;
+		CGPoint pt = BoardSize->PointArea[fClockwise][27].origin;
+		pt.y -= PointHeight;
 		
-		int dy = POINT_HEIGHT / 15;
+		int dy = PointHeight / 15;
 		for (int i = 0; i < Count; i++)
 		{
 			CGContextBeginPath(cgContext);
-			CGContextAddRect(cgContext, CGRectMake(pt.x, pt.y + i* dy, POINT_WIDTH, dy));
+			CGContextAddRect(cgContext, CGRectMake(pt.x, pt.y + i* dy, PointWidth, dy));
 			CGContextDrawPath(cgContext, kCGPathFillStroke);
 		}
 	}
 }
 
-void bgDrawMark(CGContextRef cgContext, int Index)
+void bgDrawMark(bgBoardSize* BoardSize, CGContextRef cgContext, int Index)
 {
-	int dx = POINT_WIDTH / 4;
+	float Height = BoardSize->Height;
+	float BorderTopHeight = BoardSize->BorderTopHeight;
+	float BorderBottomHeight = BoardSize->BorderBottomHeight;
+	float PointWidth = BoardSize->PointWidth;
+
+	int dx = PointWidth / 4;
 #if PBG_HD
 	int dy = (Index < 13 || Index == 26) ? 10 : -10;
 #else
-	int dy = (Index < 13 || Index == 26) ? BORDER_TOP_HEIGHT : -BORDER_TOP_HEIGHT;
+	int dy = (Index < 13 || Index == 26) ? BorderTopHeight : -BorderTopHeight;
 #endif
 	
 	CGPoint pt;
-	pt.x = bgPointArea[fClockwise][Index].origin.x + POINT_WIDTH / 2;
-	pt.y = (Index > 12 && Index != 26) ? BORDER_BOTTOM_HEIGHT : BOARD_HEIGHT - BORDER_TOP_HEIGHT;
+	pt.x = BoardSize->PointArea[fClockwise][Index].origin.x + PointWidth / 2;
+	pt.y = (Index > 12 && Index != 26) ? BorderBottomHeight : Height - BorderTopHeight;
 
 	CGContextBeginPath(cgContext);
 	CGContextMoveToPoint(cgContext, pt.x, pt.y);
@@ -351,13 +388,13 @@ void bgDrawMark(CGContextRef cgContext, int Index)
 	CGContextDrawPath(cgContext, kCGPathFill);
 }
 
-int bgBoardPoint(int x, int y)
+int bgBoardPoint(bgBoardSize* BoardSize, int x, int y)
 {
 	CGPoint pt = CGPointMake(x, y);
 
 	for (int i = 0; i < 28; i++)
 	{
-		CGRect Rect = bgPointArea[fClockwise][i];
+		CGRect Rect = BoardSize->PointArea[fClockwise][i];
 		Rect.origin.y -= CGRectGetHeight(Rect);
 		if (CGRectContainsPoint(Rect, pt))
 			return i;
@@ -366,43 +403,54 @@ int bgBoardPoint(int x, int y)
 	return -1;
 }
 
-int bgBoardClick(int x, int y, BoardData* bd)
+int bgBoardClick(bgBoardSize* BoardSize, int x, int y, BoardData* bd)
 {
+	float Height = BoardSize->Height;
+	float BorderWidth = BoardSize->BorderWidth;
+	float BorderTopHeight = BoardSize->BorderTopHeight;
+	float BorderBottomHeight = BoardSize->BorderBottomHeight;
+	float PointWidth = BoardSize->PointWidth;
+	float PointHeight = BoardSize->PointHeight;
+	float BarWidth = BoardSize->BarWidth;
+	float BearoffX = BoardSize->BearoffX;
+	float ChequerHeight = BoardSize->ChequerHeight;
+	float DiceSize = BoardSize->DiceSize;
+
 	CGPoint ClickPos = CGPointMake(x, y);
 
 	CGRect MenuRect[2] =
 	{
-		CGRectMake(BEAROFF_X, BORDER_BOTTOM_HEIGHT + POINT_HEIGHT, POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - BORDER_BOTTOM_HEIGHT - 2 * POINT_HEIGHT),
-		CGRectMake(BORDER_WIDTH, BORDER_BOTTOM_HEIGHT + POINT_HEIGHT, POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - BORDER_BOTTOM_HEIGHT - 2 * POINT_HEIGHT)
+		CGRectMake(BearoffX, BorderBottomHeight + PointHeight, PointWidth, Height - BorderTopHeight - BorderBottomHeight - 2 * PointHeight),
+		CGRectMake(BorderWidth, BorderBottomHeight + PointHeight, PointWidth, Height - BorderTopHeight - BorderBottomHeight - 2 * PointHeight)
 	};
 		
 	if (CGRectContainsPoint(MenuRect[fClockwise], ClickPos))
 		return BG_CMD_MENU;
 
-	int Offset = fClockwise ? BORDER_WIDTH + POINT_WIDTH : 0;
+	int Offset = fClockwise ? BorderWidth + PointWidth : 0;
 
 	if (!bd->crawford_game && bd->cube_use)
 	{
 		CGPoint pt;
 
 		if (bd->cube_owner > 0)
-			pt.y = BORDER_BOTTOM_HEIGHT;
+			pt.y = BorderBottomHeight;
 		else if (bd->cube_owner < 0)
-			pt.y = BOARD_HEIGHT - BORDER_TOP_HEIGHT - DICE_SIZE;
+			pt.y = Height - BorderTopHeight - DiceSize;
 		else
-			pt.y = (BOARD_HEIGHT - DICE_SIZE) / 2;
+			pt.y = (Height - DiceSize) / 2;
 		
-		pt.x = BORDER_WIDTH + 6 * POINT_WIDTH + (BAR_WIDTH - DICE_SIZE) / 2;
+		pt.x = BorderWidth + 6 * PointWidth + (BarWidth - DiceSize) / 2;
 		pt.x += Offset;
 		
-		float size = DICE_SIZE;
+		float size = DiceSize;
 		
 		// Increase the touch area to make it easier to tap the dice.
 		if (bd->diceShown == DICE_BELOW_BOARD || bd->diceShown == DICE_NOT_SHOWN)
 		{
-			pt.x -= DICE_SIZE / 4;
-			pt.y -= DICE_SIZE / 4;
-			size += DICE_SIZE / 2;
+			pt.x -= DiceSize / 4;
+			pt.y -= DiceSize / 4;
+			size += DiceSize / 2;
 		}
 		
 		if (x > pt.x && x < pt.x + size && y < pt.y + size && y > pt.y)
@@ -412,12 +460,12 @@ int bgBoardClick(int x, int y, BoardData* bd)
 	CGRect BoardRect[2][2] =
 	{
 		{
-			CGRectMake(BORDER_WIDTH, BORDER_BOTTOM_HEIGHT, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - BORDER_BOTTOM_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 6 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - BORDER_BOTTOM_HEIGHT),
+			CGRectMake(BorderWidth, BorderBottomHeight, 6 * PointWidth, Height - BorderTopHeight - BorderBottomHeight),
+			CGRectMake(BorderWidth + 6 * PointWidth + BarWidth, BorderBottomHeight, 6 * PointWidth, Height - BorderTopHeight - BorderBottomHeight),
 		},
 		{
-			CGRectMake(BORDER_WIDTH + POINT_WIDTH + BORDER_WIDTH, BORDER_BOTTOM_HEIGHT, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - BORDER_BOTTOM_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 6 * POINT_WIDTH + BAR_WIDTH + POINT_WIDTH + BORDER_WIDTH, BORDER_BOTTOM_HEIGHT, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - BORDER_BOTTOM_HEIGHT),
+			CGRectMake(BorderWidth + PointWidth + BorderWidth, BorderBottomHeight, 6 * PointWidth, Height - BorderTopHeight - BorderBottomHeight),
+			CGRectMake(BorderWidth + 6 * PointWidth + BarWidth + PointWidth + BorderWidth, BorderBottomHeight, 6 * PointWidth, Height - BorderTopHeight - BorderBottomHeight),
 		}
 	};
 
@@ -434,21 +482,21 @@ int bgBoardClick(int x, int y, BoardData* bd)
 	{
 #if PBG_HD
 		{
-			CGRectMake(BORDER_WIDTH, BORDER_BOTTOM_HEIGHT + POINT_HEIGHT, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - BORDER_BOTTOM_HEIGHT - 2 * POINT_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 6 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + POINT_HEIGHT, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - BORDER_BOTTOM_HEIGHT - 2 * POINT_HEIGHT),
+			CGRectMake(BorderWidth, BorderBottomHeight + PointHeight, 6 * PointWidth, BOARD_HEIGHT - BorderTopHeight - BorderBottomHeight - 2 * PointHeight),
+			CGRectMake(BorderWidth + 6 * PointWidth + BarWidth, BorderBottomHeight + PointHeight, 6 * PointWidth, Height - BorderTopHeight - BorderBottomHeight - 2 * PointHeight),
 		},
 		{
-			CGRectMake(BORDER_WIDTH + POINT_WIDTH + BORDER_WIDTH, BORDER_BOTTOM_HEIGHT + POINT_HEIGHT, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - BORDER_BOTTOM_HEIGHT - 2 * POINT_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 6 * POINT_WIDTH + BAR_WIDTH + POINT_WIDTH + BORDER_WIDTH, BORDER_BOTTOM_HEIGHT + POINT_HEIGHT, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - BORDER_BOTTOM_HEIGHT - 2 * POINT_HEIGHT),
+			CGRectMake(BorderWidth + PointWidth + BorderWidth, BorderBottomHeight + PointHeight, 6 * PointWidth, Height - BorderTopHeight - BorderBottomHeight - 2 * PointHeight),
+			CGRectMake(BorderWidth + 6 * PointWidth + BarWidth + PointWidth + BorderWidth, BorderBottomHeight + PointHeight, 6 * PointWidth, Height - BorderTopHeight - BorderBottomHeight - 2 * PointHeight),
 		}
 #else
 		{
-			CGRectMake(BORDER_WIDTH, BORDER_BOTTOM_HEIGHT + 4 * CHEQUER_HEIGHT + CHEQUER_HEIGHT / 2, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - 9 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 6 * POINT_WIDTH + BAR_WIDTH, BORDER_BOTTOM_HEIGHT + 4 * CHEQUER_HEIGHT + CHEQUER_HEIGHT / 2, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - 9 * CHEQUER_HEIGHT),
+			CGRectMake(BorderWidth, BorderBottomHeight + 4 * ChequerHeight + ChequerHeight / 2, 6 * PointWidth, Height - BorderTopHeight - 9 * ChequerHeight),
+			CGRectMake(BorderWidth + 6 * PointWidth + BarWidth, BorderBottomHeight + 4 * ChequerHeight + ChequerHeight / 2, 6 * PointWidth, Height - BorderTopHeight - 9 * ChequerHeight),
 		},
 		{
-			CGRectMake(BORDER_WIDTH + POINT_WIDTH + BORDER_WIDTH, BORDER_BOTTOM_HEIGHT + 4 * CHEQUER_HEIGHT + CHEQUER_HEIGHT / 2, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - 9 * CHEQUER_HEIGHT),
-			CGRectMake(BORDER_WIDTH + 6 * POINT_WIDTH + BAR_WIDTH + POINT_WIDTH + BORDER_WIDTH, BORDER_BOTTOM_HEIGHT + 4 * CHEQUER_HEIGHT + CHEQUER_HEIGHT / 2, 6 * POINT_WIDTH, BOARD_HEIGHT - BORDER_TOP_HEIGHT - 9 * CHEQUER_HEIGHT),
+			CGRectMake(BorderWidth + PointWidth + BorderWidth, BorderBottomHeight + 4 * ChequerHeight + ChequerHeight / 2, 6 * PointWidth, Height - BorderTopHeight - 9 * ChequerHeight),
+			CGRectMake(BorderWidth + 6 * PointWidth + BarWidth + PointWidth + BorderWidth, BorderBottomHeight + 4 * ChequerHeight + ChequerHeight / 2, 6 * PointWidth, Height - BorderTopHeight - 9 * ChequerHeight),
 		}
 #endif
 	};
@@ -468,33 +516,44 @@ int bgBoardClick(int x, int y, BoardData* bd)
 	return -1;
 }
 
-CGPoint bgBoardPointPos(int Index, int Count)
+CGPoint bgBoardPointPos(bgBoardSize* BoardSize, int Index, int Count)
 {
-	CGPoint pt = bgPointArea[fClockwise][Index].origin;
-	pt.x += POINT_WIDTH / 2;
+	float PointWidth = BoardSize->PointWidth;
+	float ChequerHeight = BoardSize->ChequerHeight;
+
+	CGPoint pt = BoardSize->PointArea[fClockwise][Index].origin;
+	pt.x += PointWidth / 2;
 	if (Index > 12)
-		pt.y -= CGRectGetHeight(bgPointArea[fClockwise][Index]);
+		pt.y -= CGRectGetHeight(BoardSize->PointArea[fClockwise][Index]);
 
 	if (Index > 26)
 	{
 		if (Index == 27)
-			pt.y += CHEQUER_HEIGHT / 15 * Count + CHEQUER_HEIGHT / 2;
+			pt.y += ChequerHeight / 15 * Count + ChequerHeight / 2;
 		else
-			pt.y -= CHEQUER_HEIGHT / 15 * Count + CHEQUER_HEIGHT / 2;
+			pt.y -= ChequerHeight / 15 * Count + ChequerHeight / 2;
 	}
 	else
 	{
 		if (Index > 12)
-			pt.y += CHEQUER_HEIGHT * Count + CHEQUER_HEIGHT / 2;
+			pt.y += ChequerHeight * Count + ChequerHeight / 2;
 		else
-			pt.y -= CHEQUER_HEIGHT * Count + CHEQUER_HEIGHT / 2;
+			pt.y -= ChequerHeight * Count + ChequerHeight / 2;
 	}
 
 	return pt;
 }
 
-void bgBoardUpdateTrack(CALayer* GlowLayer, int Tracking, BoardData* bd)
+void bgBoardUpdateTrack(bgBoardSize* BoardSize, CALayer* GlowLayer, int Tracking, BoardData* bd)
 {
+	float Height = BoardSize->Height;
+	float BorderWidth = BoardSize->BorderWidth;
+	float BorderTopHeight = BoardSize->BorderTopHeight;
+	float BorderBottomHeight = BoardSize->BorderBottomHeight;
+	float PointWidth = BoardSize->PointWidth;
+	float BarWidth = BoardSize->BarWidth;
+	float DiceSize = BoardSize->DiceSize;
+
 	if (Tracking == -1)
 	{
 		GlowLayer.hidden = YES;
@@ -507,19 +566,19 @@ void bgBoardUpdateTrack(CALayer* GlowLayer, int Tracking, BoardData* bd)
 		CGPoint pt;
 		
 		if (bd->cube_owner > 0)
-			pt.y = BORDER_BOTTOM_HEIGHT;
+			pt.y = BorderBottomHeight;
 		else if (bd->cube_owner < 0)
-			pt.y = BOARD_HEIGHT - BORDER_TOP_HEIGHT - DICE_SIZE;
+			pt.y = Height - BorderTopHeight - DiceSize;
 		else
-			pt.y = (BOARD_HEIGHT - DICE_SIZE) / 2;
+			pt.y = (Height - DiceSize) / 2;
 		
-		int Offset = fClockwise ? BORDER_WIDTH + POINT_WIDTH : 0;
+		int Offset = fClockwise ? BorderWidth + PointWidth : 0;
 
-		pt.x = BORDER_WIDTH + 6 * POINT_WIDTH + (BAR_WIDTH - DICE_SIZE) / 2;
+		pt.x = BorderWidth + 6 * PointWidth + (BarWidth - DiceSize) / 2;
 		pt.x += Offset;
 
-		int w = DICE_SIZE + 4;
-		int h = DICE_SIZE + 4;
+		int w = DiceSize + 4;
+		int h = DiceSize + 4;
 
 		pt.x += w / 2 - 2;
 		pt.y += h / 2 - 2;

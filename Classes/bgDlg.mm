@@ -39,10 +39,17 @@ CGImage* bgDlgDraw(int Tracking)
 {
 	if (bgActiveDlg == BG_DLG_NONE)
 		return nil;
+
+	float scale = 1.0f;
+
+	if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
+		scale = [[UIScreen mainScreen] scale];
+
+	CGRect DlgRect = CGRectMake(bgDlgRect.origin.x * scale, bgDlgRect.origin.y * scale, bgDlgRect.size.width * scale, bgDlgRect.size.height * scale);
 	
 	float Alpha = 0.95;
-	int w = CGRectGetWidth(bgDlgRect) + 2;
-	int h = CGRectGetHeight(bgDlgRect) + 2;
+	int w = CGRectGetWidth(DlgRect) + 2 * scale;
+	int h = CGRectGetHeight(DlgRect) + 2 * scale;
 
 	CGColorSpaceRef colorSpace;
 	colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -55,21 +62,21 @@ CGImage* bgDlgDraw(int Tracking)
 	CGContextSetRGBFillColor(cgContext, 0.0, 0.0, 0.0, Alpha);
 	CGContextSetRGBStrokeColor(cgContext, 0.75, 0.75, 0.75, Alpha);
 
-	CGRect Rect = bgDlgRect;
-	Rect.origin.x -= bgDlgRect.origin.x - 1;
-	Rect.origin.y -= bgDlgRect.origin.y - 1;
+	CGRect Rect = DlgRect;
+	Rect.origin.x -= DlgRect.origin.x - scale;
+	Rect.origin.y -= DlgRect.origin.y - scale;
 
-	CGContextAddRoundedRect(cgContext, Rect, 4);
+	CGContextAddRoundedRect(cgContext, Rect, 4 * scale);
 	CGContextDrawPath(cgContext, kCGPathFillStroke);
 	
-	CGContextSelectFont(cgContext, "Helvetica-Bold", 15, kCGEncodingMacRoman);
+	CGContextSelectFont(cgContext, "Helvetica-Bold", 15 * scale, kCGEncodingMacRoman);
 
 	if (bgDlgText[0])
 	{
 		const char* Text = bgDlgText;
 		CGPoint pt;
-		pt.x = CGRectGetWidth(bgDlgRect) / 2;
-		pt.y = h - 24;
+		pt.x = CGRectGetWidth(DlgRect) / 2;
+		pt.y = h - 24 * scale;
 		CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, Alpha);
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y, Text, strlen(Text));
 	}
@@ -77,11 +84,17 @@ CGImage* bgDlgDraw(int Tracking)
 	for (int i = 0; i < bgDlgNumButtons; i++)
 	{
 		CGRect Rect = bgDlgButtons[i].Rect;
-		Rect.origin.x -= bgDlgRect.origin.x - 1;
-		Rect.origin.y = h - (Rect.origin.y - bgDlgRect.origin.y) - CGRectGetHeight(Rect) + 1;
+
+		Rect.origin.x *= scale;
+		Rect.origin.y *= scale;
+		Rect.size.width *= scale;
+		Rect.size.height *= scale;
+
+		Rect.origin.x -= DlgRect.origin.x - scale;
+		Rect.origin.y = h - (Rect.origin.y - DlgRect.origin.y) - CGRectGetHeight(Rect) + scale;
 
 		CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, Alpha);
-		CGContextAddRoundedRect(cgContext, Rect, 10);
+		CGContextAddRoundedRect(cgContext, Rect, 10 * scale);
 
 		if (bgDlgButtons[i].ID == Tracking && !bgDlgButtons[i].Disabled)
 			CGContextDrawPath(cgContext, kCGPathFillStroke);
@@ -96,7 +109,7 @@ CGImage* bgDlgDraw(int Tracking)
 		const char* Text = bgDlgButtons[i].Text;
 		CGPoint pt = Rect.origin;
 		pt.x += CGRectGetWidth(Rect) / 2;
-		pt.y += 16;
+		pt.y += 16 * scale;
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y, Text, strlen(Text));
 	}
 	
@@ -118,34 +131,34 @@ CGImage* bgDlgDraw(int Tracking)
 		int x = 30;
 		for (int i = 0; i < 3; i++)
 		{
-			CGContextShowTextAtPoint(cgContext, x, h - 24, colnames[i], strlen(colnames[i]));
+			CGContextShowTextAtPoint(cgContext, x * scale, (h - 24) * scale, colnames[i], strlen(colnames[i]));
 			x += colwidths[i];
 		}
 
 		for (int i = 0; i < nmoves; i++)
 		{
-			int y = h - 54 - 30 * i;
+			int y = h / scale - 54 - 30 * i;
 			int x = 30;
 
 			if (i == HintIndex)
 			{
 				CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, Alpha);
-				CGContextFillRect(cgContext, CGRectMake(x-10, y - 5, w-40, 20));
+				CGContextFillRect(cgContext, CGRectMake((x - 10) * scale, (y - 5) * scale, (w - 40) * scale, 20 * scale));
 				CGContextSetRGBFillColor(cgContext, 0.0, 0.0, 0.0, Alpha);
 			}
 			else
 				CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, Alpha);
 			
 			FormatEval(sz, &HintMoveList->amMoves[i].esMove);
-			CGContextShowTextAtPoint(cgContext, x, y, sz, strlen(sz));
+			CGContextShowTextAtPoint(cgContext, x * scale, y * scale, sz, strlen(sz));
 			x += colwidths[0];
 
 			char* eq = OutputEquity(HintMoveList->amMoves[i].rScore, &ci, TRUE);
-			CGContextShowTextAtPoint(cgContext, x, y, eq, strlen(eq));
+			CGContextShowTextAtPoint(cgContext, x * scale, y * scale, eq, strlen(eq));
 			x += colwidths[1];
 
 			char* mv = FormatMove(sz, ms.anBoard, HintMoveList->amMoves[i].anMove);
-			CGContextShowTextAtPoint(cgContext, x, y, mv, strlen(mv));
+			CGContextShowTextAtPoint(cgContext, x * scale, y * scale, mv, strlen(mv));
 			x += colwidths[2];
 		}
 	}

@@ -1787,7 +1787,7 @@ int viewInit;
 		[root addSublayer:dlgLayer];
 
 		spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-		[spinner setCenter:CGPointMake(240, 170)];
+		[spinner setCenter:CGPointMake(240, 110)];
 		[self addSubview:spinner];
 	}
 

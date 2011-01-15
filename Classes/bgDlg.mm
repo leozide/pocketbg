@@ -285,7 +285,7 @@ void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 	else if (bgActiveDlg == BG_DLG_PROGRESS)
 	{
 		bgDlgText = Text;
-		bgDlgRect = CGRectMake(90, 110, 300, 100);
+		bgDlgRect = CGRectMake(90, 115, 300, 90);
 
 //		bgDlgAddButton(CGRectMake(180, 155, 120, 40), "Cancel", BG_DLG_PROGRESS_CANCEL);
 	}
@@ -307,7 +307,10 @@ void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 
 		[CATransaction begin];
 		[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-		DlgLayer.position = CGPointMake(240, 160);
+		if (bgActiveDlg != BG_DLG_PROGRESS)
+			DlgLayer.position = CGPointMake(240, 160);
+		else
+			DlgLayer.position = CGPointMake(240, 100);
 		DlgLayer.bounds = CGRectMake(0, 0, w/4, h/4);
 		[CATransaction commit];
 		[CATransaction flush];

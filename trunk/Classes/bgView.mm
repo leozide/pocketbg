@@ -417,7 +417,7 @@ static int board_point( BoardData *bd, int x0, int y0 )
 			return POINT_RIGHT;
 	}
 */
-	return bgBoardPoint(x0, y0);
+	return bgBoardPoint(&gBoardSize, x0, y0);
 }
 
 extern void read_board( BoardData *bd, TanBoard points )
@@ -1765,9 +1765,7 @@ int viewInit;
 #ifndef PBG_HD
 		CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI/2);
 		self.transform = transform;
-
-		CGRect bounds = CGRectMake(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
-		self.bounds = bounds;
+		self.bounds = CGRectMake(0, 0, gBoardSize.Width, gBoardSize.Height);
 #endif
 		CALayer* root = self.layer;
 
@@ -1861,30 +1859,30 @@ int viewInit;
 	CHEQUER_RADIUS = 24;
 	DICE_SIZE = 48;
 #else
-	BOARD_WIDTH = 480;
-	BOARD_HEIGHT = 320;
-	BORDER_WIDTH = 6;
-	BORDER_TOP_HEIGHT = 5;
-	BORDER_BOTTOM_HEIGHT = 5;
-	POINT_WIDTH = 33;
-	POINT_HEIGHT = 120;
-	BAR_WIDTH = 33;
-	BAR_OFFSET = 50;
-	BEAROFF_X = (2*BORDER_WIDTH+BAR_WIDTH+12*POINT_WIDTH);
-	CHEQUER_HEIGHT = 28;
-	CHEQUER_RADIUS = 14;
-	DICE_SIZE = 31;
+	float Width = self.bounds.size.height;
+	float Height = self.bounds.size.width;
+	bgBoardUpdateSize(&gBoardSize, Width, Height);
+	gBoardScale = 1.0f;
+
+	if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
+	{
+		float scale = [[UIScreen mainScreen] scale];
+		gBoardScale = scale;
+
+		Width *= scale;
+		Height *= scale;
+	}
 #endif
 
-	bgBoardUpdateSize();
+	bgBoardUpdateSize(&gBoardSizeScaled, Width, Height);
 	
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	
 	// Create the offscreen context.
-	cgContext = CGBitmapContextCreate(NULL, BOARD_WIDTH, BOARD_HEIGHT, 8, 4 * BOARD_WIDTH, colorSpace, kCGImageAlphaPremultipliedFirst);
+	cgContext = CGBitmapContextCreate(NULL, Width, Height, 8, 4 * Width, colorSpace, kCGImageAlphaPremultipliedFirst);
 	
 	// Draw board.
-	bgDrawBoard(cgContext);
+	bgDrawBoard(&gBoardSizeScaled, cgContext);
 	boardImage = CGBitmapContextCreateImage(cgContext);
 
 	CGColorSpaceRelease(colorSpace);
@@ -1892,25 +1890,26 @@ int viewInit;
 
 - (void) UpdateBoardImage
 {
-	bgDrawBoard(cgContext);
+	bgDrawBoard(&gBoardSizeScaled, cgContext);
 	boardImage = CGBitmapContextCreateImage(cgContext);
 }
 
 - (void) UpdateCheckerImages
 {
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	float ChequerRadius = gBoardSizeScaled.ChequerRadius;
 
-	CGContextRef context = CGBitmapContextCreate(NULL, 2 * (CHEQUER_RADIUS + 2), 2 * (CHEQUER_RADIUS + 2), 8, 4 * 2 * (CHEQUER_RADIUS + 2), colorSpace, kCGImageAlphaPremultipliedFirst);
+	CGContextRef context = CGBitmapContextCreate(NULL, 2 * (ChequerRadius + 2), 2 * (ChequerRadius + 2), 8, 4 * 2 * (ChequerRadius + 2), colorSpace, kCGImageAlphaPremultipliedFirst);
 	
 	CGContextSetRGBFillColor(context, Player1Color[0], Player1Color[1], Player1Color[2], Player1Color[3]);
 	CGContextBeginPath(context);
-	CGContextAddArc(context, CHEQUER_RADIUS + 2, CHEQUER_RADIUS + 2, CHEQUER_RADIUS, 0.0, 2*M_PI, 1);
+	CGContextAddArc(context, ChequerRadius + 2, ChequerRadius + 2, ChequerRadius, 0.0, 2*M_PI, 1);
 	CGContextDrawPath(context, kCGPathFillStroke);
 	whiteImage = CGBitmapContextCreateImage(context);
 	
 	CGContextSetRGBFillColor(context, Player2Color[0], Player2Color[1], Player2Color[2], Player2Color[3]);
 	CGContextBeginPath(context);
-	CGContextAddArc(context, CHEQUER_RADIUS + 2, CHEQUER_RADIUS + 2, CHEQUER_RADIUS, 0.0, 2*M_PI, 1);
+	CGContextAddArc(context, ChequerRadius + 2, ChequerRadius + 2, ChequerRadius, 0.0, 2*M_PI, 1);
 	CGContextDrawPath(context, kCGPathFillStroke);
 	blackImage = CGBitmapContextCreateImage(context);
 	
@@ -1920,7 +1919,7 @@ int viewInit;
 
 - (void)drawRect:(CGRect)rect
 {
-	CGRect				bounds = CGRectMake(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
+	CGRect				bounds = CGRectMake(0, 0, gBoardSizeScaled.Width, gBoardSizeScaled.Height);
 	CGContextRef		context = UIGraphicsGetCurrentContext();
 	CGImageRef			image;
 
@@ -1932,7 +1931,7 @@ int viewInit;
 
 	CGContextDrawImage(cgContext, bounds, boardImage);
 
-	bgDrawChequers(cgContext, pwBoard, whiteImage, blackImage);
+	bgDrawChequers(&gBoardSizeScaled, cgContext, pwBoard, whiteImage, blackImage);
 
 	// Display 2d drag target help
 	if (bd->DragTargetHelp)
@@ -1944,14 +1943,14 @@ int viewInit;
 			if (bd->iTargetHelpPoints[i] == -1 )
 				continue;
 
-			bgDrawMark(cgContext, bd->iTargetHelpPoints[i]);
+			bgDrawMark(&gBoardSizeScaled, cgContext, bd->iTargetHelpPoints[i]);
 		}
 	}
 
 	if (bd->drag_point != -1)
 	{
 		CGContextSetRGBFillColor(cgContext, 0.0, 0.0, 0.0, 1.0);
-		bgDrawMark(cgContext, bd->drag_point);
+		bgDrawMark(&gBoardSizeScaled, cgContext, bd->drag_point);
 	}
 
 	if (tracking_type == BG_TRACK_TAKE)
@@ -1965,24 +1964,33 @@ int viewInit;
 		{
 			for (int i = 0; i < 28; i++)
 				if (old_points[i] != bd->points[i])
-					bgDrawMark(cgContext, i);
+					bgDrawMark(&gBoardSizeScaled, cgContext, i);
 		}
 		memcpy(bd->points, old_points, sizeof old_points);
 		update_move( bd );
 
 		CGContextSetRGBFillColor(cgContext, 0.0, 1.0, 0.0, 1.0);
-		bgDrawMark(cgContext, bd->drag_point);
+		bgDrawMark(&gBoardSizeScaled, cgContext, bd->drag_point);
 	}
 
-	int Offset = fClockwise ? POINT_WIDTH + BORDER_WIDTH : 0;
+	float Height = gBoardSizeScaled.Height;
+	float PointWidth = gBoardSizeScaled.PointWidth;
+	float PointHeight = gBoardSizeScaled.PointHeight;
+	float BorderWidth = gBoardSizeScaled.BorderWidth;
+	float BorderBottomHeight = gBoardSizeScaled.BorderBottomHeight;
+	float BorderTopHeight = gBoardSizeScaled.BorderTopHeight;
+	float BarWidth = gBoardSizeScaled.BarWidth;
+	float DiceSize = gBoardSizeScaled.DiceSize;
+
+	int Offset = fClockwise ? PointWidth + BorderWidth : 0;
 
 	// Dice.
 	if (bd->diceShown == DICE_ON_BOARD)
 	{
 		CGPoint pt;
-		pt.x = (bd->colour == bd->turn) ? BORDER_WIDTH + 8 * POINT_WIDTH + BAR_WIDTH : BORDER_WIDTH + 2 * POINT_WIDTH;
+		pt.x = (bd->colour == bd->turn) ? BorderWidth + 8 * PointWidth + BarWidth : BorderWidth + 2 * PointWidth;
 		pt.x += Offset;
-		pt.y = 160;
+		pt.y = Height / 2;
 
 		int used[2] = { 0, 0 };
 		int num_used = 0;
@@ -2021,44 +2029,44 @@ int viewInit;
 
 			// Undo.
 			{
-				CGContextSelectFont(cgContext, "Helvetica", 12, kCGEncodingMacRoman);
+				CGContextSelectFont(cgContext, "Helvetica", 12 * gBoardScale, kCGEncodingMacRoman);
 				CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 				CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
 				
 				CGPoint pt2;
-				pt2.x = (bd->colour != bd->turn) ? BORDER_WIDTH + 8 * POINT_WIDTH + BAR_WIDTH : BORDER_WIDTH + 2 * POINT_WIDTH;
-				pt2.x = pt2.x + POINT_WIDTH + Offset;
-				pt2.y = pt.y - 8;
+				pt2.x = (bd->colour != bd->turn) ? BorderWidth + 8 * PointWidth + BarWidth : BorderWidth + 2 * PointWidth;
+				pt2.x = pt2.x + PointWidth + Offset;
+				pt2.y = pt.y - 8 * gBoardScale;
 				const char* Text = "Tap here to undo";
 
-				CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12, Text, strlen(Text));
+				CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12 * gBoardScale, Text, strlen(Text));
 			}
 		}
 		else
 		{
-			CGContextSelectFont(cgContext, "Helvetica", 12, kCGEncodingMacRoman);
+			CGContextSelectFont(cgContext, "Helvetica", 12 * gBoardScale, kCGEncodingMacRoman);
 			CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 			CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
 			
 			CGPoint pt2;
-			pt2.x = (bd->colour != bd->turn) ? BORDER_WIDTH + 8 * POINT_WIDTH + BAR_WIDTH : BORDER_WIDTH + 2 * POINT_WIDTH;
-			pt2.x = pt2.x + POINT_WIDTH + Offset;
-			pt2.y = pt.y - 8;
+			pt2.x = (bd->colour != bd->turn) ? BorderWidth + 8 * PointWidth + BarWidth : BorderWidth + 2 * PointWidth;
+			pt2.x = pt2.x + PointWidth + Offset;
+			pt2.y = pt.y - 8 * gBoardScale;
 			const char* Text = "Tap here for hint";
 			
-			CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12, Text, strlen(Text));
+			CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12 * gBoardScale, Text, strlen(Text));
 		}
 
 		if (bd->valid_move && bd->valid_move->cPips == bd->move_list.cMaxPips)
 		{
-			CGContextSelectFont(cgContext, "Helvetica", 12, kCGEncodingMacRoman);
+			CGContextSelectFont(cgContext, "Helvetica", 12 * gBoardScale, kCGEncodingMacRoman);
 			CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 			CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
 
-			CGPoint pt2 = CGPointMake(pt.x + POINT_WIDTH, pt.y + 16);
+			CGPoint pt2 = CGPointMake(pt.x + PointWidth, pt.y + gBoardSizeScaled.DiceSize / 2);
 			const char* Text = "Tap dice to end turn";
 
-			CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12, Text, strlen(Text));
+			CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12 * gBoardScale, Text, strlen(Text));
 		}
 
 		float* DiceColor;
@@ -2070,18 +2078,18 @@ int viewInit;
 
 		for (int i = 0; i < 2; i++)
 		{
-			CGRect rect = CGRectMake(pt.x - 16, pt.y - 16, 32, 32);
+			CGRect rect = CGRectMake(pt.x - gBoardSizeScaled.DiceSize / 2, pt.y - gBoardSizeScaled.DiceSize / 2, gBoardSizeScaled.DiceSize, gBoardSizeScaled.DiceSize);
 
-			int corner_radius = 3;
-			int x_left = rect.origin.x;
-			int x_left_center = rect.origin.x + corner_radius;
-			int x_right_center = rect.origin.x + rect.size.width - corner_radius;
-			int x_right = rect.origin.x + rect.size.width;
-			int y_top = rect.origin.y;
-			int y_top_center = rect.origin.y + corner_radius;
-			int y_bottom_center = rect.origin.y + rect.size.height - corner_radius;
-			int y_bottom = rect.origin.y + rect.size.height;
-			int y_center = rect.origin.y + rect.size.height / 2;
+			float corner_radius = gBoardSizeScaled.DiceSize / 10;
+			float x_left = rect.origin.x;
+			float x_left_center = rect.origin.x + corner_radius;
+			float x_right_center = rect.origin.x + rect.size.width - corner_radius;
+			float x_right = rect.origin.x + rect.size.width;
+			float y_top = rect.origin.y;
+			float y_top_center = rect.origin.y + corner_radius;
+			float y_bottom_center = rect.origin.y + rect.size.height - corner_radius;
+			float y_bottom = rect.origin.y + rect.size.height;
+			float y_center = rect.origin.y + rect.size.height / 2;
 			
 			if (bd->diceRoll[0] == bd->diceRoll[1])
 			{
@@ -2164,24 +2172,24 @@ int viewInit;
 				for (int ix = 0; ix < 3; ix++)
 					if (afPip[ iy * 3 + ix ])
 					{
-						int x = pt.x + (ix+1) * 8 - 16;
-						int y = pt.y + (iy+1) * 8 - 16;
+						float x = pt.x + (ix+1) * gBoardSizeScaled.DiceSize / 4 - gBoardSizeScaled.DiceSize / 2;
+						float y = pt.y + (iy+1) * gBoardSizeScaled.DiceSize / 4 - gBoardSizeScaled.DiceSize / 2;
 						CGContextBeginPath(cgContext);
-						CGContextAddArc(cgContext, x, y, 3.5, 0.0, 2*M_PI, 1);
+						CGContextAddArc(cgContext, x, y, gBoardSizeScaled.DiceSize / 10, 0.0, 2*M_PI, 1);
 						CGContextDrawPath(cgContext, kCGPathFill);
 					}
 
-			pt.x = pt.x + 2 * POINT_WIDTH;
+			pt.x = pt.x + 2 * PointWidth;
 		}
 	}
 	else
 	{
 		CGPoint pt;
-		pt.x = (bd->colour == bd->turn) ? BORDER_WIDTH + 9 * POINT_WIDTH + BAR_WIDTH : BORDER_WIDTH + 3 * POINT_WIDTH;
+		pt.x = (bd->colour == bd->turn) ? BorderWidth + 9 * PointWidth + BarWidth : BorderWidth + 3 * PointWidth;
 		pt.x += Offset;
-		pt.y = 160 - 8;
+		pt.y = Height / 2 - 8 * gBoardScale;
 		
-		CGContextSelectFont(cgContext, "Helvetica", 12, kCGEncodingMacRoman);
+		CGContextSelectFont(cgContext, "Helvetica", 12 * gBoardScale, kCGEncodingMacRoman);
 		CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 		CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
 		
@@ -2210,19 +2218,19 @@ int viewInit;
 		else
 		 */
 		{
-			pt.x = BORDER_WIDTH + 6 * POINT_WIDTH + (BAR_WIDTH - DICE_SIZE) / 2 + Offset;
+			pt.x = BorderWidth + 6 * PointWidth + (BarWidth - DiceSize) / 2 + Offset;
 			if (bd->cube_owner > 0)
-				pt.y = BORDER_BOTTOM_HEIGHT;
+				pt.y = BorderBottomHeight;
 			else if (bd->cube_owner < 0)
-				pt.y = BOARD_HEIGHT - BORDER_TOP_HEIGHT - DICE_SIZE;
+				pt.y = Height - BorderTopHeight - DiceSize;
 			else
-				pt.y = (BOARD_HEIGHT - DICE_SIZE) / 2;
+				pt.y = (Height - DiceSize) / 2;
 		}
 
 		CGContextSetRGBFillColor(cgContext, 1.0, 0.0, 0.0, 1.0);
 //		CGContextFillRect(cgContext, CGRectMake(pt.x, pt.y, DICE_SIZE, DICE_SIZE));
 
-		CGRect rect = CGRectMake(pt.x, pt.y, DICE_SIZE, DICE_SIZE);
+		CGRect rect = CGRectMake(pt.x, pt.y, DiceSize, DiceSize);
 
 		int corner_radius = 3;
 		int x_left = rect.origin.x;
@@ -2249,8 +2257,8 @@ int viewInit;
 		CGContextClosePath(cgContext);
 		CGContextDrawPath(cgContext, kCGPathFill);
 
-		pt.x += DICE_SIZE / 2;
-		pt.y += DICE_SIZE / 2;
+		pt.x += DiceSize / 2;
+		pt.y += DiceSize / 2;
 		
 		int Cube = bd->cube << ABS(bd->doubled);
 		if (Cube == 1) Cube = 64;
@@ -2262,12 +2270,13 @@ int viewInit;
 			FontSize = 14;
 		else if (Cube > 99)
 			FontSize = 18;
+		FontSize *= gBoardScale;
 		
 		CGContextSetRGBFillColor(cgContext, 0.0, 0.0, 0.0, 1.0);
 		CGContextSelectFont(cgContext, "Helvetica", FontSize, kCGEncodingMacRoman);
 		CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 
-		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + FontSize/2 - 2, Text, strlen(Text));
+		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + FontSize/2 - 3 * gBoardScale, Text, strlen(Text));
 	}
 
 	// Pips and score.
@@ -2341,24 +2350,24 @@ int viewInit;
 		int f = (bd->turn > 0);
 
 		CGContextSetRGBFillColor(cgContext, 1.0, 1.0, 1.0, 1.0);
-		CGContextSelectFont(cgContext, "Helvetica", 9, kCGEncodingMacRoman);
+		CGContextSelectFont(cgContext, "Helvetica", 9 * gBoardScale, kCGEncodingMacRoman);
 		CGContextSetTextMatrix(cgContext, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 
 		char Text[32];
 
-		pt.x = fClockwise ? BORDER_WIDTH + POINT_WIDTH / 2 : 2 * BORDER_WIDTH + BAR_WIDTH + 12 * POINT_WIDTH + POINT_WIDTH / 2;
-		pt.y = BORDER_BOTTOM_HEIGHT + POINT_HEIGHT;
+		pt.x = fClockwise ? BorderWidth + PointWidth / 2 : 2 * BorderWidth + BarWidth + 12 * PointWidth + PointWidth / 2;
+		pt.y = BorderBottomHeight + PointHeight;
 
 		sprintf(Text, "Pips: %d", Pips[!f]);
-		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 10, Text, strlen(Text));
+		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 10 * gBoardScale, Text, strlen(Text));
 		int nMatchLen = bd->match_to;
 		if (nMatchLen)
 			sprintf(Text, "%d (%d away)", bd->score_opponent, MAX(nMatchLen - bd->score_opponent, 0));
 		else
 			sprintf(Text, "Score: %d", bd->score_opponent);
-		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 20, Text, strlen(Text));
+		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y + 20 * gBoardScale, Text, strlen(Text));
 		
-		pt.y = BOARD_HEIGHT - BORDER_TOP_HEIGHT - POINT_HEIGHT - 4;
+		pt.y = Height - BorderTopHeight - PointHeight - 4 * gBoardScale;
 
 		sprintf(Text, "Pips: %d", Pips[f]);
 		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y, Text, strlen(Text));
@@ -2367,7 +2376,7 @@ int viewInit;
 			sprintf(Text, "%d (%d away)", bd->score, MAX(nMatchLen - bd->score, 0));
 		else
 			sprintf(Text, "Score: %d", bd->score);
-		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y - 10, Text, strlen(Text));
+		CGContextShowTextAtPointCentered(cgContext, pt.x, pt.y - 10 * gBoardScale, Text, strlen(Text));
 #endif
 	}
 
@@ -2383,6 +2392,8 @@ int viewInit;
 #if PBG_HD
 	bounds.origin.x = (self.bounds.size.width - BOARD_WIDTH) / 2;
 	bounds.origin.y = (self.bounds.size.height - BOARD_HEIGHT) / 2;
+#else
+	bounds = self.bounds;
 #endif
 	
 	// Copy the contents of the painting context to the view's context
@@ -2425,8 +2436,8 @@ int viewInit;
 		return;
 	}
 	
-	tracking = bgBoardClick(x, y, bd);
-	bgBoardUpdateTrack(glowLayer, tracking, bd);
+	tracking = bgBoardClick(&gBoardSize, x, y, bd);
+	bgBoardUpdateTrack(&gBoardSize, glowLayer, tracking, bd);
 	if (tracking != -1)
 		return;
 	
@@ -2565,7 +2576,7 @@ int viewInit;
 
 	if (tracking != -1)
 	{
-		int pos = bgBoardClick(x, y, bd);
+		int pos = bgBoardClick(&gBoardSize, x, y, bd);
 		glowLayer.hidden = (pos != tracking);
 		return;
 	}
@@ -2585,9 +2596,11 @@ int viewInit;
 	else
 		chequerImage = whiteImage;
 	
+	float ChequerSize = 2 * (gBoardSize.ChequerRadius + 2);
+	
 	[CATransaction begin];
 	[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-	animLayer.bounds = CGRectMake(0, 0, CGImageGetWidth(chequerImage) * 1.5, CGImageGetHeight(chequerImage) * 1.5);
+	animLayer.bounds = CGRectMake(0, 0, ChequerSize * 1.5, ChequerSize * 1.5);
 	animLayer.contents = (id)chequerImage;
 	animLayer.position = touchPoint;
 	[animLayer setHidden:NO];
@@ -2809,7 +2822,7 @@ int viewInit;
 
 	if (tracking != -1)
 	{
-		int up = bgBoardClick(x, y, bd);
+		int up = bgBoardClick(&gBoardSize, x, y, bd);
 
 		if (up == tracking)
 		{
@@ -3087,8 +3100,8 @@ int viewInit;
 		nt = 0;
 	nt += colour;
 	
-	CGPoint Start = bgBoardPointPos(from, MIN(ABS(nf), 5));
-	CGPoint End = bgBoardPointPos(to, MIN(ABS(nt), 5) - 1);
+	CGPoint Start = bgBoardPointPos(&gBoardSize, from, MIN(ABS(nf), 5));
+	CGPoint End = bgBoardPointPos(&gBoardSize, to, MIN(ABS(nt), 5) - 1);
 
 	CGImage* chequerImage;
 	if (animate_player)
@@ -3096,9 +3109,11 @@ int viewInit;
 	else
 		chequerImage = whiteImage;
 
+	float ChequerSize = 2 * (gBoardSize.ChequerRadius + 2);
+
 	[CATransaction begin];
 	[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-	animLayer.bounds = CGRectMake(0, 0, CGImageGetWidth(chequerImage), CGImageGetHeight(chequerImage));
+	animLayer.bounds = CGRectMake(0, 0, ChequerSize, ChequerSize);
 	animLayer.contents = (id)chequerImage;
 	animLayer.position = Start;
 	[animLayer setHidden:NO];
@@ -3245,7 +3260,7 @@ int viewInit;
 	int w = 20 + mx;
 	int h = 10 + numLines * 22;
 	float x = 240;//BORDER_WIDTH + POINT_WIDTH * 6 + BAR_WIDTH / 2;
-	float y = BORDER_TOP_HEIGHT + h / 2;
+	float y = gBoardSizeScaled.BorderTopHeight + h / 2;
 
 	rect = CGRectMake(1, 1, w-2, h-2);
 

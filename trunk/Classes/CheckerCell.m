@@ -30,14 +30,15 @@
 {
 	self.textLabel.text = @"Color:";
 	self.detailTextLabel.text = [NSString stringWithCString:gCheckerColors[colorIndex].Name encoding:NSASCIIStringEncoding];
+	float ChequerRadius = 14;
 
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGContextRef context = CGBitmapContextCreate(NULL, 2 * (CHEQUER_RADIUS + 2), 2 * (CHEQUER_RADIUS + 2), 8, 4 * 2 * (CHEQUER_RADIUS + 2), colorSpace, kCGImageAlphaPremultipliedFirst);
+	CGContextRef context = CGBitmapContextCreate(NULL, 2 * (ChequerRadius + 2), 2 * (ChequerRadius + 2), 8, 4 * 2 * (ChequerRadius + 2), colorSpace, kCGImageAlphaPremultipliedFirst);
 	
 	float* color = gCheckerColors[colorIndex].Value;
 	CGContextSetRGBFillColor(context, color[0], color[1], color[2], color[3]);
 	CGContextBeginPath(context);
-	CGContextAddArc(context, CHEQUER_RADIUS + 2, CHEQUER_RADIUS + 2, CHEQUER_RADIUS, 0.0, 2*M_PI, 1);
+	CGContextAddArc(context, ChequerRadius + 2, ChequerRadius + 2, ChequerRadius, 0.0, 2*M_PI, 1);
 	CGContextDrawPath(context, kCGPathFillStroke);
 	CGImageRef image = CGBitmapContextCreateImage(context);
 

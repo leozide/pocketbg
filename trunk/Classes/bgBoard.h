@@ -1,30 +1,38 @@
-extern int BOARD_WIDTH;
-extern int BOARD_HEIGHT;
-extern int BORDER_WIDTH;
-extern int BORDER_TOP_HEIGHT;
-extern int BORDER_BOTTOM_HEIGHT;
-extern int POINT_WIDTH;
-extern int POINT_HEIGHT;
-extern int BAR_WIDTH;
-extern int BAR_OFFSET;
-extern int BEAROFF_X;
-extern int CHEQUER_HEIGHT;
-extern int CHEQUER_RADIUS;
-extern int DICE_SIZE;
+typedef struct
+{
+	float Width;
+	float Height;
+	float BorderWidth;
+	float BorderTopHeight;
+	float BorderBottomHeight;
+	float PointWidth;
+	float PointHeight;
+	float BarWidth;
+	float BarOffset;
+	float BearoffX;
+	float ChequerHeight;
+	float ChequerRadius;
+	float DiceSize;
+	CGRect PointArea[2][28]; 
+} bgBoardSize;
+
+extern bgBoardSize gBoardSize;
+extern bgBoardSize gBoardSizeScaled;
+extern float gBoardScale;
+
+void bgBoardUpdateSize(bgBoardSize* BoardSize, float Width, float Height);
 
 void CGContextAddRoundedRect(CGContextRef c, CGRect rect, int corner_radius);
 void CGContextShowTextAtPointCentered(CGContextRef cgContext, CGFloat x, CGFloat y, const char* string, size_t length);
 
-void bgDrawBoard(CGContextRef cgContext);
-void bgDrawChequers(CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage, CGImageRef blackImage);
-void bgDrawMark(CGContextRef cgContext, int Index);
+void bgDrawBoard(bgBoardSize* BoardSize, CGContextRef cgContext);
+void bgDrawChequers(bgBoardSize* BoardSize, CGContextRef cgContext, BoardData* bd, CGImageRef whiteImage, CGImageRef blackImage);
+void bgDrawMark(bgBoardSize* BoardSize, CGContextRef cgContext, int Index);
 
-int bgBoardPoint(int x, int y);
-int bgBoardClick(int x, int y, BoardData* bd);
-CGPoint bgBoardPointPos(int Index, int Count);
-void bgBoardUpdateTrack(CALayer* GlowLayer, int Tracking, BoardData* bd);
-
-void bgBoardUpdateSize();
+int bgBoardPoint(bgBoardSize* BoardSize, int x, int y);
+int bgBoardClick(bgBoardSize* BoardSize, int x, int y, BoardData* bd);
+CGPoint bgBoardPointPos(bgBoardSize* BoardSize, int Index, int Count);
+void bgBoardUpdateTrack(bgBoardSize* BoardSize, CALayer* GlowLayer, int Tracking, BoardData* bd);
 
 typedef struct 
 {

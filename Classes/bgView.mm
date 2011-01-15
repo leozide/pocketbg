@@ -3006,8 +3006,55 @@ int viewInit;
 		}
 		else
 		{
-			int left = bd->diceRoll[0];
-			int right = bd->diceRoll[1];
+			int used[2] = { 0, 0 };
+			int num_used = 0;
+
+			if (bd->valid_move)
+			{
+				int* move = bd->valid_move->anMove;
+
+				for (int i = 0; i < 4; i++)
+				{
+					if (move[i*2] == -1)
+						break;
+					
+					int pips = ABS(move[i*2] - move[i*2+1]);
+					
+					if (pips == bd->diceRoll[0])
+					{
+						if (!used[0])
+							used[0] = 1;
+						else
+							used[1] = 1;
+					}
+					else if (pips == bd->diceRoll[1])
+					{
+						if (!used[1])
+							used[1] = 1;
+						else
+							used[0] = 1;
+					}
+					else if ((bd->diceRoll[0] > bd->diceRoll[1] && !used[0]) || used[1])
+						used[0] = 1;
+					else
+						used[1] = 1;
+					
+					num_used++;
+				}
+			}
+
+			int left, right;
+
+			if (used[0])
+			{
+				left = bd->diceRoll[1];
+				right = bd->diceRoll[0];
+			}
+			else
+			{
+				left = bd->diceRoll[0];
+				right = bd->diceRoll[1];
+			}
 			
 			// Try left roll first.
 			dest = bd->drag_point - left * bd->drag_colour;

@@ -168,7 +168,7 @@
 	CGImageRef image = CGBitmapContextCreateImage(context);
 		
 	CustomView *view = reuseView ? (CustomView*)reuseView : [[[CustomView alloc] initWithFrame:CGRectZero] autorelease];
-	view.title = [NSString stringWithCString:gCheckerColors[row].Name];
+	view.title = [NSString stringWithCString:gCheckerColors[row].Name encoding:NSASCIIStringEncoding];
 	view.image = [UIImage imageWithCGImage:image];
 	CGImageRelease(image);
 	

@@ -4066,7 +4066,7 @@ extern void CommandSaveSettings( char *szParam )
 
 extern void Prompt( void )
 {
-    g_print( FormatPrompt() );
+    g_print( "%s", FormatPrompt() );
     fflush( stdout );    
 }
 
@@ -4158,7 +4158,7 @@ extern char *GetInput( char *szPrompt )
     if( fInterrupt )
 	return NULL;
 
-    g_print( szPrompt );
+    g_print( "%s", szPrompt );
     fflush( stdout );
 
     sz = malloc( 256 ); /* FIXME it would be nice to handle longer strings */

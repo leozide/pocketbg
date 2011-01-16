@@ -670,11 +670,11 @@ int binary_weights_failed(char * filename, FILE * weights)
 
 	if (!weights)
 	{
-		g_print(filename);
+		g_print("%s", filename);
 		return -1;
 	}
 	if (fread(&r, sizeof r, 1, weights) < 1) {
-		g_print(filename);
+		g_print("%s", filename);
 		return -2;
 	}
 	if (r != WEIGHTS_MAGIC_BINARY) {
@@ -682,7 +682,7 @@ int binary_weights_failed(char * filename, FILE * weights)
 		return -3;
 	}
 	if (fread(&r, sizeof r, 1, weights) < 1) {
-		g_print(filename);
+		g_print("%s", filename);
 		return -4;
 	}
 	if (r != WEIGHTS_VERSION_BINARY) {
@@ -701,7 +701,7 @@ int weights_failed(char * filename, FILE * weights)
 	char file_version[16];
 	if (!weights)
 	{
-		g_print(filename);
+		g_print("%s", filename);
 		return -1;
 	}
 

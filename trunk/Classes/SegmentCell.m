@@ -6,7 +6,7 @@
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier withItems:(NSArray*)segments
 {
-	if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier])
+	if (self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier])
 	{
 		// Set the frame to CGRectZero as it will be reset in layoutSubviews
 		segmentedControl = [[UISegmentedControl alloc] initWithItems:segments];

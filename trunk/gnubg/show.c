@@ -1144,7 +1144,7 @@ extern void CommandShowKleinman(char *sz)
 	}
 #endif
 	show_kleinman(an, out);
-	outputf(out);
+	outputf("%s", out);
 }
 
 extern void show_thorp(int an[2][25], char *sz)
@@ -1188,7 +1188,7 @@ extern void CommandShowThorp(char *sz)
 	}
 #endif
 	show_thorp(an, out);
-	g_print(out);
+	g_print("%s", out);
 
 }
 

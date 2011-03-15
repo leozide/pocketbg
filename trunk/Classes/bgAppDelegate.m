@@ -21,6 +21,11 @@
 	[window makeKeyAndVisible];
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+	[rootViewController SaveMatch];
+}
+
 - (void)applicationWillTerminate:(UIApplication *)application
 {
 	[rootViewController SaveMatch];

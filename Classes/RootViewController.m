@@ -211,9 +211,12 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		Player2Color[i] = gCheckerColors[settings->Player2Color].Value[i];
 	
 	// Reload view if it was deleted.
-	UIView *mainView = mainViewController.view;
-	mainView;
+	bgView *view = mainViewController.view;
 	
+	[view UpdateBoardImage];
+	[view UpdateCheckerImages];
+	[view setNeedsDisplay];
+
 	outputoff();
 
 	// Trying to swap names - change current name to avoid error.

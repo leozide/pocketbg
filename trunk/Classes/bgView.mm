@@ -474,7 +474,7 @@ static int board_set( BoardData *bd, const char *board_text, const int resigned,
     match_settings[ 2 ] = &bd->score_opponent;
 
 	old_score = bd->score;
-	old_score_opponent - bd->score_opponent;
+	old_score_opponent = bd->score_opponent;
 
     old_dice[ 0 ] = bd->diceRoll[ 0 ];
     old_dice[ 1 ] = bd->diceRoll[ 1 ];
@@ -1758,7 +1758,7 @@ int viewInit;
 		memcpy(bd->points, ip, sizeof(bd->points));
 	}
 
-	if (self = [super initWithCoder:coder])
+	if ((self = [super initWithCoder:coder]))
 	{
 		[self SetBoardSize];
 		
@@ -2053,8 +2053,9 @@ int viewInit;
 			pt2.x = pt2.x + PointWidth + Offset;
 			pt2.y = pt.y - 8 * gBoardScale;
 			const char* Text = "Tap here for hint";
-			
-			CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12 * gBoardScale, Text, strlen(Text));
+
+			if (ap[ms.fTurn].pt == PLAYER_HUMAN && !BoardAnimating)
+				CGContextShowTextAtPointCentered(cgContext, pt2.x, pt2.y + 12 * gBoardScale, Text, strlen(Text));
 		}
 
 		if (bd->valid_move && bd->valid_move->cPips == bd->move_list.cMaxPips)

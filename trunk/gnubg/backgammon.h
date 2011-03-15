@@ -445,7 +445,7 @@ extern void SuspendInput(void);
 /* Resume input (must match a previous SuspendInput). */
 extern void ResumeInput(void);
 
-extern void ProgressStart( char* sz );
+extern void ProgressStart( const char* sz );
 extern void ProgressStartValue( char* sz, int iMax );
 extern void Progress( void );
 extern void ProgressValue ( int iValue );

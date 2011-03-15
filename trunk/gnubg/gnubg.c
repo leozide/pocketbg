@@ -4469,7 +4469,7 @@ static int ProgressThrottle( void ) {
     return -1;
 }
 
-extern void ProgressStart( char *sz )
+extern void ProgressStart( const char *sz )
 {
 
     if( !fShowProgress )

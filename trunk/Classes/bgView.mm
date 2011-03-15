@@ -3098,6 +3098,8 @@ int viewInit;
 	if (dest == bd->drag_point)
 	{
 		bd->points[ bd->drag_point ] += bd->drag_colour;
+		bd->DragTargetHelp = 0;
+		bd->drag_point = -1;
 		[self setNeedsDisplay];
 		return;
 	}

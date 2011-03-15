@@ -911,9 +911,9 @@ extern void CommandShowScore( char *sz ) {
     } 
     else {
         if ( ms.fJacoby )
-	    outputl ( _(" (money session,\nwith Jacoby rule).") );
+	    outputl ( _(" (Money session, with Jacoby rule).") );
         else
-	    outputl ( _(" (money session,\nwithout Jacoby rule).") );
+	    outputl ( _(" (Money session, without Jacoby rule).") );
     }
 
 }

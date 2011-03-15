@@ -2127,6 +2127,21 @@ int viewInit;
 				
 				CGContextClosePath(cgContext);
 				CGContextDrawPath(cgContext, kCGPathFill);
+
+				CGContextBeginPath(cgContext);
+				CGContextMoveToPoint(cgContext, x_left, y_top_center);
+				
+				CGContextAddLineToPoint(cgContext, x_left_center, y_top);
+				CGContextAddLineToPoint(cgContext, x_right_center, y_top);
+				CGContextAddLineToPoint(cgContext, x_right, y_top_center);
+				CGContextAddLineToPoint(cgContext, x_right, y_bottom_center);
+				CGContextAddLineToPoint(cgContext, x_right_center, y_bottom);
+				CGContextAddLineToPoint(cgContext, x_left_center, y_bottom);
+				CGContextAddLineToPoint(cgContext, x_left, y_bottom_center);
+				CGContextAddLineToPoint(cgContext, x_left, y_top_center);
+				
+				CGContextClosePath(cgContext);
+				CGContextDrawPath(cgContext, kCGPathStroke);
 			}
 			else
 			{
@@ -2148,7 +2163,7 @@ int viewInit;
 				CGContextAddLineToPoint(cgContext, x_left, y_top_center);
 				
 				CGContextClosePath(cgContext);
-				CGContextDrawPath(cgContext, kCGPathFill);
+				CGContextDrawPath(cgContext, kCGPathFillStroke);
 			}
 			
 			if ((DiceColor[0] + DiceColor[1] + DiceColor[2]) / 3 < 0.5f)

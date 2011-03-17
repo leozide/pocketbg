@@ -3327,11 +3327,14 @@ int viewInit;
 	float x = 240;//BORDER_WIDTH + POINT_WIDTH * 6 + BAR_WIDTH / 2;
 	float y = gBoardSizeScaled.BorderTopHeight + h / 2;
 
-	rect = CGRectMake(1, 1, w-2, h-2);
+	int width = w * gBoardScale;
+	int height = h * gBoardScale;
+
+	rect = CGRectMake(1, 1, width - 2, height - 2);
 
 	CGColorSpaceRef colorSpace;
 	colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGContextRef context = CGBitmapContextCreate(NULL, w, h, 8, 4 * w, colorSpace, kCGImageAlphaPremultipliedFirst);
+	CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 4 * width, colorSpace, kCGImageAlphaPremultipliedFirst);
 	CGColorSpaceRelease(colorSpace);
 
 	CGContextSetAllowsAntialiasing(context, TRUE);
@@ -3342,16 +3345,16 @@ int viewInit;
 	CGContextSetRGBStrokeColor(context, 0.75, 0.75, 0.75, 1);
 	CGContextDrawPath(context, kCGPathFillStroke);
 
-	CGContextSelectFont(context, "Helvetica", 15, kCGEncodingMacRoman);
+	CGContextSelectFont(context, "Helvetica", 15 * gBoardScale, kCGEncodingMacRoman);
 //	CGContextSetTextMatrix(context, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 	CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
 //	CGContextSetTextDrawingMode(context, kCGTextInvisible);
 
-	int ty = 22;
+	int ty = 22 * gBoardScale;
 	for (int i = 0; i < numLines; i++)
 	{
-		CGContextShowTextAtPoint(context, 10, h - ty, lines[i], strlen(lines[i]));
-		ty += 22;
+		CGContextShowTextAtPoint(context, 10, height - ty, lines[i], strlen(lines[i]));
+		ty += 22 * gBoardScale;
 	}
 
 	CGImage* image = CGBitmapContextCreateImage(context);

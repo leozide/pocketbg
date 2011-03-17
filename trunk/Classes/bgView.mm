@@ -3353,7 +3353,7 @@ int viewInit;
 	int ty = 22 * gBoardScale;
 	for (int i = 0; i < numLines; i++)
 	{
-		CGContextShowTextAtPoint(context, 10, height - ty, lines[i], strlen(lines[i]));
+		CGContextShowTextAtPoint(context, 10 * gBoardScale, height - ty, lines[i], strlen(lines[i]));
 		ty += 22 * gBoardScale;
 	}
 

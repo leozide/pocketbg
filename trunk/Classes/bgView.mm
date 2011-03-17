@@ -2396,7 +2396,7 @@ int viewInit;
 #endif
 	}
 
-	if (bgActiveDlg == BG_DLG_NONE)
+	if (bgActiveDlg == BG_DLG_NONE && ap[ms.fTurn].pt != PLAYER_GNU)
 	{
 		if (bd->doubled != 0 && ((moverecord*)plLastMove->p)->mt == MOVE_DOUBLE && ms.gs == GAME_PLAYING)
 			bgDlgShow(BG_DLG_DOUBLE_ACCEPT, can_redouble());

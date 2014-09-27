@@ -1861,7 +1861,6 @@ int viewInit;
 #else
 	float Width = self.bounds.size.height;
 	float Height = self.bounds.size.width;
-	bgBoardUpdateSize(&gBoardSize, Width, Height);
 	gBoardScale = 1.0f;
 
 	if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
@@ -1899,7 +1898,8 @@ int viewInit;
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	float ChequerRadius = gBoardSizeScaled.ChequerRadius;
 
-	CGContextRef context = CGBitmapContextCreate(NULL, 2 * (ChequerRadius + 2), 2 * (ChequerRadius + 2), 8, 4 * 2 * (ChequerRadius + 2), colorSpace, kCGImageAlphaPremultipliedFirst);
+	int size = 2 * (ChequerRadius + 2);
+	CGContextRef context = CGBitmapContextCreate(NULL, size, size, 8, 4 * size, colorSpace, kCGImageAlphaPremultipliedFirst);
 	
 	CGContextSetRGBFillColor(context, Player1Color[0], Player1Color[1], Player1Color[2], Player1Color[3]);
 	CGContextBeginPath(context);

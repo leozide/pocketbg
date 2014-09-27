@@ -94,7 +94,7 @@ g_build_path_va (const gchar  *separator,
 				 va_list      *args)
 {
 	char result[2048];
-	gint separator_len = strlen (separator);
+	size_t separator_len = strlen (separator);
 	int is_first = TRUE;
 	int have_leading = FALSE;
 	const gchar *single_element = NULL;
@@ -152,7 +152,7 @@ g_build_path_va (const gchar  *separator,
 				 */
 				if (last_trailing <= start)
 					single_element = element;
-				int rl = strlen(result);
+				size_t rl = strlen(result);
 				memcpy (result+rl, element, start - element);
 				result[rl+start-element] = 0;
 				have_leading = TRUE;
@@ -167,7 +167,7 @@ g_build_path_va (const gchar  *separator,
 		if (!is_first)
 			strcat (result, separator);
 		
-		int rl = strlen(result);
+		size_t rl = strlen(result);
 		memcpy (result+rl, start, end - start);
 		result[rl+end-start] = 0;
 		is_first = FALSE;
@@ -205,11 +205,11 @@ static gchar *g_build_filename (const gchar *first_element, ...)
 #define xmlChar char
 
 typedef void (*IdleFunc)();
-int g_idle_add(IdleFunc Func, void* Data);
-void g_source_remove(int i);
+void* g_idle_add(IdleFunc Func, void* Data);
+void g_source_remove(void* i);
 
 extern int fX;
-extern int nNextTurn;
+extern void* nNextTurn;
 extern void NextTurnNotify();
 
 #endif // _GLIB_H_

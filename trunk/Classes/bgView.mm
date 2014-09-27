@@ -19,7 +19,7 @@ extern "C" {
 	extern void UserCommand( const char *szCommand );
 	char PKGDATADIR[1024];
 	BoardData* pwBoard;
-	int nNextTurn;
+	void* nNextTurn;
 	extern int fX;
 	int BoardAnimating;
 //	int NextTurnNotify(void*);
@@ -86,7 +86,7 @@ extern "C" {
 
 	void bgOutput(const char* sz, int NewLine)
 	{
-		int len = strlen(sz);
+		size_t len = strlen(sz);
 
 		if (outputStr)
 			len += strlen(outputStr);
@@ -139,16 +139,16 @@ extern "C" {
 		void* Data;
 	} IdleData;
 	
-	int g_idle_add(IdleFunc Func, void* Data)
+	void* g_idle_add(IdleFunc Func, void* Data)
 	{
 		IdleData* SelData = new IdleData;
 		SelData->Func = Func;
 		SelData->Data = Data;
 		NSValue* val = [NSValue valueWithPointer:SelData];
 		[gView performSelector:@selector(IdleSelector:) withObject:val afterDelay:0.0];
-		return (int)val;
+		return val;
 	}
-	void g_source_remove(int i)
+	void g_source_remove(void* i)
 	{
 		NSValue* val = (NSValue*)i;
 		[NSObject cancelPreviousPerformRequestsWithTarget:gView selector:@selector(IdleSelector:) object:val];
@@ -441,7 +441,7 @@ extern void write_board ( BoardData *bd, TanBoard anBoard )
 	write_points( bd->points, bd->turn,  bd->nchequers, anBoard );
 }
 
-static int board_text_to_setting (const char **board_text, int *failed)
+static size_t board_text_to_setting (const char **board_text, int *failed)
 {
 	if (*failed)
 		return 0;

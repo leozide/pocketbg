@@ -39,7 +39,7 @@
 extern GtkWidget* pwBoard;
 extern int fX, fNeedPrompt;
 extern unsigned int nDelay;
-extern guint nNextTurn; /* GTK idle function */
+extern void* nNextTurn; /* GTK idle function */
 #endif
 
 #define MAX_CUBE ( 1 << 12 )

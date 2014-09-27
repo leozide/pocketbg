@@ -67,7 +67,7 @@ extern int game_set( BoardData *board, TanBoard points, int roll,
 					 int score, int opp_score, int die0, int die1,
 					 int computer_turn, int nchequers );
 
-extern int nNextTurn;
+extern void* nNextTurn;
 
 void bgOutput(const char* sz, int NewLine);
 void bgShowOutput();

@@ -3653,7 +3653,7 @@ extern void CommandReject( char *sz ) {
 extern void CommandResign( char *sz ) {
 
     char *pch;
-    int cch;
+    size_t cch;
     
     if( ms.gs != GAME_PLAYING ) {
 	outputl( _("You must be playing a game if you want to resign it.") );

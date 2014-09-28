@@ -153,6 +153,7 @@
 		B3A4149F0FFF02FC001E5DCA /* double.wav in Resources */ = {isa = PBXBuildFile; fileRef = B3A4149C0FFF02FC001E5DCA /* double.wav */; };
 		B3A414A00FFF02FC001E5DCA /* chequer.wav in Resources */ = {isa = PBXBuildFile; fileRef = B3A4149D0FFF02FC001E5DCA /* chequer.wav */; };
 		B3A414C80FFF050A001E5DCA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3A414C70FFF050A001E5DCA /* AudioToolbox.framework */; };
+		B3ADE3F819D77FCB00922DD6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3ADE3F719D77FCB00922DD6 /* Main.storyboard */; };
 		B3B2FCD20FFDDB6A00A1FE01 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = B3B2FCD10FFDDB6A00A1FE01 /* Entitlements.plist */; };
 		B3B2FCE10FFDE02600A1FE01 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B3B2FCE00FFDE02600A1FE01 /* Default.png */; };
 		B3D0837D0FC0EA2B004DA429 /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = B3D0837C0FC0EA2B004DA429 /* list.c */; };
@@ -265,6 +266,7 @@
 		B3A4149C0FFF02FC001E5DCA /* double.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = double.wav; sourceTree = "<group>"; };
 		B3A4149D0FFF02FC001E5DCA /* chequer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chequer.wav; sourceTree = "<group>"; };
 		B3A414C70FFF050A001E5DCA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
+		B3ADE3F719D77FCB00922DD6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B3B2FCD10FFDDB6A00A1FE01 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		B3B2FCE00FFDE02600A1FE01 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B3B500B00FC8BA0400D34ADF /* analysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = analysis.h; path = gnubg/analysis.h; sourceTree = "<group>"; };
@@ -417,6 +419,7 @@
 				B38029D40FEDAC8900A905F7 /* SettingsView.xib */,
 				B392AEB210001EA10070E37A /* TypePicker.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
+				B3ADE3F719D77FCB00922DD6 /* Main.storyboard */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -614,6 +617,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
+				B3ADE3F819D77FCB00922DD6 /* Main.storyboard in Resources */,
 				2899E5220DE3E06400AC0155 /* bgViewController.xib in Resources */,
 				B38294660FC3E81A00DBBE93 /* gnubg.wd in Resources */,
 				B38294670FC3E81A00DBBE93 /* gnubg_ts0.bd in Resources */,

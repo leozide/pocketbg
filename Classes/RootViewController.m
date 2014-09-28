@@ -92,6 +92,16 @@ int iSettingsMoveFilter[] =
 
 	bgViewController* viewController = [[bgViewController alloc] initWithNibName:@"bgViewController" bundle:nil];
 	self.mainViewController = viewController;
+	
+	float Width = self.view.frame.size.width;
+	float Height = self.view.frame.size.height;
+	float Aspect = Height / Width;
+
+	if (Aspect > 1.5f)
+		Height = Width * 1.5f;
+	
+	viewController.view.frame = CGRectMake(0, (self.view.frame.size.height - Height) / 2, Width, Height);
+	
 	[viewController release];
 
 	[self.view addSubview:mainViewController.view];

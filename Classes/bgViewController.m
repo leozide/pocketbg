@@ -7,6 +7,7 @@
 //
 
 #import "bgViewController.h"
+#import "bgView.h"
 
 @implementation bgViewController
 
@@ -31,7 +32,9 @@
 		transform = CGAffineTransformMakeRotation(-M_PI/2);
 	else
 		return;
-	self.view.transform = transform;
+//	self.view.transform = transform;
+	bgView* view = (bgView*)self.view;
+	[view SetBoardSize];
 }
 
 // Override to allow orientations other than the default portrait orientation.

@@ -38,8 +38,14 @@ void bgBoardUpdateSize(bgBoardSize* BoardSize, float Width, float Height)
 	float ChequerHeight = 28 * ScaleX;
 	float ChequerRadius = 14 * ScaleX;
 	float DiceSize = 31 * ScaleX;
+
+	if (ChequerHeight * 5 > 140 * ScaleY)
+	{
+		ChequerHeight = 140 * ScaleY / 5;
+		ChequerRadius = ChequerHeight / 2;
+	}
 	
-	CGRect PointArea[2][28] = 
+	CGRect PointArea[2][28] =
 	{
 		{
 			CGRectMake(BorderWidth +  6 * PointWidth + BarWidth / 2 - PointWidth / 2, Height - BarOffset, PointWidth, 3 * ChequerHeight),

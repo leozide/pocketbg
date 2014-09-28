@@ -1763,9 +1763,9 @@ int viewInit;
 		[self SetBoardSize];
 		
 #ifndef PBG_HD
-		CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI/2);
-		self.transform = transform;
-		self.bounds = CGRectMake(0, 0, gBoardSize.Width, gBoardSize.Height);
+//		CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI/2);
+//		self.transform = transform;
+//		self.bounds = CGRectMake(0, 0, gBoardSize.Width, gBoardSize.Height);
 #endif
 		CALayer* root = self.layer;
 
@@ -1859,8 +1859,9 @@ int viewInit;
 	CHEQUER_RADIUS = 24;
 	DICE_SIZE = 48;
 #else
-	float Width = self.bounds.size.height;
-	float Height = self.bounds.size.width;
+	float Width = self.bounds.size.width;
+	float Height = self.bounds.size.height;
+	bgBoardUpdateSize(&gBoardSize, Width, Height);
 	gBoardScale = 1.0f;
 
 	if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])

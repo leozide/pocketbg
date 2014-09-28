@@ -11,6 +11,12 @@
 
 @implementation bgAppDelegate
 
+@synthesize window = _window;
+
+@end
+/*
+@implementation bgAppDelegate
+
 @synthesize window;
 @synthesize rootViewController;
 
@@ -39,3 +45,4 @@
 }
 
 @end
+*/

@@ -24,7 +24,7 @@
 extern void UserCommand(const char* szCommand);
 extern int fGUIDragTargetHelp;
 
-evalcontext ecSettings[] =
+static evalcontext ecSettings[] =
 {
 	{ TRUE, 0, FALSE, TRUE, 0.060f }, // beginner
 	{ TRUE, 0, FALSE, TRUE, 0.050f }, // casual
@@ -35,7 +35,7 @@ evalcontext ecSettings[] =
 	{ TRUE, 3, TRUE, TRUE, 0.0f }, // grand master
 };
 
-int iSettingsMoveFilter[] =
+static int iSettingsMoveFilter[] =
 {
 	-1, // beginner: n/a
 	-1, // casual: n/a
@@ -609,14 +609,3 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 }
 
 @end
-
-void SetDefaultDifficulty()
-{
-	evalcontext* ec = &ecSettings[2];
-	char buf[256];
-	sprintf(buf, "set player %d chequer evaluation", 0);
-	SetEvalCommands(buf, ec, &ap[0].esChequer.ec);
-	sprintf(buf, "set player %d cube evaluation", 0);
-	SetEvalCommands(buf, ec, &ap[0].esChequer.ec);
-}
-

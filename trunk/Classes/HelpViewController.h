@@ -14,6 +14,8 @@
 	IBOutlet UIWebView *webView;
 }
 
+- (IBAction)Back;
+
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
 
 @end

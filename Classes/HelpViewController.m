@@ -47,6 +47,10 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
+- (IBAction)Back
+{
+	[self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview

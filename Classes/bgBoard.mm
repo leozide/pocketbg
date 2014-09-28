@@ -34,7 +34,7 @@ void bgBoardUpdateSize(bgBoardSize* BoardSize, float Width, float Height)
 	float PointHeight = 120 * ScaleY;
 	float BarWidth = 33 * ScaleX;
 	float BarOffset = 50 * ScaleX;
-	float BearoffX = (2 * BorderWidth + BarWidth + 12 * PointWidth) * ScaleX;
+	float BearoffX = (2 * BorderWidth + BarWidth + 12 * PointWidth);
 	float ChequerHeight = 28 * ScaleX;
 	float ChequerRadius = 14 * ScaleX;
 	float DiceSize = 31 * ScaleX;

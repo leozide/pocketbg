@@ -8,9 +8,25 @@
 
 #import <UIKit/UIKit.h>
 
+@class SettingsViewController;
+
 @interface bgViewController : UIViewController
 {
+	SettingsViewController* settingsViewController;
+	UINavigationBar* settingsNavigationBar;
+	UINavigationBar* helpNavigationBar;
 }
 
-@end
+@property (nonatomic, retain) SettingsViewController* settingsViewController;
+@property (nonatomic, retain) UINavigationBar* settingsNavigationBar;
+@property (nonatomic, retain) UINavigationBar* helpNavigationBar;
 
+-(void) SaveMatch;
+-(void) ShowSettingsView:(id)sender;
+-(void) ShowMainView;
+-(void) ShowHelpView:(id)sender;
+
+- (IBAction)cancel;
+- (IBAction)save;
+
+@end

@@ -1,7 +1,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "bgAppDelegate.h"
-#import "RootViewController.h"
+#import "bgViewController.h"
 #import "bgView.h"
 #import "bgDlg.h"
 #import "bgBoard.h"
@@ -2695,14 +2695,22 @@ int viewInit;
 				
 			case BG_CMD_MAIN_SETTINGS:
 			{
-				bgAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
-				[[delegate rootViewController] ShowSettingsView:nil];
-				bgDlgUpdateTrack(dlgLayer, -1);
+				if ([self.nextResponder isKindOfClass:UIViewController.class])
+				{
+					bgViewController* controller = (bgViewController*)self.nextResponder;
+					[controller ShowSettingsView:nil];
+					bgDlgUpdateTrack(dlgLayer, -1);
+				}
 			} break;
 				
 			case BG_CMD_MAIN_ABOUT:
 			{
-				[[(bgAppDelegate*)[[UIApplication sharedApplication] delegate] rootViewController] ShowHelpView:nil];
+				if ([self.nextResponder isKindOfClass:UIViewController.class])
+				{
+					bgViewController* controller = (bgViewController*)self.nextResponder;
+					[controller ShowHelpView:nil];
+					bgDlgUpdateTrack(dlgLayer, -1);
+				}
 				bgDlgUpdateTrack(dlgLayer, -1);
 			} break;
 

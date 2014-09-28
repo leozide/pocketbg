@@ -63,6 +63,7 @@ void bgHint(movelist* pmlOrig, const unsigned int iMove);
 }
 #endif
 
+void bgDlgSetSize(CALayer* DlgLayer, float width, float height);
 void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text);
 void bgDlgUpdateTrack(CALayer* DlgLayer, int Tracking);
 int bgDlgClick(CALayer* DlgLayer, int x, int y);

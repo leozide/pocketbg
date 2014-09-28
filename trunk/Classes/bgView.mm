@@ -1760,8 +1760,6 @@ int viewInit;
 
 	if ((self = [super initWithCoder:coder]))
 	{
-		[self SetBoardSize];
-		
 #ifndef PBG_HD
 //		CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI/2);
 //		self.transform = transform;
@@ -1916,6 +1914,14 @@ int viewInit;
 	
 	CGContextRelease(context);
 	CGColorSpaceRelease(colorSpace);
+}
+
+- (void) setFrame:(CGRect)frame
+{
+	[super setFrame:frame];
+	
+	[self SetBoardSize];
+	bgDlgSetSize(dlgLayer, frame.size.width, frame.size.height);
 }
 
 - (void)drawRect:(CGRect)rect
@@ -3333,7 +3339,7 @@ int viewInit;
 	CGRect rect;
 	int w = 20 + mx;
 	int h = 10 + numLines * 22;
-	float x = 240;//BORDER_WIDTH + POINT_WIDTH * 6 + BAR_WIDTH / 2;
+	float x = self.frame.origin.x + self.frame.size.width / 2;//BORDER_WIDTH + POINT_WIDTH * 6 + BAR_WIDTH / 2;
 	float y = gBoardSizeScaled.BorderTopHeight + h / 2;
 
 	int width = w * gBoardScale;

@@ -18,15 +18,21 @@ struct bgDlgButton
 };
 
 CGRect bgDlgRect;
+static int bgDlgParam;
 static const char* bgDlgText;
 static bgDlgButton bgDlgButtons[8];
 static int bgDlgNumButtons;
+static float bgDlgWidth;
+static float bgDlgHeight;
 int bgDlgFade;
 
 static void bgDlgAddButton(const CGRect& Rect, const char* Text, int ID)
 {
+	float ScaleX = bgDlgWidth / 480;
+	float ScaleY = bgDlgHeight / 320;
+	
 	bgDlgButton& Button = bgDlgButtons[bgDlgNumButtons++];
-	Button.Rect = Rect;
+	Button.Rect = CGRectMake(Rect.origin.x * ScaleX, Rect.origin.y * ScaleY, Rect.size.width * ScaleX, Rect.size.height * ScaleY);
 	Button.Text = Text;
 	Button.ID = ID;
 	Button.Disabled = false;
@@ -169,8 +175,23 @@ CGImage* bgDlgDraw(int Tracking)
 	return image;
 }
 
+void bgDlgSetSize(CALayer* DlgLayer, float width, float height)
+{
+	if (bgDlgWidth == width && bgDlgHeight == height)
+		return;
+	
+	bgDlgWidth = width;
+	bgDlgHeight = height;
+
+	if (bgActiveDlg != BG_DLG_NONE)
+		bgDlgShow(DlgLayer, bgActiveDlg, bgDlgParam, bgDlgText);
+}
+
 void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 {
+	float ScaleX = bgDlgWidth / 480;
+	float ScaleY = bgDlgHeight / 320;
+	
 	if (bgActiveDlg == BG_DLG_HINT)
 	{
 //		free(HintMoveList->amMoves);
@@ -178,6 +199,7 @@ void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 //		HintMoveList = NULL;
 	}
 	
+	bgDlgParam = Param;
 	bgActiveDlg = DlgType;
 	bgDlgNumButtons = 0;
 
@@ -298,6 +320,8 @@ void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 		bgDlgAddButton(CGRectMake(250, 258, 120, 44), "Close", BG_CMD_HINT_CLOSE);
 	}
 	
+	bgDlgRect = CGRectMake(bgDlgRect.origin.x * ScaleX, bgDlgRect.origin.y * ScaleY, bgDlgRect.size.width * ScaleX, bgDlgRect.size.height * ScaleY);
+	
 	if (bgActiveDlg != BG_DLG_NONE)
 	{
 		CGImage* Image = bgDlgDraw(-1);
@@ -308,9 +332,9 @@ void bgDlgShow(CALayer* DlgLayer, int DlgType, int Param, const char* Text)
 		[CATransaction begin];
 		[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
 		if (bgActiveDlg != BG_DLG_PROGRESS)
-			DlgLayer.position = CGPointMake(240, 160);
+			DlgLayer.position = CGPointMake(240 * ScaleX, 160 * ScaleY);
 		else
-			DlgLayer.position = CGPointMake(240, 100);
+			DlgLayer.position = CGPointMake(240 * ScaleX, 100 * ScaleY);
 		DlgLayer.bounds = CGRectMake(0, 0, w/4, h/4);
 		[CATransaction commit];
 		[CATransaction flush];

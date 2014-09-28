@@ -18,11 +18,13 @@
 
 @implementation SettingsViewController
 
-@synthesize tableView, headerView, colorListController, typePickerController, difficultyLevels;
+@synthesize tableView, headerView, difficultyLevels;
 
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	
+	self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -44,11 +46,13 @@
 - (void)dealloc
 {
 	[difficultyLevels release];
-	[typePickerController release];
-	[colorListController release];
 	[tableView release];
 	[headerView release];
 	[super dealloc];
+}
+
+- (IBAction)cancelColor:(UIStoryboardSegue *)segue
+{
 }
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -72,67 +76,31 @@
 
 	if ((indexPath.section == 0 || indexPath.section == 1) && indexPath.row == 1)
 	{
-		if (!colorListController)
-		{
-			ColorListController *controller = [[ColorListController alloc] initWithNibName:@"ColorListView" bundle:nil];
-			self.colorListController = controller;
-			[controller release];
-		}
-
+		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+		ColorListController* colorListController = (ColorListController *)[storyboard instantiateViewControllerWithIdentifier:@"ColorListController"];
+		
 		colorListController.cell = (CheckerCell*)[tableView cellForRowAtIndexPath:indexPath];
 		if (indexPath.section == 0)
 			[colorListController setEditingItem:&settings.Player1Color];
 		else
 			[colorListController setEditingItem:&settings.Player2Color];
 
-		bgAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
-		RootViewController* rootViewController = [delegate rootViewController];
-		
-		UIView *colorView = colorListController.view;
-		colorView.frame = CGRectMake(0, 321, 320, 480);
-		
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:1];
-		[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-		colorListController.view.frame = CGRectMake(0, 0, 320, 480);
-		
-		[colorListController viewWillAppear:YES];
-		[rootViewController.view addSubview:colorView];
-		[colorListController viewDidAppear:YES];
-		[UIView commitAnimations];
+		[self.navigationController pushViewController:colorListController animated:YES];
 	}
 
 	if ((indexPath.section == 0 || indexPath.section == 1) && indexPath.row == 2)
 	{
-		 if (!typePickerController)
-		 {
-			 TypePickerController *controller = [[TypePickerController alloc] initWithNibName:@"TypePicker" bundle:nil];
-			 self.typePickerController = controller;
-			 [controller release];
-		 }
+		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+		TypePickerController* typePickerController = (TypePickerController *)[storyboard instantiateViewControllerWithIdentifier:@"TypePickerController"];
+		
+		typePickerController.types = difficultyLevels;
+		typePickerController.cell = [tableView cellForRowAtIndexPath:indexPath];
+		if (indexPath.section == 0)
+			[typePickerController setEditingItem:&settings.Player1Type];
+		else
+			[typePickerController setEditingItem:&settings.Player2Type];
 
-		 typePickerController.types = difficultyLevels;
-		 typePickerController.cell = [tableView cellForRowAtIndexPath:indexPath];
-		 if (indexPath.section == 0)
-			 [typePickerController setEditingItem:&settings.Player1Type];
-		 else
-			 [typePickerController setEditingItem:&settings.Player2Type];
-
-		 bgAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
-		 RootViewController* rootViewController = [delegate rootViewController];
-		 
-		 UIView *typeView = typePickerController.view;
-		 typeView.frame = CGRectMake(0, 321, 320, 480);
-
-		 [UIView beginAnimations:nil context:NULL];
-		 [UIView setAnimationDuration:1];
-		 [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-		 typePickerController.view.frame = CGRectMake(0, 0, 320, 480);
-
-		 [typePickerController viewWillAppear:YES];
-		 [rootViewController.view addSubview:typeView];
-		 [typePickerController viewDidAppear:YES];
-		 [UIView commitAnimations];
+		[self.navigationController pushViewController:typePickerController animated:YES];
 	 }
 
 	return indexPath;

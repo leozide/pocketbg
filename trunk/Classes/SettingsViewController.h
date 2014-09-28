@@ -34,8 +34,6 @@ typedef struct
                                                       UITableViewDelegate, UITableViewDataSource,
                                                       UITextFieldDelegate, EditableTableViewCellDelegate>
 {
-	ColorListController *colorListController;
-	TypePickerController *typePickerController;
 	IBOutlet UITableView *tableView;
 	UIView *headerView;
 	NSArray *difficultyLevels;
@@ -44,8 +42,8 @@ typedef struct
 	bgSettings settings;
 }
 
-@property (nonatomic, retain) ColorListController *colorListController;
-@property (nonatomic, retain) TypePickerController *typePickerController;
+- (IBAction)cancelColor:(UIStoryboardSegue *)segue;
+
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) UIView *headerView;
 @property (nonatomic, retain) NSArray *difficultyLevels;

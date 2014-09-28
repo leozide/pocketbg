@@ -38,9 +38,6 @@ int iSettingsMoveFilter[] =
 
 @implementation bgViewController
 
-@synthesize settingsViewController;
-@synthesize settingsNavigationBar;
-@synthesize helpNavigationBar;
 #if PBG_HD
 @synthesize popoverController;
 @synthesize toolbar;
@@ -51,6 +48,8 @@ int iSettingsMoveFilter[] =
 {
     [super viewDidLoad];
 
+	self.navigationController.navigationBarHidden = YES;
+	
 #ifndef PBG_HD
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
@@ -98,20 +97,6 @@ int iSettingsMoveFilter[] =
 	UserCommand(buf);
 	
 	outputon();
-}
-
-- (IBAction)cancel
-{
-#ifdef PBG_HD
-	if (popoverController != nil)
-	{
-		[popoverController dismissPopoverAnimated:YES];
-		[popoverController release];
-		popoverController = nil;
-	}
-#else
-	[self ShowMainView];
-#endif
 }
 
 static void SetEvalCommands( char *szPrefix, evalcontext *pec, evalcontext *pecOrig )
@@ -171,9 +156,15 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		}
 }
 
-- (IBAction)save
+- (IBAction)cancelSettings:(UIStoryboardSegue *)segue
 {
-	bgSettings* settings = &self.settingsViewController->settings;
+	self.navigationController.navigationBarHidden = YES;
+}
+
+- (IBAction)saveSettings:(UIStoryboardSegue *)segue
+{
+	SettingsViewController* viewController = [segue sourceViewController];
+	bgSettings* settings = &viewController->settings;
 	char buf[1024];
 	
 	// Check if all settings are valid.
@@ -311,49 +302,15 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	
 	outputon();
 	ShowBoard();
-	
-#ifdef PBG_HD
-	if (popoverController != nil)
-	{
-		[popoverController dismissPopoverAnimated:YES];
-		[popoverController release];
-		popoverController = nil;
-	}
-#else
-	[self ShowMainView];
-#endif
-}
 
--(void) ShowMainView
-{
-	UIView *mainView = self.view;
-	UIView *settingsView = settingsViewController.view;
-	
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:1];
-	[UIView setAnimationTransition:([mainView superview] ? UIViewAnimationTransitionFlipFromRight : UIViewAnimationTransitionFlipFromLeft) forView:self.view cache:YES];
-	
-	[self viewWillAppear:YES];
-	[settingsViewController viewWillDisappear:YES];
-	[settingsView removeFromSuperview];
-	[settingsNavigationBar removeFromSuperview];
-	[self.view addSubview:mainView];
-	[settingsViewController viewDidDisappear:YES];
-	[self viewDidAppear:YES];
-	
-	[UIView commitAnimations];
+	self.navigationController.navigationBarHidden = YES;
 }
 
 -(void) ShowSettingsView:(id)sender
 {
-	if (settingsViewController == nil)
-	{
-		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-		SettingsViewController* viewController = (SettingsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-		viewController.difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Casual", @"AI - Intermediate", @"AI - Advanced", @"AI - Expert", @"AI - World Class", @"AI - Grandmaster", nil];
-		self.settingsViewController = viewController;
-		[viewController release];
-	}
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+	SettingsViewController* viewController = (SettingsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+	viewController.difficultyLevels = [[NSArray alloc] initWithObjects: @"Human", @"AI - Beginner", @"AI - Casual", @"AI - Intermediate", @"AI - Advanced", @"AI - Expert", @"AI - World Class", @"AI - Grandmaster", nil];
 	
 	UINavigationItem* navigationItem = nil;
 	
@@ -371,18 +328,6 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	[popoverController setPopoverContentSize:CGSizeMake(600, 700) animated:YES];
 	[popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 	popoverController.passthroughViews = [NSArray array];
-#else
-	if (settingsNavigationBar == nil)
-	{
-		// Set up the navigation bar
-		UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
-		self.settingsNavigationBar = navigationBar;
-		[navigationBar release];
-		
-		navigationItem = [[UINavigationItem alloc] init];
-		[settingsNavigationBar pushNavigationItem:navigationItem animated:NO];
-		[navigationItem release];
-	}
 #endif
 	
 	if (navigationItem != nil)
@@ -396,7 +341,7 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 		[rightItem release];
 	}
 	
-	bgSettings* settings = &self.settingsViewController->settings;
+	bgSettings* settings = &viewController->settings;
 	strcpy(settings->Player1, ap[0].szName);
 	strcpy(settings->Player2, ap[1].szName);
 	settings->MatchLength = nDefaultLength;
@@ -460,50 +405,13 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 	settings->Clockwise = fClockwise;
 	settings->AdvancedHint = fAdvancedHint;
 
-	[self.navigationController pushViewController:self.settingsViewController animated:YES];
+	[self.navigationController pushViewController:viewController animated:YES];
 }
 
 -(void) ShowHelpView:(id)sender
 {
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
 	HelpViewController* viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"HelpViewController"];
-	
-	UINavigationItem* navigationItem = nil;
-	
-#if PBG_HD
-	if (popoverController != nil)
-	{
-		[popoverController dismissPopoverAnimated:NO];
-		[popoverController release];
-	}
-	
-	UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:helpViewController];
-	navigationItem = helpViewController.navigationItem;;
-	
-	popoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
-	[popoverController setPopoverContentSize:CGSizeMake(600, 600) animated:YES];
-	[popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-	popoverController.passthroughViews = [NSArray array];
-#else
-	if (helpNavigationBar == nil)
-	{
-		UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
-		self.helpNavigationBar = navigationBar;
-		[navigationBar release];
-		
-		navigationItem = [[UINavigationItem alloc] init];
-		[helpNavigationBar pushNavigationItem:navigationItem animated:NO];
-		[navigationItem release];
-	}
-#endif
-	
-	if (navigationItem != nil)
-	{
-		UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(cancel)];
-		navigationItem.rightBarButtonItem = rightItem;
-		[navigationItem setTitle:@"How to Play"];
-		[rightItem release];
-	}
 	
 	[self.navigationController pushViewController:viewController animated:YES];
 }
@@ -537,9 +445,6 @@ static void SetMovefilterCommands ( const char *sz, movefilter aamfNew[ MAX_FILT
 
 - (void)dealloc
 {
-	[settingsNavigationBar release];
-	[settingsViewController release];
-	[helpNavigationBar release];
     [super dealloc];
 }
 

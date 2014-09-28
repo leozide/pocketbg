@@ -2,19 +2,16 @@
 
 @class CheckerCell;
 
-@interface ColorListController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
+@interface ColorListController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 {
 	int *editingItem;
-	UIPickerView *pickerView;
+	UITableView *tableView;
 	CheckerCell *cell;
 }
 
 @property (nonatomic, retain) CheckerCell *cell;
-@property (nonatomic, retain) IBOutlet UIPickerView *pickerView;
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
 
 - (void)setEditingItem:(int*)aItem;
-
-- (IBAction)cancel;
-- (IBAction)save;
 
 @end

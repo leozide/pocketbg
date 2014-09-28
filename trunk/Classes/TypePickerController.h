@@ -1,20 +1,18 @@
 #import <UIKit/UIKit.h>
 
-@interface TypePickerController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate>
+@interface TypePickerController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 {
 	NSArray *types;
 	int *editingItem;
-	UIPickerView *pickerView;
+	UITableView *pickerView;
 	UITableViewCell *cell;
+	int alertIndex;
 }
 
 @property (nonatomic, retain) NSArray *types;
 @property (nonatomic, retain) UITableViewCell *cell;
-@property (nonatomic, retain) IBOutlet UIPickerView *pickerView;
+@property (nonatomic, retain) IBOutlet UITableView *pickerView;
 
 - (void)setEditingItem:(int*)aItem;
-
-- (IBAction)cancel;
-- (IBAction)save;
 
 @end

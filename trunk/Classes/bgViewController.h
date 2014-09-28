@@ -12,21 +12,13 @@
 
 @interface bgViewController : UIViewController
 {
-	SettingsViewController* settingsViewController;
-	UINavigationBar* settingsNavigationBar;
-	UINavigationBar* helpNavigationBar;
 }
-
-@property (nonatomic, retain) SettingsViewController* settingsViewController;
-@property (nonatomic, retain) UINavigationBar* settingsNavigationBar;
-@property (nonatomic, retain) UINavigationBar* helpNavigationBar;
 
 -(void) SaveMatch;
 -(void) ShowSettingsView:(id)sender;
--(void) ShowMainView;
 -(void) ShowHelpView:(id)sender;
 
-- (IBAction)cancel;
-- (IBAction)save;
+- (IBAction)cancelSettings:(UIStoryboardSegue *)segue;
+- (IBAction)saveSettings:(UIStoryboardSegue *)segue;
 
 @end

@@ -8,7 +8,7 @@
         <!--Bg View Controller-->
         <scene sceneID="AaK-aD-Gv4">
             <objects>
-                <viewController id="rEo-2s-RBq" customClass="bgViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="bgViewController" id="rEo-2s-RBq" customClass="bgViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ocR-Vt-9hw"/>
                         <viewControllerLayoutGuide type="bottom" id="SHk-74-kHP"/>
@@ -19,7 +19,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="xWo-2K-gng"/>
                     <connections>
-                        <segue destination="NC1-jS-Wxe" kind="show" id="gzJ-0T-Gaa"/>
+                        <segue destination="NC1-jS-Wxe" kind="show" identifier="SettingsSegue" id="gzJ-0T-Gaa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5fF-x8-XCb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -182,7 +182,7 @@
         <!--Navigation Controller-->
         <scene sceneID="O5g-Vn-lOI">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="zt5-VE-ngW" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="bgNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="zt5-VE-ngW" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="g6b-G5-ZVg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -200,7 +200,7 @@
         <!--Navigation Controller-->
         <scene sceneID="2Pj-Q3-hsg">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NC1-jS-Wxe" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="SettingsNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="NC1-jS-Wxe" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Q0O-nf-jCx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -218,7 +218,7 @@
         <!--Navigation Controller-->
         <scene sceneID="tzw-2B-9BW">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wYQ-5R-gnb" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ColorNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="wYQ-5R-gnb" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="QeN-yD-hAt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -236,7 +236,7 @@
         <!--Navigation Controller-->
         <scene sceneID="oCw-es-jt0">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3U6-ZQ-QfI" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="TypeNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="3U6-ZQ-QfI" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="a1w-VJ-8ra">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

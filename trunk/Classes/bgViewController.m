@@ -85,20 +85,6 @@ int iSettingsMoveFilter[] =
 	
 }
 
-- (void) SaveMatch
-{
-	NSArray* Paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString* DocDir = [Paths objectAtIndex:0];
-	
-	outputoff();
-	
-	char buf[1024];
-	sprintf(buf, "save match \"%s/autosave.sgf\"", [DocDir cStringUsingEncoding:NSUTF8StringEncoding]);
-	UserCommand(buf);
-	
-	outputon();
-}
-
 static void SetEvalCommands( char *szPrefix, evalcontext *pec, evalcontext *pecOrig )
 {
 	char sz[ 256 ];

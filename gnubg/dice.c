@@ -786,7 +786,7 @@ RNGSystemSeed( const rng rngx, void *p, int *pnSeed ) {
     if( !f ) {
 	    GTimeVal tv;
 	    g_get_current_time(&tv);
-	    n = tv.tv_sec ^ tv.tv_usec;
+	    n = (int)(tv.tv_sec ^ tv.tv_usec);
     }
 
     InitRNGSeed( n, rngx, rngctx );
@@ -1197,7 +1197,7 @@ ReadDiceFile( rngcontext *rngctx ) {
 uglyloop:
   {
   
-    n = read( rngctx->hDice, &uch, 1 );
+    n = (int)read( rngctx->hDice, &uch, 1 );
 
     if ( !n ) {
       /* end of file */

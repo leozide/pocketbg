@@ -97,7 +97,7 @@
 		[textField.text getCString:text maxLength:maxText encoding:NSASCIIStringEncoding];
 
 	if (number)
-		*number = [textField.text integerValue];
+		*number = (int)[textField.text integerValue];
 }
  
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

@@ -2449,8 +2449,8 @@ extern void CommandSetScore( char *sz ) {
 
     CancelCubeAction();
     
-    ms.anScore[ 0 ] = n0;
-    ms.anScore[ 1 ] = n1;
+    ms.anScore[ 0 ] = (int)n0;
+    ms.anScore[ 1 ] = (int)n1;
 
     if( ms.nMatchTo ) {
 	if( n0 != ms.nMatchTo - 1 && n1 != ms.nMatchTo - 1 )

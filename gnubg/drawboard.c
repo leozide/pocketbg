@@ -653,7 +653,7 @@ extern char *FormatMove( char *sz, int anBoard[ 2 ][ 25 ], int anMove[ 8 ] ) {
 
     for ( i = 0; i < 3; i++) {
         if (pnSource[i]) {
-            nMoves = pnDest[i] - pnSource[i];
+            nMoves = (int)(pnDest[i] - pnSource[i]);
             for (j = i + 1; j < 4; j++) {
                 if (pnSource[j]) {
                     nDuplicate = 1;
@@ -742,7 +742,7 @@ extern int ParseMove( char *pch, int an[ 8 ] ) {
                 return -1;
             }
             
-            if( ( anUser[ c ] = strtol( pch, &pch, 10 ) ) < 0 ||
+            if( ( anUser[ c ] = (int)strtol( pch, &pch, 10 ) ) < 0 ||
                 anUser[ c ] > 25 ) {
                 /* Invalid point number. */
                 errno = EINVAL;
@@ -804,7 +804,7 @@ extern int ParseMove( char *pch, int an[ 8 ] ) {
             break;
 
         case '(':
-	    if( ( n = strtol( pch + 1, &pch, 10 ) - 1 ) < 1 ) {
+	    if( ( n = (int)strtol( pch + 1, &pch, 10 ) - 1 ) < 1 ) {
 		/* invalid count */
 		errno = EINVAL;
 		return -1;

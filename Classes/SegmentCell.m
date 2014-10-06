@@ -12,7 +12,6 @@
 		segmentedControl = [[UISegmentedControl alloc] initWithItems:segments];
 		segmentedControl.frame = CGRectZero;
 		[segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-		segmentedControl.segmentedControlStyle = UISegmentedControlStyleBordered;
 //		[segmentedControl retain];
 
 		UIView* view = [[UIView alloc] initWithFrame:CGRectZero];
@@ -45,7 +44,7 @@
 	if (valueMap)
 		*value = valueMap[segmentedControl.selectedSegmentIndex];
 	else
-		*value = segmentedControl.selectedSegmentIndex;
+		*value = (int)segmentedControl.selectedSegmentIndex;
 }
 
 - (void)setValue:(int*)aValue withMap:(int*)aMap

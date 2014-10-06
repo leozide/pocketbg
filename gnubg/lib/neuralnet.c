@@ -598,6 +598,7 @@ extern int NeuralNetEvaluate( const neuralnet *pnn, float arInput[],
  * Note: this is a numerical approximation to the derivative.  There is
  * an analytical solution below, with an explanation of why it is not used.
  */
+#if 0
 extern int NeuralNetDifferentiate( const neuralnet *pnn, const float arInput[],
 				   float arOutput[], float arDerivative[] ) {
     float *ar = (float*) g_alloca(pnn->cHidden * sizeof(float));
@@ -623,7 +624,7 @@ extern int NeuralNetDifferentiate( const neuralnet *pnn, const float arInput[],
 
     return 0;
 }
-
+#endif
 /*
  * Here is an analytical solution to the partial derivative.  Normally this
  * algorithm would be preferable (for its efficiency and numerical stability),

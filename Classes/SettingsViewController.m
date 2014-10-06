@@ -112,7 +112,7 @@
 	{
 		if (indexPath.row == 0)
 		{
-			EditableCell* cell = [[[EditableCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"editableCell"] autorelease];
+			EditableCell* cell = [[[EditableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"editableCell"] autorelease];
 			
 			cell.textLabel.text = @"Name:";
 			cell.textField.placeholder = @"<Player Name>";
@@ -126,7 +126,7 @@
 		}
 		else if (indexPath.row == 1)
 		{
-			CheckerCell* cell = [[[CheckerCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"checkerCell"] autorelease];
+			CheckerCell* cell = [[[CheckerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"checkerCell"] autorelease];
 
 			if (indexPath.section == 0)
 				[cell setColor:settings.Player1Color];
@@ -167,7 +167,7 @@
 		{
 			SwitchCell *cell = (SwitchCell*)[aTableView dequeueReusableCellWithIdentifier:@"switchCell"];
 			if (cell == nil)
-				cell = [[[SwitchCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"switchCell"] autorelease];
+				cell = [[[SwitchCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"switchCell"] autorelease];
 			
 			if (indexPath.row == 0)
 			{
@@ -194,7 +194,7 @@
 		{
 			SwitchCell *cell = (SwitchCell*)[aTableView dequeueReusableCellWithIdentifier:@"switchCell"];
 			if (cell == nil)
-				cell = [[[SwitchCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"switchCell"] autorelease];
+				cell = [[[SwitchCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"switchCell"] autorelease];
 			
 			if (indexPath.row == 0)
 			{

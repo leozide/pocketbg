@@ -1417,7 +1417,7 @@ BearoffInit ( const char *szFilename,
       pbc->bc = BEAROFF_EXACT_BEAROFF;
       pbc->fInMemory = TRUE;
       pbc->nPoints = 6;
-      pbc->nChequers = l;
+      pbc->nChequers = (int)l;
       pbc->bt = BEAROFF_TWOSIDED;
       pbc->fCompressed = FALSE;
       pbc->fGammon = FALSE;
@@ -1460,7 +1460,7 @@ BearoffInit ( const char *szFilename,
         free ( pbc );
         return NULL;
       }
-      nSize = st.st_size;
+      nSize = (int)st.st_size;
     }
     
     if ( ReadIntoMemory ( pbc, iOffset, nSize ) ) {

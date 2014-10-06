@@ -115,7 +115,7 @@ unsigned int CacheLookup(cache* pc, const cacheNode* e, float *arOut, float *arC
 			memcmp(pc->m[l + 1].auchKey, e->auchKey, sizeof(e->auchKey)) != 0))
 		{	/* Cache miss */
 			MT_Unlock(&pc->locks[l]);
-			return l;
+			return (unsigned int)l;
 		}
 		else
 		{	/* Found in second slot, promote "hot" entry */

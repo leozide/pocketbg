@@ -2989,7 +2989,7 @@ EvalKey ( const evalcontext *pec, const int nPlies,
   iKey = (
            ( nPlies ) |
            ( pec->fCubeful << 2 ) | 
-           ( ( ( (int) ( pec->rNoise * 1000 ) ) && 0x00FF ) << 3 ) |
+           ( ( ( (int) ( pec->rNoise * 1000 ) ) & 0x00FF ) << 3 ) |
            ( pci->fMove << 11 ) );
 
   if( nPlies )

@@ -506,14 +506,14 @@ static int board_set( BoardData *bd, const char *board_text, const int resigned,
 		return -1;
 	
     for( i = 3, ppn = match_settings; i--; ) {
-		**ppn++ =  board_text_to_setting (&board_text, &failed);
+		**ppn++ =  (int)board_text_to_setting (&board_text, &failed);
     }
     if (failed)
 		return -1;
 	
     for( i = 0, pn = bd->points; i < 26; i++ ) {
 		old_board[ i ] = *pn;
-		*pn++ = board_text_to_setting (&board_text, &failed);
+		*pn++ = (int)board_text_to_setting (&board_text, &failed);
     }
     if (failed)
 		return -1;
@@ -531,27 +531,27 @@ static int board_set( BoardData *bd, const char *board_text, const int resigned,
 	
     bd->resigned = resigned;
     
-    bd->turn = board_text_to_setting (&board_text, &failed);
-    bd->diceRoll[0] = board_text_to_setting (&board_text, &failed);
-    bd->diceRoll[1] = board_text_to_setting (&board_text, &failed);
+    bd->turn = (int)board_text_to_setting (&board_text, &failed);
+    bd->diceRoll[0] = (unsigned int)board_text_to_setting (&board_text, &failed);
+    bd->diceRoll[1] = (unsigned int)board_text_to_setting (&board_text, &failed);
     board_text_to_setting (&board_text, &failed);
     board_text_to_setting (&board_text, &failed);
-    bd->cube = board_text_to_setting (&board_text, &failed);
-    bd->can_double = board_text_to_setting (&board_text, &failed);
-    bd->opponent_can_double = board_text_to_setting (&board_text, &failed);
-    bd->doubled = board_text_to_setting (&board_text, &failed);
-    bd->colour = board_text_to_setting (&board_text, &failed);
-    bd->direction = board_text_to_setting (&board_text, &failed);
-    bd->home = board_text_to_setting (&board_text, &failed);
-    bd->bar = board_text_to_setting (&board_text, &failed);
-    bd->off = board_text_to_setting (&board_text, &failed);
-    bd->off_opponent = board_text_to_setting (&board_text, &failed);
-    bd->on_bar = board_text_to_setting (&board_text, &failed);
-    bd->on_bar_opponent = board_text_to_setting (&board_text, &failed);
-    bd->to_move = board_text_to_setting (&board_text, &failed);
-    bd->forced = board_text_to_setting (&board_text, &failed);
-    bd->crawford_game = board_text_to_setting (&board_text, &failed);
-    bd->redoubles = board_text_to_setting (&board_text, &failed);
+    bd->cube = (int)board_text_to_setting (&board_text, &failed);
+    bd->can_double = (int)board_text_to_setting (&board_text, &failed);
+    bd->opponent_can_double = (int)board_text_to_setting (&board_text, &failed);
+    bd->doubled = (int)board_text_to_setting (&board_text, &failed);
+    bd->colour = (int)board_text_to_setting (&board_text, &failed);
+    bd->direction = (int)board_text_to_setting (&board_text, &failed);
+    bd->home = (int)board_text_to_setting (&board_text, &failed);
+    bd->bar = (int)board_text_to_setting (&board_text, &failed);
+    bd->off = (int)board_text_to_setting (&board_text, &failed);
+    bd->off_opponent = (int)board_text_to_setting (&board_text, &failed);
+    bd->on_bar = (int)board_text_to_setting (&board_text, &failed);
+    bd->on_bar_opponent = (int)board_text_to_setting (&board_text, &failed);
+    bd->to_move = (int)board_text_to_setting (&board_text, &failed);
+    bd->forced = (int)board_text_to_setting (&board_text, &failed);
+    bd->crawford_game = (int)board_text_to_setting (&board_text, &failed);
+    bd->redoubles = (int)board_text_to_setting (&board_text, &failed);
     if (failed)
 	    return -1;
 	

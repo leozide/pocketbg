@@ -2015,7 +2015,7 @@ extern int SetToggle( char *szName, int *pf, char *sz, char *szOn,
 	return -1;
     }
 
-    cch = strlen( pch );
+    cch = (int)strlen( pch );
     
     if( !strcasecmp( "on", pch ) || !strncasecmp( "yes", pch, cch ) ||
 	!strncasecmp( "true", pch, cch ) ) {
@@ -2136,7 +2136,7 @@ extern void HandleCommand( char *sz, command *ac )
 	return;
     }
 
-    cch = strlen( pch );
+    cch = (int)strlen( pch );
 
     if( ac == acTop && ( isdigit( *pch ) ||
 			 !strncasecmp( pch, "bar/", cch > 4 ? 4 : cch ) ) ) {
@@ -2393,7 +2393,7 @@ extern void ShowBoard( void )
 		else
 		    sprintf( szCube, _("(Cube: %d)"), ms.nCube );
 	    } else {
-		int cch = strlen( ap[ ms.fCubeOwner ].szName );
+		int cch = (int)strlen( ap[ ms.fCubeOwner ].szName );
 		
 		if( cch > 20 )
 		    cch = 20;
@@ -2580,7 +2580,7 @@ extern command *FindHelpCommand( command *pcBase, char *sz,
     if( !( pch = NextToken( &sz ) ) )
 	return pcBase;
 
-    cch = strlen( pch );
+    cch = (int)strlen( pch );
 
     for( pc = pcBase->pc; pc && pc->sz; pc++ )
 	if( !strncasecmp( pch, pc->sz, cch ) )
@@ -2618,7 +2618,7 @@ extern char* CheckCommand(char *sz, command *ac)
 	if (!pch)
 		return 0;
 
-    cch = strlen( pch );
+    cch = (int)strlen( pch );
 	for (pc = ac; pc->sz; pc++)
 		if (!strncasecmp(pch, pc->sz, cch))
 			break;
@@ -4075,7 +4075,7 @@ extern void Prompt( void )
 /* Handle a command as if it had been typed by the user. */
 extern void UserCommand( const char *szCommand )
 {
-    int cch = strlen( szCommand ) + 1;
+    int cch = (int)strlen( szCommand ) + 1;
     char *sz = (char*) g_alloca(cch * sizeof(char));
     
     /* Unfortunately we need to copy the command, because it might be in

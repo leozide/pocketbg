@@ -1008,8 +1008,8 @@ extern void CommandShowScoreSheet( char *sz )
 
 	output("\n\n");
 
-	width1 = strlen(ap[0].szName);
-	width2 = strlen(ap[1].szName);
+	width1 = (int)strlen(ap[0].szName);
+	width2 = (int)strlen(ap[1].szName);
 
 	outputf("%s | %s\n", ap[0].szName, ap[1].szName);
 	for (i = 0; i < width1 + width2 + 3; i++)

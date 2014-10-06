@@ -940,9 +940,9 @@ getDefaultMET ( metdata *pmd ) {
 
   pmd->mpPreCrawford.szName = BAD_CAST strdup ( "zadeh" );
 
-  pmd->mi.szName = BAD_CAST strdup ( "N. Zadeh, Management Science 23, 986 (1977)" );
-  pmd->mi.szFileName = BAD_CAST strdup ( "met/zadeh.xml" );
-  pmd->mi.szDescription = BAD_CAST strdup ( "" );
+  pmd->mi.szName = (unsigned char*)BAD_CAST strdup ( "N. Zadeh, Management Science 23, 986 (1977)" );
+  pmd->mi.szFileName = (unsigned char*)BAD_CAST strdup ( "met/zadeh.xml" );
+  pmd->mi.szDescription = (unsigned char*)BAD_CAST strdup ( "" );
   pmd->mi.nLength = MAXSCORE;
 
 }

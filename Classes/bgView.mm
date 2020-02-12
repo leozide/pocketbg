@@ -816,11 +816,14 @@ extern char * ReturnHits( TanBoard anBoard )
  move and position ID labels. */
 int update_move(BoardData *bd)
 {
-    char *move = _("Illegal move"), move_buf[ 40 ];
+    char move_buf[40];
+    char *move = move_buf;
     unsigned int i;
 	TanBoard points;
     unsigned char key[ 10 ];
     int fIncomplete = TRUE, fIllegal = TRUE;
+
+    strcpy(move, _("Illegal move"));
     
     read_board( bd, points );
 //    update_position_id( bd, points );

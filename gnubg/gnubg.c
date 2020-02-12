@@ -4127,7 +4127,7 @@ extern void NextTurnNotify()
 		return;
 	}
 
-	NextTurn( TRUE );
+	NextTurn();
 
     ResetInterrupt();
 
@@ -4697,7 +4697,7 @@ static void run_cl()
 		HandleCommand(line, acTop);
 		g_free(line);
 		while (fNextTurn)
-			NextTurn(TRUE);
+			NextTurn();
 		ResetInterrupt();
 	}
 }

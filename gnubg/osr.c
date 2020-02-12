@@ -92,7 +92,7 @@ isCrossOver ( const int from, const int to ) {
  *    pnOut: the number of chequers outside home quadrant after move
  *
  */
-
+/*
 static int
 chequersout ( int anBoard[ 25 ] ) {
 
@@ -118,7 +118,7 @@ checkboard ( int anBoard[ 25 ] ) {
   return 1;
 
 }
-
+*/
 static void
 FindBestMoveOSR2 ( int anBoard[ 25 ], const int anDice[ 2 ], int *pnOut ) {
 

@@ -360,7 +360,7 @@ extern void HandleCommand( char* sz, command* ac );
 extern void InitBoard( int anBoard[ 2 ][ 25 ], const bgvariation bgv );
 extern char* NextToken( char **ppch );
 extern char* NextTokenGeneral( char **ppch, const char* szTokens );
-extern void NextTurn();
+extern void NextTurn(void);
 extern void TurnDone( void );
 extern moverecord *
 NewMoveRecord( void );
@@ -505,7 +505,7 @@ InvalidateStoredCube( void );
 
 #define VERSION_STRING "GNU Backgammon " VERSION
 
-extern char *GetBuildInfoString();
+extern char *GetBuildInfoString(void);
 extern const char *szHomeDirectory;
 
 

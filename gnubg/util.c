@@ -18,10 +18,10 @@
  *
  * $Id: util.c,v 1.5 2007/06/11 19:01:12 c_anthon Exp $
  */
-char *aszRNG[1]; 
-char *aszSkillType[ 1 ]; 
+//char *aszRNG[1]; 
+//char *aszSkillType[ 1 ];
 int exsExport;
-int ap;
+//int ap;
 #include "config.h"
 extern void MT_Lock(long *lock)
 {

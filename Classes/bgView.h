@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface bgView : UIView
+@interface bgView : UIView<CAAnimationDelegate>
 {
 	CGContextRef cgContext;
 

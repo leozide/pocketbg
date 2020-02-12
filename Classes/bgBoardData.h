@@ -70,8 +70,8 @@ extern int game_set( BoardData *board, TanBoard points, int roll,
 extern void* nNextTurn;
 
 void bgOutput(const char* sz, int NewLine);
-void bgShowOutput();
-void bgSetNeedsDisplay();
+void bgShowOutput(void);
+void bgSetNeedsDisplay(void);
 
 extern void GTKProgressEnd(void);
 extern void GTKProgressStart(const char *sz);

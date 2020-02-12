@@ -265,7 +265,7 @@ static void GenerateBearoff( unsigned char *p, int nId ) {
     }
 }
 
-static unsigned char *HeuristicDatabase( void (*pfProgress)() ) {
+static unsigned char *HeuristicDatabase( void (*pfProgress)(int) ) {
 
     unsigned char *pm = malloc( 40 + 54264 * 64 );
     unsigned char *p = pm ? pm + 40 : NULL;
@@ -1210,7 +1210,7 @@ BearoffAlloc( void ) {
 
 extern bearoffcontext *
 BearoffInit ( const char *szFilename,
-              const int bo, void (*p)() ) {
+              const int bo, void (*p)(int) ) {
 
   bearoffcontext *pbc;
   char sz[ 41 ];

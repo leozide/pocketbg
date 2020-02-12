@@ -204,12 +204,12 @@ static gchar *g_build_filename (const gchar *first_element, ...)
 #define BAD_CAST
 #define xmlChar char
 
-typedef void (*IdleFunc)();
+typedef void (*IdleFunc)(void);
 void* g_idle_add(IdleFunc Func, void* Data);
 void g_source_remove(void* i);
 
 extern int fX;
 extern void* nNextTurn;
-extern void NextTurnNotify();
+extern void NextTurnNotify(void);
 
 #endif // _GLIB_H_

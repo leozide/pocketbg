@@ -20,7 +20,7 @@ typedef struct _AnalyseMoveTask
 	statcontext *psc;
 	matchstate ms;
 } AnalyseMoveTask;
-
+/*
 extern void MT_InitThreads();
 extern void MT_Close();
 extern void MT_AddTask(Task *pt);
@@ -37,7 +37,7 @@ extern int MT_GetDoneTasks();
 extern void MT_SyncInit();
 extern void MT_SyncStart();
 extern double MT_SyncEnd();
-
+*/
 #define MT_SafeInc(x) (++(*x))
 #define MT_SafeAdd(x, y) ((*x) += y)
 #define MT_SafeDec(x) (--(*x)) == 0)

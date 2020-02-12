@@ -346,7 +346,7 @@ ShowEvalSetup ( const evalsetup *pes ) {
 
 }
 
-
+/*
 static void ShowPaged( char **ppch ) {
 
     int i, nRows = 0;
@@ -365,8 +365,7 @@ static void ShowPaged( char **ppch ) {
 	if( !nRows && ((pchLines = getenv( "LINES" )) != NULL) )
 	    nRows = atoi( pchLines );
 
-	/* FIXME we could try termcap-style tgetnum( "li" ) here, but it
-	   hardly seems worth it */
+	// FIXME we could try termcap-style tgetnum( "li" ) here, but it  hardly seems worth it
 	
 	if( !nRows )
 	    nRows = 24;
@@ -390,7 +389,7 @@ static void ShowPaged( char **ppch ) {
 	while( *ppch )
 	    outputl( *ppch++ );
 }
-
+*/
 extern void CommandShowAnalysis( char *sz ) {
 
     int i;

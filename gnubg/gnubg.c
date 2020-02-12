@@ -4652,7 +4652,7 @@ static void BearoffProgress( int i ) {
     putchar( '\r' );
     fflush( stdout );
 }
-
+/*
 static char *get_stdin_line()
 {
 	char sz[2048], *pch;
@@ -4662,8 +4662,7 @@ static char *get_stdin_line()
 
 	clearerr(stdin);
 
-	/* FIXME shouldn't restart sys calls on signals during this
-	   fgets */
+	// FIXME shouldn't restart sys calls on signals during this fgets
 	fgets(sz, sizeof(sz), stdin);
 
 	if ((pch = strchr(sz, '\n')))
@@ -4686,9 +4685,9 @@ static char *get_stdin_line()
 	fInterrupt = FALSE;
     return g_strdup(sz);
 }
+*/
 
-
-
+/*
 static void run_cl()
 {
 	char *line;
@@ -4701,6 +4700,7 @@ static void run_cl()
 		ResetInterrupt();
 	}
 }
+*/
 static void init_language(char **lang)
 {
 	outputoff();

@@ -2971,8 +2971,8 @@ static void
 HintChequer( char *sz ) {
 
   movelist ml;
-  int i;
-  char szBuf[ 1024 ];
+//  int i;
+//  char szBuf[ 1024 ];
   int n = ParseNumber ( &sz );
   int anMove[ 8 ];
   moverecord *pmr;
@@ -3049,10 +3049,9 @@ HintChequer( char *sz ) {
 //  }
 //#endif
 	
-  for( i = 0; i < n; i++ )
-    output( FormatMoveHint( szBuf, &ms, &sm.ml, i, 
-                            TRUE, TRUE, TRUE ) );
-
+//  for( i = 0; i < n; i++ )
+//    output( FormatMoveHint( szBuf, &ms, &sm.ml, i,
+//                            TRUE, TRUE, TRUE ) );
 }
 
 
@@ -3450,7 +3449,7 @@ static void LoadCommands( FILE *pf, char *szFile ) {
 	/* FIXME handle NextTurn events? */
     }
     
-    outputresume();
+//    outputresume();
 }
 
 
